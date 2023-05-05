@@ -21,7 +21,7 @@ router.post('/login', async (req, res, next) => {
       expiresIn: '1h',
     });
 
-    res.json({ token });
+    res.json({ token, user });
   } catch (error) {
     console.error('error logging in', error);
     next(error);
@@ -57,7 +57,7 @@ router.post('/signup', async (req, res, next) => {
       expiresIn: '1h',
     });
 
-    res.status(201).json({ token });
+    res.status(201).json({ token, user });
   } catch (error) {
     console.error('error signing up', error);
     next(error);
