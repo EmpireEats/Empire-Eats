@@ -4,19 +4,18 @@ const Post = require('./models/Post');
 const Restaurant = require('./models/Restaurant');
 const db = require('./db');
 
-User.hasMany(Review)
-Review.belongsTo(User)
-User.hasMany(Post)
-Post.belongsToMany(User)
-Restaurant.hasMany(Review)
-Review.belongsTo(Restaurant)
-Restaurant.hasMany(Post)
-Post.belongsTo(Restaurant)
+User.hasMany(Post);
+Post.belongsTo(User);
 
-module.exports = { 
-  db, 
+User.hasMany(Review);
+Review.belongsTo(User);
+
+Restaurant.hasMany(Review);
+Review.belongsTo(Restaurant);
+
+module.exports = {
   User,
   Restaurant,
   Review,
-  Post
-}
+  Post,
+};
