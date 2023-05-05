@@ -9,7 +9,7 @@ const App = () => {
     <div className='app-container'>
       <NavBar />
       <p>My App</p>
-      <p>Add Cool Stuff Here</p>
+      <p>Hi!</p>
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
