@@ -9,7 +9,7 @@ export const login = createAsyncThunk(
         email,
         password,
       });
-      return response.data.token;
+      return response.data;
     } catch (error) {
       console.error('error logging in user', error);
       throw error;
@@ -38,7 +38,7 @@ export const signup = createAsyncThunk(
         isAdmin,
         adminPassphrase,
       });
-      return response.data.token;
+      return response.data;
     } catch (error) {
       console.error('error signing up user', error);
       throw error;
