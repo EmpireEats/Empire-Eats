@@ -6,7 +6,7 @@ const Now = () => {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
-    navigate('/yerrrChat');
+    navigate('/chat');
   };
 
   return (
