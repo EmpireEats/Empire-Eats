@@ -11,12 +11,22 @@ const requireAuth = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
+    console.log(req.user);
     next();
   } catch (error) {
     res.status(400).json({ error: 'Invalid token.' });
   }
 };
 
+const requireUserMatch = (req, res, next) => {
+  if (req.user.id === parseInt(req.params.id) || req.user.isAdmin) {
+    next();
+  } else {
+    res.status(403).send('Unauthorized to view this page');
+  }
+};
+
 module.exports = {
   requireAuth,
+  requireUserMatch,
 };

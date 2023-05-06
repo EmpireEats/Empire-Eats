@@ -1,6 +1,9 @@
 const router = require('express').Router();
 const User = require('../db/models/User');
-const { requireAuth } = require('./authentication/authMiddleware');
+const {
+  requireAuth,
+  requireUserMatch,
+} = require('./authentication/authMiddleware');
 const adminAuth = require('./authentication/adminAuth');
 
 router.get('/all', adminAuth, async (req, res, next) => {
@@ -13,7 +16,7 @@ router.get('/all', adminAuth, async (req, res, next) => {
   }
 });
 
-router.get('/:id', requireAuth, async (req, res, next) => {
+router.get('/:id', requireAuth, requireUserMatch, async (req, res, next) => {
   try {
     const { id } = req.params;
     const user = await User.findByPk(id);
