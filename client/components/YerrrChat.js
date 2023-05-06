@@ -1,17 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { sendMessage } from "../redux/actions/yerrrChatActions";
+import { receiveMessage } from "../redux/actions/yerrrChatActions";
+import io from "socket.io-client";
 
 const YerrrChat = () => {
   const messages = useSelector((state) => state.yerrrChat.messages);
   const [currentMessage, setCurrentMessage] = useState("");
   const dispatch = useDispatch();
+  const socketRef = useRef(null);
+
+  useEffect(() => {
+    if (!socketRef.current) {
+      const newSocket = io("http://localhost:3000");
+      socketRef.current = newSocket;
+      console.log("Socket connection created:", newSocket);
+    }
+  
+    const handleMessage = (message) => {
+      console.log("Received message:", message);
+      dispatch(receiveMessage(message));
+    };
+  
+    socketRef.current.on("message", handleMessage);
+  
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.off("message", handleMessage);
+      }
+    };
+  }, [dispatch, socketRef]);
+  
 
   const handleSendMessage = (e) => {
     e.preventDefault();
     if (currentMessage.trim()) {
-        console.log("sending message...", currentMessage);
-      dispatch(sendMessage({ text: currentMessage }));
+      console.log("sending message...", currentMessage);
+      socketRef.current.emit("message", { sender: "you", text: currentMessage });
       setCurrentMessage("");
     }
   };
@@ -40,3 +64,4 @@ const YerrrChat = () => {
 
 export default YerrrChat;
 
+  

@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { useDispatch } from "react-redux";
+// import { addPost } from "../redux/slices/postsSlice";
+import { postPost } from "../redux/actions/postActions";
 
 const YerrrForm = () => {
-  const [formState, setFormState] = useState({
-    text: "",
-    sortingOptions: "1on1",
-  });
+    const dispatch = useDispatch();
+    const [formState, setFormState] = useState({
+      text: "",
+      sortingOptions: "1on1",
+    })
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -20,8 +23,14 @@ const YerrrForm = () => {
       console.log("Text:", text);
       console.log("Sorting Options:", sortingOptions);
 
-      // Here you can write the code to send a POST request to your server
-      // or handle the submitted data as needed.
+      // Dispatch the addPost action
+      await dispatch(postPost({ text, sortingOptions }));
+
+      // Clear the form
+      setFormState({
+        text: "",
+        sortingOptions: "1on1",
+      });
     } else {
       alert("Please enter a valid text.");
     }
