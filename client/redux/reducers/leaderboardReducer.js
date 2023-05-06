@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchLeaderboard } from './leaderboardActions';
+import { fetchLeaderboard } from '../actions/leaderboardActions';
 
 const initialState = {
   leaderboard: [],
