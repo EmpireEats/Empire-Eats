@@ -13,10 +13,6 @@ const Main = () => {
     dispatch(getLoggedInUserData());
   }, [dispatch]);
 
-  if (auth.loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div className='yerrr-tab-container'>
       {user && (
