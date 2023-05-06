@@ -5,6 +5,7 @@ import SignUp from './User/SignUp';
 import YerrrChat from './YerrrChat';
 import { Routes, Route } from 'react-router';
 import Main from './Yerrr/Main';
+import Now from './Yerrr/Now';
 
 const App = () => {
   return (
@@ -15,8 +16,9 @@ const App = () => {
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
-        <Route path='/yerrrchat' element={<YerrrChat />} />
         <Route path='/yerrr' element={<Main />} />
+        <Route path='/yerrrchat' element={<YerrrChat />} />
+        <Route path='/yerrr/now' element={<Now />} />
       </Routes>
     </div>
   );
