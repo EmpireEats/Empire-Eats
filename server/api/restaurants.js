@@ -6,14 +6,10 @@ const googleMapsClient = require('@google/maps').createClient({
   Promise: Promise
 });
 
-router.get('/', async (req, res, next) => {
+router.get('/', requireAuth, async (req, res, next) => {
   try {
-    // Get the user's latitude and longitude from the JWT token
-    const token = req.headers.authorization.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("Decoded token:", decoded);
-    const userLat = decoded.latitude;
-    const userLng = decoded.longitude;
+    const userLat = req.user.latitude;
+    const userLng = req.user.longitude;
     console.log("User latitude:", userLat);
     console.log("User longitude:", userLng);
 
@@ -21,7 +17,7 @@ router.get('/', async (req, res, next) => {
     const response = await googleMapsClient.placesNearby({
       location: [userLat, userLng],
       radius: 1609,
-      type: 'restaurant, cafe, bakery, grocery_or_supermarket'
+      type: 'restaurant'
     }).asPromise();
 
     // Extract the relevant information from the API response and create a new Restaurant instance for each place
@@ -30,7 +26,7 @@ router.get('/', async (req, res, next) => {
       address: result.vicinity,
       latitude: result.geometry.location.lat,
       longitude: result.geometry.location.lng,
-      photoUrl: result.photos ? result.photos[0].getUrl() : null,
+      photoUrl: result.photos && result.photos[0] && result.photos[0].getUrl ? result.photos[0].getUrl() : null,
       rating: result.rating || null,
       types: result.types || null,
       website: result.website || null,
