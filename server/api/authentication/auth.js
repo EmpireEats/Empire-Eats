@@ -1,13 +1,16 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const router = require('express').Router();
-const User = require('../../db/models/User');
+const { User, Post, Review } = require('../../db/index');
 
 router.post('/login', async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({
+      where: { email },
+      include: [Post, Review],
+    });
     if (!user) {
       return res.status(401).json({ error: 'User not found' });
     }
@@ -24,7 +27,7 @@ router.post('/login', async (req, res, next) => {
     // const token = jwt.sign({ id: user.id, latitude: user.latitude, longitude: user.longitude }, process.env.JWT_SECRET, {
     //   expiresIn: '1h',
     // });
-    
+
     res.json({ token, user });
   } catch (error) {
     console.error('error logging in', error);
