@@ -18,6 +18,9 @@ const Now = () => {
   const loggedInUserId = useSelector((state) => state.auth.user.id);
   // const posts = useSelector((state) => state.post.allPosts);
   // console.log(posts);
+  const posts = useSelector((state) => state.post.allPosts);
+  console.log(posts);
+  const loggedInUserId = useSelector((state) => state.auth.user.id);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 2;
 
@@ -112,9 +115,13 @@ const Now = () => {
                 </span>
                 {post.userId === loggedInUserId && (
                   <span>
+<<<<<<< HEAD
                     <button onClick={() => handleDeletePost(post.id)}>
                       ❌
                     </button>
+=======
+                    <button>❌</button>
+>>>>>>> 73126dd (added del-btn only to posts created by user)
                   </span>
                 )}
               </div>
