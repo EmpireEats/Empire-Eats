@@ -26,4 +26,19 @@ router.get('/:id', requireAuth, requireUserMatch, async (req, res, next) => {
   }
 });
 
+router.post('/add', async (req, res, next) => {
+  try {
+    const { text, sortingOptions } = req.body;
+    const newPost = await Post.create({
+      text,
+      preference: sortingOptions,
+      isActive: true,
+    });
+    res.send(newPost);
+  } catch (error) {
+    console.error('error adding post', error);
+    next(error);
+  }
+});
+
 module.exports = router;

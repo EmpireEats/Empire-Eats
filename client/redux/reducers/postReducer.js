@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchAllPostsAsync } from '../actions/postActions';
+import { fetchAllPostsAsync, addPostAsync } from '../actions/postActions';
 
 export const postSlice = createSlice({
   name: 'post',
@@ -9,9 +9,13 @@ export const postSlice = createSlice({
   },
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchAllPostsAsync.fulfilled, (state, action) => {
-      state.allPosts = action.payload;
-    });
+    builder
+      .addCase(fetchAllPostsAsync.fulfilled, (state, action) => {
+        state.allPosts = action.payload;
+      })
+      .addCase(addPostAsync.fulfilled, (state, action) => {
+        state.allPosts.push(action.payload);
+      });
   },
 });
 
