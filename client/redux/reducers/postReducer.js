@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchAllPostsAsync, addPostAsync } from '../actions/postActions';
+import {
+  fetchAllPostsAsync,
+  addPostAsync,
+  deletePostAsync,
+} from '../actions/postActions';
 
 export const postSlice = createSlice({
   name: 'post',
@@ -20,8 +24,12 @@ export const postSlice = createSlice({
       .addCase(addPostAsync.fulfilled, (state, action) => {
         state.allPosts.push(action.payload);
       })
-      .addCase(addPostAsync.rejected, (state, action) => {
-        console.error('error adding post', action.error);
+      .addCase(deletePostAsync.fulfilled, (state, action) => {
+        const postId = action.payload.id;
+        const findPostIndex = state.allPosts.findIndex(
+          (post) => post.id === postId
+        );
+        state.allPosts.splice(findPostIndex, 1);
       });
   },
 });

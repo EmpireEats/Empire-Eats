@@ -51,5 +51,22 @@ router.post('/add', requireAuth, async (req, res, next) => {
   }
 });
 
+router.delete('/:id/:userId', requireAuth, async (req, res, next) => {
+  try {
+    const user = req.user;
+    const deletePost = await Post.findByPk(req.params.id, {
+      where: { userId: user.id },
+    });
+
+    if (!deletePost) res.send('user post doesnt exist');
+
+    deletePost.destroy();
+    res.send(deletePost);
+  } catch (error) {
+    console.error('error delete users post', error);
+    next(error);
+  }
+});
+
 module.exports = router;
 

@@ -115,13 +115,9 @@ const Now = () => {
                 </span>
                 {post.userId === loggedInUserId && (
                   <span>
-<<<<<<< HEAD
                     <button onClick={() => handleDeletePost(post.id)}>
                       ❌
                     </button>
-=======
-                    <button>❌</button>
->>>>>>> 73126dd (added del-btn only to posts created by user)
                   </span>
                 )}
               </div>
