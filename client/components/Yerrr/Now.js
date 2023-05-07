@@ -2,12 +2,18 @@ import React, { useEffect, useState } from 'react';
 import '../../../public/styles/now.css';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllPostsAsync } from '../../redux/actions/postActions';
+import {
+  deletePostAsync,
+  fetchAllPostsAsync,
+} from '../../redux/actions/postActions';
+import { createUserInteractionAsync } from '../../redux/actions/userInteractionActions';
 
 const Now = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.post.allPosts);
+  console.log(posts);
+  const loggedInUserId = useSelector((state) => state.auth.user.id);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 2;
 
@@ -25,8 +31,15 @@ const Now = () => {
     setCurrentPage(newPage);
   };
 
-  const handleNavigate = () => {
+  const handleUserInteraction = async ({ postId, postAuthorId }) => {
+    await dispatch(
+      createUserInteractionAsync({ postId, postAuthorId, loggedInUserId })
+    );
     navigate('/yerrr/chat');
+  };
+
+  const handleDeletePost = (id) => {
+    dispatch(deletePostAsync({ id, loggedInUserId }));
   };
 
   return (
@@ -44,10 +57,25 @@ const Now = () => {
 
                 <p>Preference: {post.preference}</p>
                 {post.isActive ? <p>Active</p> : <p>No Longer Active</p>}
-                <button onClick={handleNavigate}>👍🏽</button>
+                <button
+                  onClick={() =>
+                    handleUserInteraction({
+                      postId: post.id,
+                      postAuthorId: post.user.id,
+                    })
+                  }>
+                  👍🏽
+                </button>
                 <span>
                   <button>👎🏽</button>
                 </span>
+                {post.userId === loggedInUserId && (
+                  <span>
+                    <button onClick={() => handleDeletePost(post.id)}>
+                      ❌
+                    </button>
+                  </span>
+                )}
               </div>
             ))}
           </div>
