@@ -9,6 +9,7 @@ const Now = () => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.post.allPosts);
   console.log(posts);
+  const loggedInUserId = useSelector((state) => state.auth.user.id);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 2;
 
@@ -49,6 +50,11 @@ const Now = () => {
                 <span>
                   <button>👎🏽</button>
                 </span>
+                {post.userId === loggedInUserId && (
+                  <span>
+                    <button>❌</button>
+                  </span>
+                )}
               </div>
             ))}
           </div>
