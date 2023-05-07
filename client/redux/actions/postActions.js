@@ -12,3 +12,18 @@ export const fetchAllPostsAsync = createAsyncThunk(
     }
   }
 );
+
+export const addPostAsync = createAsyncThunk(
+  'posts/addOne',
+  async ({ text, sortingOptions }) => {
+    try {
+      const response = await axios.post('/api/posts/add', {
+        text,
+        sortingOptions,
+      });
+      return response.data;
+    } catch (error) {
+      console.error('error adding post', error);
+    }
+  }
+);

@@ -35,8 +35,13 @@ const Now = () => {
         <>
           <div className='user-post'>
             {currentPosts.map((post) => (
-              <div key={`${post.userId}-${post.id}`} className='user-post'>
-                <p>User: {post.user.firstName}</p>
+              <div key={`${post.id}`} className='user-post'>
+                {post.user && post.user.firstName ? (
+                  <p>User: {post.user.firstName}</p>
+                ) : (
+                  <p>No name</p>
+                )}
+
                 <p>Preference: {post.preference}</p>
                 {post.isActive ? <p>Active</p> : <p>No Longer Active</p>}
                 <button onClick={handleNavigate}>👍🏽</button>
