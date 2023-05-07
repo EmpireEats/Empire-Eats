@@ -8,6 +8,7 @@ const Now = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.post.allPosts);
+  console.log(posts);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 2;
 

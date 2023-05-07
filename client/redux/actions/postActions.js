@@ -18,8 +18,6 @@ export const addPostAsync = createAsyncThunk(
   async ({ text, sortingOptions }) => {
     try {
       const token = window.localStorage.getItem('token');
-      console.log('token in thunk:', token);
-
       const response = await axios.post(
         '/api/posts/add',
         {
@@ -32,9 +30,18 @@ export const addPostAsync = createAsyncThunk(
           },
         }
       );
+
+      if (response.status === 409) {
+        throw new Error(response.data.error);
+      }
+
       return response.data;
     } catch (error) {
       console.error('error adding post', error);
+      alert(
+        'You already have an active post! Please delete active post and try again.'
+      );
+      throw error;
     }
   }
 );
