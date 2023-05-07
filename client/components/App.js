@@ -5,6 +5,7 @@ import SignUp from './User/SignUp';
 import YerrrChat from './YerrrChat';
 import { Routes, Route } from 'react-router';
 import Main from './Yerrr/Main';
+import YerrrForm from './YerrrForm';
 import Now from './Yerrr/Now';
 import Leaderboard from './Leaderboard/Leaderboard';
 
@@ -18,7 +19,6 @@ const App = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/yerrr/*' element={<Main />} />
-        <Route path='/yerrrchat' element={<YerrrChat />} />
         <Route path='/leaderboard' element={<Leaderboard />} />
       </Routes>
     </div>
