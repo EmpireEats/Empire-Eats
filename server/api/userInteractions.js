@@ -17,8 +17,13 @@ router.get('/', async (req, res, next) => {
 
 router.post('/add', requireAuth, async (req, res, next) => {
   try {
-    const userInteraction = req.body;
-    const addUserInteraction = await UserInteraction.create(userInteraction);
+    const { postId, postAuthorId, loggedInUserId } = req.body;
+    const addUserInteraction = await UserInteraction.create({
+      postId,
+      postAuthorId,
+      interactingUserId: loggedInUserId,
+      isActive: true,
+    });
     res.send(addUserInteraction);
   } catch (error) {
     console.error('error adding user interaction', error);

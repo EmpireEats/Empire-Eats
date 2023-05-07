@@ -6,6 +6,7 @@ import {
   deletePostAsync,
   fetchAllPostsAsync,
 } from '../../redux/actions/postActions';
+import { createUserInteractionAsync } from '../../redux/actions/userInteractionActions';
 
 const Now = () => {
   const navigate = useNavigate();
@@ -30,7 +31,10 @@ const Now = () => {
     setCurrentPage(newPage);
   };
 
-  const handleNavigate = () => {
+  const handleUserInteraction = async ({ postId, postAuthorId }) => {
+    await dispatch(
+      createUserInteractionAsync({ postId, postAuthorId, loggedInUserId })
+    );
     navigate('/yerrr/chat');
   };
 
@@ -53,7 +57,15 @@ const Now = () => {
 
                 <p>Preference: {post.preference}</p>
                 {post.isActive ? <p>Active</p> : <p>No Longer Active</p>}
-                <button onClick={handleNavigate}>👍🏽</button>
+                <button
+                  onClick={() =>
+                    handleUserInteraction({
+                      postId: post.id,
+                      postAuthorId: post.user.id,
+                    })
+                  }>
+                  👍🏽
+                </button>
                 <span>
                   <button>👎🏽</button>
                 </span>
