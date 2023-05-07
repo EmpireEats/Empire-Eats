@@ -4,11 +4,12 @@ const db = require('../db');
 const Post = db.define('post', {
   preference: {
     type: Sequelize.ENUM('one on one', 'group', 'no preference'),
-    allowNull: false
+    allowNull: false,
   },
   isActive: {
-    type: Sequelize.BOOLEAN
+    type: Sequelize.BOOLEAN,
+    defaultValue: true,
   },
-})
+});
 
-module.exports = Post
+module.exports = Post;
