@@ -17,10 +17,21 @@ export const addPostAsync = createAsyncThunk(
   'posts/addOne',
   async ({ text, sortingOptions }) => {
     try {
-      const response = await axios.post('/api/posts/add', {
-        text,
-        sortingOptions,
-      });
+      const token = window.localStorage.getItem('token');
+      console.log('token in thunk:', token);
+
+      const response = await axios.post(
+        '/api/posts/add',
+        {
+          text,
+          sortingOptions,
+        },
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
       return response.data;
     } catch (error) {
       console.error('error adding post', error);

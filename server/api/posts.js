@@ -26,13 +26,14 @@ router.get('/:id', requireAuth, requireUserMatch, async (req, res, next) => {
   }
 });
 
-router.post('/add', async (req, res, next) => {
+router.post('/add', requireAuth, async (req, res, next) => {
   try {
     const { text, sortingOptions } = req.body;
     const newPost = await Post.create({
       text,
       preference: sortingOptions,
       isActive: true,
+      userId: req.user.id,
     });
     res.send(newPost);
   } catch (error) {
