@@ -11,7 +11,7 @@ const YerrrChat = () => {
 
   useEffect(() => {
     if (!socketRef.current) {
-      const newSocket = io('https://localhost:3000');
+      const newSocket = io('http://localhost:3000');
       socketRef.current = newSocket;
       console.log('Socket connection created:', newSocket);
     }
