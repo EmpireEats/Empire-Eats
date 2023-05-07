@@ -6,6 +6,9 @@ import YerrrChat from './YerrrChat';
 import { Routes, Route } from 'react-router';
 import Main from './Yerrr/Main';
 import Now from './Yerrr/Now';
+import SingleUser from './User/SingleUser';
+import UserProfile from './User/UserProfile';
+import EditProfile from './User/EditProfile';
 
 const App = () => {
   return (
@@ -19,6 +22,9 @@ const App = () => {
         <Route path='/yerrr' element={<Main />} />
         <Route path='/yerrrchat' element={<YerrrChat />} />
         <Route path='/yerrr/now' element={<Now />} />
+        <Route path='/users/profile' element={<UserProfile />} />
+        <Route path='/users/:id' element={<SingleUser />} />
+        <Route path='/users/:id/edit' element={<EditProfile />} />
       </Routes>
     </div>
   );
