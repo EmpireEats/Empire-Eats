@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import '../../../public/styles/now.css';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllPostsAsync } from '../../redux/actions/postActions';
+import {
+  deletePostAsync,
+  fetchAllPostsAsync,
+} from '../../redux/actions/postActions';
 
 const Now = () => {
   const navigate = useNavigate();
@@ -31,6 +34,10 @@ const Now = () => {
     navigate('/yerrr/chat');
   };
 
+  const handleDeletePost = (id) => {
+    dispatch(deletePostAsync({ id, loggedInUserId }));
+  };
+
   return (
     <div className='user-post-list'>
       {posts && (
@@ -52,7 +59,9 @@ const Now = () => {
                 </span>
                 {post.userId === loggedInUserId && (
                   <span>
-                    <button>❌</button>
+                    <button onClick={() => handleDeletePost(post.id)}>
+                      ❌
+                    </button>
                   </span>
                 )}
               </div>
