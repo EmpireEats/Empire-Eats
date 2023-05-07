@@ -1,30 +1,29 @@
 const router = require('express').Router();
-const Post = require('../db/models/Post');
+const { User, Post, Review } = require('../db/index');
+const {
+  requireAuth,
+  requireUserMatch,
+} = require('./authentication/authMiddleware');
 
-let posts = []; // You can replace this with actual database calls later
-
-router.post("/", async (req, res, next) => {
-  console.log("Post POST route called");
-
+router.get('/', async (req, res, next) => {
   try {
-    const post = req.body;
-    console.log("Post received:", post);
-
-    if (!post.text || typeof post.text !== "string") {
-      return res.status(400).json({ error: "Invalid post format." });
-    }
-
-    // You can add more fields as needed
-    const newPost = { text: post.text, sortingOptions: post.sortingOptions };
-
-    // Save the post to the array (or database)
-    posts.push(newPost);
-
-    res.json(newPost);
+    const getAllPosts = await Post.findAll({ include: User });
+    res.send(getAllPosts);
   } catch (error) {
-    console.error("Error posting:", error);
+    console.error('error fetching all posts', error);
     next(error);
   }
 });
 
-module.exports = router
+router.get('/:id', requireAuth, requireUserMatch, async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.id);
+    const getUsersPosts = await Post.findAll({ where: { userId: user.id } });
+    res.send(getUsersPosts);
+  } catch (error) {
+    console.error('error fetching users yerrr posts', error);
+    next(error);
+  }
+});
+
+module.exports = router;
