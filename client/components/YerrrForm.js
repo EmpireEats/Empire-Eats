@@ -2,9 +2,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { addPostAsync, addPost } from '../redux/actions/postActions';
 import io from 'socket.io-client';
+import { useNavigate } from 'react-router';
 
 const YerrrForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [formState, setFormState] = useState({
     text: '',
     sortingOptions: 'one on one',
@@ -47,6 +49,8 @@ const YerrrForm = () => {
         text: '',
         sortingOptions: 'one on one',
       });
+
+      navigate('/yerrr/now');
     } else {
       alert('Please enter a valid text.');
     }

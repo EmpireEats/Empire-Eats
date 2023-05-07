@@ -16,6 +16,8 @@ const Now = () => {
   const dispatch = useDispatch();
   const reduxPosts = useSelector((state) => state.post.allPosts);
   const loggedInUserId = useSelector((state) => state.auth.user.id);
+  // const posts = useSelector((state) => state.post.allPosts);
+  // console.log(posts);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 2;
 
