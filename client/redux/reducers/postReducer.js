@@ -30,6 +30,8 @@ export const postSlice = createSlice({
           (post) => post.id === postId
         );
         state.allPosts.splice(findPostIndex, 1);
+      .addCase(addPostAsync.rejected, (state, action) => {
+        console.error('error adding post', action.error);
       });
   },
 });
