@@ -33,5 +33,24 @@ export const addPostAsync = createAsyncThunk(
     }
   }
 );
+export const deletePostAsync = createAsyncThunk(
+    'post/deleteOne',
+    async ({ id, loggedInUserId }) => {
+      try {
+        const token = window.localStorage.getItem('token');
+        const response = await axios.delete(
+          `/api/posts/${id}/${loggedInUserId}`,
+          {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        return response.data;
+      } catch (error) {
+        console.error('error deleting users post', error);
+      }
+    }
+  );
 
 
