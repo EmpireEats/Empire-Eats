@@ -8,9 +8,10 @@ import {
 } from '../../redux/actions/postActions';
 import { createUserInteractionAsync } from '../../redux/actions/userInteractionActions';
 import { io } from 'socket.io-client';
+
 const socket = io();
 
-const Now = () => {
+const Now = ({ onChatEnabledChange }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const reduxPosts = useSelector((state) => state.post.allPosts);
@@ -62,9 +63,10 @@ const Now = () => {
     await dispatch(
       createUserInteractionAsync({ postId, postAuthorId, loggedInUserId })
     );
+    onChatEnabledChange(true);
     navigate('/yerrr/chat');
   };
-
+  
   const handleDeletePost = (id) => {
     dispatch(deletePostAsync({ id, loggedInUserId }));
   };
@@ -81,14 +83,14 @@ const Now = () => {
                 ) : (
                   <p>No name</p>
                 )}
-
+  
                 <p>Preference: {post.preference}</p>
                 {post.isActive ? <p>Active</p> : <p>No Longer Active</p>}
                 <button
                   onClick={() =>
                     handleUserInteraction({
-                      postId: post.id,
-                      postAuthorId: post.user.id,
+                      postId: post?.id,
+                      postAuthorId: post?.user?.id,
                     })
                   }>
                   👍🏽
@@ -125,6 +127,7 @@ const Now = () => {
       )}
     </div>
   );
-};
+                }  
+
 
 export default Now;

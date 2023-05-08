@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, Route, Routes } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getLoggedInUserData } from '../../redux/actions/authActions';
@@ -10,6 +10,11 @@ const Main = () => {
   const auth = useSelector((state) => state.auth);
   const user = auth.user;
   const dispatch = useDispatch();
+  const [chatEnabled, setChatEnabled] = useState(false);
+
+  const handleChatEnabledChange = (enabled) => {
+    setChatEnabled(enabled);
+  };
 
   useEffect(() => {
     dispatch(getLoggedInUserData());
@@ -26,14 +31,16 @@ const Main = () => {
             <Link className='yerrr-tab-link' to='/yerrr/postYerrr'>
               Yerrr
             </Link>
-            <Link className='yerrr-tab-link' to='/yerrr/chat'>
-              Chat
-            </Link>
+            {chatEnabled && (
+              <Link className='yerrr-tab-link' to='/yerrr/chat'>
+                Chat
+              </Link>
+            )}
           </nav>
           <Routes>
-            <Route path='now' element={<Now />} />
+            <Route path='now' element={<Now onChatEnabledChange={handleChatEnabledChange} />} />
             <Route path='postYerrr' element={<YerrrForm />} />
-            <Route path='chat' element={<YerrrChat />} />
+            {chatEnabled && <Route path='chat' element={<YerrrChat />} />}
           </Routes>
         </div>
       )}
@@ -42,3 +49,4 @@ const Main = () => {
 };
 
 export default Main;
+
