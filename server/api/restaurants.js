@@ -6,8 +6,19 @@ const googleMapsClient = require('@google/maps').createClient({
   Promise: Promise
 });
 
+function isInNYC(lat, lng) {
+  const nycBounds = {
+    north: 40.917577,
+    south: 40.477399,
+    east: -73.700272,
+    west: -74.25909
+  };
+  return lat >= nycBounds.south && lat <= nycBounds.north && lng >= nycBounds.west && lng <= nycBounds.east;
+}
+
 router.get('/', requireAuth, async (req, res, next) => {
   try {
+    console.log('user:', req.user)
     const userLat = req.user.latitude;
     const userLng = req.user.longitude;
     console.log("User latitude:", userLat);
@@ -20,8 +31,21 @@ router.get('/', requireAuth, async (req, res, next) => {
       type: 'restaurant'
     }).asPromise();
 
+    // Filter out any restaurants that aren't within the five boroughs of NYC
+    const nycBounds = {
+      north: 40.917577,
+      south: 40.477399,
+      east: -73.700272,
+      west: -74.25909
+    };
+    const restaurants = response.json.results.filter(result => {
+      const lat = result.geometry.location.lat;
+      const lng = result.geometry.location.lng;
+      return lat >= nycBounds.south && lat <= nycBounds.north && lng >= nycBounds.west && lng <= nycBounds.east;
+    });
+
     // Extract the relevant information from the API response and create a new Restaurant instance for each place
-    const restaurants = response.json.results.map((result) => ({
+    const restaurantsInfo = restaurants.map((result) => ({
       name: result.name,
       address: result.vicinity,
       latitude: result.geometry.location.lat,
@@ -38,7 +62,7 @@ router.get('/', requireAuth, async (req, res, next) => {
     }));
 
     // Compute the distance between the user and each restaurant using the Haversine formula
-    restaurants.forEach((restaurant) => {
+    restaurantsInfo.forEach((restaurant) => {
       const R = 6371e3; // Earth's radius in meters
       const φ1 = userLat * Math.PI/180;
       const λ1 = userLng * Math.PI/180;
@@ -53,9 +77,10 @@ router.get('/', requireAuth, async (req, res, next) => {
     });
 
     // Sort the restaurants by distance, closest first
-    restaurants.sort((a, b) => a.distance - b.distance);
+    restaurantsInfo.sort((a, b) => a.distance - b.distance);
 
-    res.json(restaurants);
+    // Return the sorted restaurants
+    res.json(restaurantsInfo);
   } catch (error) {
     next(error);
   }

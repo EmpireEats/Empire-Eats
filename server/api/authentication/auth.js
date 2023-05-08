@@ -9,6 +9,7 @@ router.post('/login', async (req, res, next) => {
 
     const user = await User.findOne({
       where: { email },
+      attributes: ['id', 'password', 'latitude', 'longitude'],
       include: [Post, Review],
     });
     if (!user) {
@@ -23,10 +24,6 @@ router.post('/login', async (req, res, next) => {
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: '1h',
     });
-
-    // const token = jwt.sign({ id: user.id, latitude: user.latitude, longitude: user.longitude }, process.env.JWT_SECRET, {
-    //   expiresIn: '1h',
-    // });
 
     res.json({ token, user });
   } catch (error) {
