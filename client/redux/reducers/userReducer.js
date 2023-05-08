@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchAllUsers, fetchSingleUser, updateUser } from '../actions/userActions';
+import { fetchAllUsers, fetchSingleUser, editUser } from '../actions/userActions';
 
 const initialState = {
     allUsers: [],
@@ -17,7 +17,7 @@ export const userSlice = createSlice({
         builder.addCase(fetchSingleUser.fulfilled, (state, action) => {
             state.singleUser = action.payload;
         });
-        builder.addCase(updateUser.fulfilled, (state, action) => {
+        builder.addCase(editUser.fulfilled, (state, action) => {
             state.allUsers = state.allUsers.filter(
                 (user) => user.id !== action.payload
                 );
