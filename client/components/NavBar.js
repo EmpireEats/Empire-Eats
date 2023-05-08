@@ -10,7 +10,7 @@ const NavBar = () => {
       <Link to='/yerrr/now'>YERRR</Link>
       <Link to='/users/profile'>👤</Link>
       <Link to='/leaderboard'>Leaderboard</Link>
-      <Link to='/map'>Map</Link>
+      <Link to='/restaurants'>Map</Link>
     </div>
   );
 };

@@ -10,6 +10,7 @@ import Now from './Yerrr/Now';
 import Leaderboard from './Leaderboard/Leaderboard';
 import UserProfile from './User/UserProfile';
 import EditProfile from './User/EditProfile';
+import Restaurants from './Restaurants/Restaurants';
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
         <Route path='/leaderboard' element={<Leaderboard />} />
         <Route path='/users/:id' element={<UserProfile />} />
         <Route path='/users/:id/edit' element={<EditProfile />} />
+        <Route path='/restaurants' element={<Restaurants />} />
       </Routes>
     </div>
   );
