@@ -8,6 +8,8 @@ import Main from './Yerrr/Main';
 import YerrrForm from './YerrrForm';
 import Now from './Yerrr/Now';
 import Leaderboard from './Leaderboard/Leaderboard';
+import UserProfile from './User/UserProfile';
+import EditProfile from './User/EditProfile';
 
 const App = () => {
   return (
