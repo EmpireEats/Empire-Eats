@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { addPostAsync } from '../redux/actions/postActions';
+import { addPostAsync, addPost } from '../redux/actions/postActions';
+import io from 'socket.io-client';
 
 const YerrrForm = () => {
   const dispatch = useDispatch();
@@ -8,6 +9,22 @@ const YerrrForm = () => {
     text: '',
     sortingOptions: 'one on one',
   });
+
+  const socketRef = useRef(null);
+
+  useEffect(() => {
+    if (!socketRef.current) {
+      const newSocket = io('http://localhost:3000');
+      socketRef.current = newSocket;
+      console.log('Socket connection created:', newSocket);
+    }
+
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+      }
+    };
+  }, []);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -22,10 +39,10 @@ const YerrrForm = () => {
       console.log('Text:', text);
       console.log('Sorting Options:', sortingOptions);
 
-      // Dispatch the addPost action
       await dispatch(addPostAsync({ text, sortingOptions }));
 
-      // Clear the form
+      socketRef.current.emit('newPost', { text, sortingOptions });
+
       setFormState({
         text: '',
         sortingOptions: 'one on one',
@@ -70,3 +87,6 @@ const YerrrForm = () => {
 };
 
 export default YerrrForm;
+
+
+

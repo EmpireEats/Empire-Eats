@@ -3,6 +3,7 @@ const { Server } = require('socket.io');
 
 const dotenv = require('dotenv');
 dotenv.config();
+const { Post } = require('./db/index');
 
 const port = process.env.PORT || 3000;
 const app = require('./app');
@@ -23,6 +24,25 @@ io.on('connection', (socket) => {
     // Broadcast the received message to all connected clients, including the sender
     io.emit('message', message);
     console.log('Server emitted message:', message);
+  });
+
+  socket.on('newPost', async (post) => {
+    console.log('Received new post from client:', post);
+
+    try {
+      const newPost = await Post.create({
+        text: post.text,
+        preference: post.sortingOptions,
+        isActive: true,
+      });
+
+      console.log('Created new post in database:', newPost);
+
+      // Broadcast the new post to all connected clients, including the sender
+      io.emit('newPost', newPost);
+    } catch (error) {
+      console.error('error adding post', error);
+    }
   });
 
   socket.on('disconnect', () => {

@@ -34,6 +34,7 @@ router.post('/add', async (req, res, next) => {
       preference: sortingOptions,
       isActive: true,
     });
+
     res.send(newPost);
   } catch (error) {
     console.error('error adding post', error);
@@ -42,3 +43,4 @@ router.post('/add', async (req, res, next) => {
 });
 
 module.exports = router;
+

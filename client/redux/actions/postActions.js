@@ -13,6 +13,11 @@ export const fetchAllPostsAsync = createAsyncThunk(
   }
 );
 
+export const addPost = (post) => ({
+  type: 'post/addOne',
+  payload: post,
+});
+
 export const addPostAsync = createAsyncThunk(
   'posts/addOne',
   async ({ text, sortingOptions }) => {
@@ -24,6 +29,9 @@ export const addPostAsync = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.error('error adding post', error);
+      throw error;
     }
   }
 );
+
+

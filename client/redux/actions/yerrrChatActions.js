@@ -1,4 +1,4 @@
 import { createAction } from "@reduxjs/toolkit";
 
-export const receiveMessage = createAction("yerrrChat/receiveMessage");
+export const receiveMessage = createAction("yerrr/chat/receiveMessage");
 
