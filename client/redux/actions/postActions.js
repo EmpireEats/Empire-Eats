@@ -47,6 +47,7 @@ export const addPostAsync = createAsyncThunk(
         'You already have an active post! Please delete active post and try again.'
       );
       throw error;
+
     }
   }
 );

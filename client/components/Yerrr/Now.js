@@ -8,7 +8,6 @@ import {
 } from '../../redux/actions/postActions';
 import { createUserInteractionAsync } from '../../redux/actions/userInteractionActions';
 import { io } from 'socket.io-client';
-
 const socket = io();
 
 const Now = () => {
