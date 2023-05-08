@@ -8,9 +8,10 @@ import {
 } from '../../redux/actions/postActions';
 import { createUserInteractionAsync } from '../../redux/actions/userInteractionActions';
 import { io } from 'socket.io-client';
+
 const socket = io();
 
-const Now = () => {
+const Now = ({ onChatEnabledChange }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const reduxPosts = useSelector((state) => state.post.allPosts);
@@ -29,15 +30,11 @@ const Now = () => {
 
     // Subscribe to new post events from the server
     socket.on('newPost', (post) => {
-      // Add the new post to the current list of posts
-      // Replace the existing array to force a re-render
       setPosts((prevPosts) => [...prevPosts, post]);
     });
 
     // Subscribe to post update events from the server
     socket.on('updatePost', (updatedPost) => {
-      // Update the post in the current list of posts
-      // Replace the existing array to force a re-render
       setPosts((prevPosts) =>
         prevPosts.map((post) => (post.id === updatedPost.id ? updatedPost : post))
       );
@@ -45,8 +42,6 @@ const Now = () => {
 
     // Subscribe to post delete events from the server
     socket.on('deletePost', (deletedPostId) => {
-      // Remove the post from the current list of posts
-      // Replace the existing array to force a re-render
       setPosts((prevPosts) => prevPosts.filter((post) => post.id !== deletedPostId));
     });
 
@@ -57,42 +52,6 @@ const Now = () => {
       socket.off('deletePost');
     };
   }, [reduxPosts]);
-
-
-  useEffect(() => {
-    setPosts(reduxPosts);
-
-    // Subscribe to new post events from the server
-    socket.on('newPost', (post) => {
-      // Add the new post to the current list of posts
-      // Replace the existing array to force a re-render
-      setPosts((prevPosts) => [...prevPosts, post]);
-    });
-
-    // Subscribe to post update events from the server
-    socket.on('updatePost', (updatedPost) => {
-      // Update the post in the current list of posts
-      // Replace the existing array to force a re-render
-      setPosts((prevPosts) =>
-        prevPosts.map((post) => (post.id === updatedPost.id ? updatedPost : post))
-      );
-    });
-
-    // Subscribe to post delete events from the server
-    socket.on('deletePost', (deletedPostId) => {
-      // Remove the post from the current list of posts
-      // Replace the existing array to force a re-render
-      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== deletedPostId));
-    });
-
-    // Clean up the listeners when the component unmounts
-    return () => {
-      socket.off('newPost');
-      socket.off('updatePost');
-      socket.off('deletePost');
-    };
-  }, [reduxPosts]);
-
 
   // pagination
   const totalPages = Math.ceil(posts.length / postsPerPage);
@@ -108,9 +67,10 @@ const Now = () => {
     await dispatch(
       createUserInteractionAsync({ postId, postAuthorId, loggedInUserId })
     );
+    onChatEnabledChange(true);
     navigate('/yerrr/chat');
   };
-
+  
   const handleDeletePost = (id) => {
     dispatch(deletePostAsync({ id, loggedInUserId }));
   };
@@ -127,14 +87,14 @@ const Now = () => {
                 ) : (
                   <p>No name</p>
                 )}
-
+  
                 <p>Preference: {post.preference}</p>
                 {post.isActive ? <p>Active</p> : <p>No Longer Active</p>}
                 <button
                   onClick={() =>
                     handleUserInteraction({
-                      postId: post.id,
-                      postAuthorId: post.user.id,
+                      postId: post?.id,
+                      postAuthorId: post?.user?.id,
                     })
                   }>
                   👍🏽
@@ -171,7 +131,8 @@ const Now = () => {
       )}
     </div>
   );
-};
+                }  
+
 
 export default Now;
 

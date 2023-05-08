@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { receiveMessage } from '../redux/actions/yerrrChatActions';
 import io from 'socket.io-client';
 
-const YerrrChat = () => {
+const YerrrChat = ({ chatEnabled }) => {
   const messages = useSelector((state) => state.yerrrChat.messages);
   const [currentMessage, setCurrentMessage] = useState('');
   const dispatch = useDispatch();
