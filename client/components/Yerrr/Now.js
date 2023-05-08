@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import '../../../public/styles/now.css';
 import { useNavigate } from 'react-router';
@@ -17,11 +16,6 @@ const Now = () => {
   const dispatch = useDispatch();
   const reduxPosts = useSelector((state) => state.post.allPosts);
   const loggedInUserId = useSelector((state) => state.auth.user.id);
-  // const posts = useSelector((state) => state.post.allPosts);
-  // console.log(posts);
-  const posts = useSelector((state) => state.post.allPosts);
-  console.log(posts);
-  const loggedInUserId = useSelector((state) => state.auth.user.id);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 2;
 
@@ -29,6 +23,10 @@ const Now = () => {
 
   useEffect(() => {
     dispatch(fetchAllPostsAsync());
+  }, []);
+
+  useEffect(() => {
+    setPosts(reduxPosts);
 
     // Subscribe to new post events from the server
     socket.on('newPost', (post) => {
@@ -59,7 +57,8 @@ const Now = () => {
       socket.off('updatePost');
       socket.off('deletePost');
     };
-  }, []);
+  }, [reduxPosts]);
+
 
   useEffect(() => {
     setPosts(reduxPosts);
