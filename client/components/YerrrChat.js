@@ -15,14 +15,14 @@ const YerrrChat = () => {
       socketRef.current = newSocket;
       console.log('Socket connection created:', newSocket);
     }
-
+  
     const handleMessage = (message) => {
       console.log('Received message:', message);
       dispatch(receiveMessage(message));
     };
-
+  
     socketRef.current.on('message', handleMessage);
-
+  
     return () => {
       if (socketRef.current) {
         socketRef.current.off('message', handleMessage);
