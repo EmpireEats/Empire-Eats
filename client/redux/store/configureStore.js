@@ -4,6 +4,7 @@ import yerrrChatReducer from '../reducers/yerrrChatReducers';
 import postReducer from '../reducers/postReducer';
 import leaderboardReducer from '../reducers/leaderboardReducer';
 import userReducer from '../reducers/userReducer';
+import restaurantReducer from '../reducers/restaurantReducer';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     post: postReducer,
     leaderboard: leaderboardReducer, 
     user: userReducer,
+    restaurant: restaurantReducer,
   },
 });
 
