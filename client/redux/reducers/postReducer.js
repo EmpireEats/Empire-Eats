@@ -4,12 +4,14 @@ import {
   addPostAsync,
   deletePostAsync,
 } from '../actions/postActions';
+import { fetchChatMembersIdAsync } from '../actions/userInteractionActions';
 
 export const postSlice = createSlice({
   name: 'post',
   initialState: {
     allPosts: [],
     singleUsersPosts: [],
+    chatMemberIds: [],
   },
   reducers: {
     addPost: (state, action) => {
@@ -31,7 +33,11 @@ export const postSlice = createSlice({
         );
         state.allPosts.splice(findPostIndex, 1);
       })
- .addCase(addPostAsync.rejected, (state, action) => {
+      .addCase(fetchChatMembersIdAsync.fulfilled, (state, action) => {
+        console.log('Updating chat member IDs in state:', action.payload);
+        state.chatMemberIds = action.payload;
+      })
+      .addCase(addPostAsync.rejected, (state, action) => {
         console.error('error adding post', action.error);
       });
   },
@@ -40,4 +46,3 @@ export const postSlice = createSlice({
 export const { addPost } = postSlice.actions;
 
 export default postSlice.reducer;
-
