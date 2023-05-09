@@ -26,7 +26,6 @@ const Map = () => {
           yesIWantToUseGoogleMapApiInternals
           onGoogleApiLoaded={({ map, maps }) => {
             mapRef.current = { map, maps };
-            // ...
           }}
         >
           {/* Render markers or other map components */}
