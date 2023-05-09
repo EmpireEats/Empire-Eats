@@ -8,6 +8,7 @@ import YerrrChat from './YerrrChat';
 
 const Main = () => {
   const auth = useSelector((state) => state.auth);
+  const messages = useSelector((state) => state.yerrrChat.messages);
   const user = auth.user;
   const dispatch = useDispatch();
   const [chatEnabled, setChatEnabled] = useState(false);
@@ -19,6 +20,21 @@ const Main = () => {
   useEffect(() => {
     dispatch(getLoggedInUserData());
   }, [dispatch]);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (!document.hidden && chatEnabled) {
+        console.log('Requesting latest messages');
+        dispatch({ type: 'REQUEST_LATEST_MESSAGES' });
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [chatEnabled, dispatch]);
 
   return (
     <div className='yerrr-tab-container'>
@@ -40,7 +56,7 @@ const Main = () => {
           <Routes>
             <Route path='now' element={<Now onChatEnabledChange={handleChatEnabledChange} />} />
             <Route path='postYerrr' element={<YerrrForm />} />
-            {chatEnabled && <Route path='chat' element={<YerrrChat />} />}
+            {chatEnabled && <Route path='chat' element={<YerrrChat messages={messages} />} />}
           </Routes>
         </div>
       )}
@@ -49,4 +65,8 @@ const Main = () => {
 };
 
 export default Main;
+
+
+
+
 
