@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 import { getLoggedInUserData } from '../../redux/actions/authActions';
 import { fetchSingleUser, editUser } from '../../redux/actions/userActions';
 
@@ -8,11 +7,11 @@ const EditProfile = () => {
     const auth = useSelector((state) => state.auth);
     const user = auth.user;
     const dispatch = useDispatch();
-    const { id } = useParams();
+    const id = user.id;
 
     useEffect(() => {
         dispatch(getLoggedInUserData());
-    }, [dispatch, user.id]);
+    }, [dispatch, id]);
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -20,11 +19,20 @@ const EditProfile = () => {
     const [username, setUserName] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        dispatch(editUser({ id, firstName, lastName, email, username, password }))
-        .then(() => dispatch(fetchSingleUser(id)));
+     useEffect(() => {
+        setFirstName(user.firstName);
+        setLastName(user.lastName);
+        setEmail(user.email);
+        setUserName(user.username);
+    }, [user]);
+
+    const handleSubmit = async (event) => {
+    event.preventDefault();
+    await dispatch(editUser({ id, firstName, lastName, email, username, password }));
+    dispatch(fetchSingleUser(id));
     };
+
+
 
     return (
         <div>
