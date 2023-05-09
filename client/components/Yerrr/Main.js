@@ -3,8 +3,8 @@ import { Link, Route, Routes } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getLoggedInUserData } from '../../redux/actions/authActions';
 import Now from './Now';
-import YerrrForm from '../YerrrForm';
-import YerrrChat from '../YerrrChat';
+import YerrrForm from './YerrrForm';
+import YerrrChat from './YerrrChat';
 
 const Main = () => {
   const auth = useSelector((state) => state.auth);
