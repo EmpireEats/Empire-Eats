@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { getLoggedInUserData } from '../../redux/actions/authActions';
 import { fetchSingleUser, editUser } from '../../redux/actions/userActions';

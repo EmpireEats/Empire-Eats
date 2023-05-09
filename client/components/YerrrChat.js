@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveMessage } from '../../redux/actions/yerrrChatActions';
-import io from 'socket.io-client';
 import { sendMessage, requestLatestMessages } from '../redux/actions/yerrrChatActions';
 import { useSocket } from '../contexts/SocketContext';
 
