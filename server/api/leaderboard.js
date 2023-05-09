@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { Sequelize, DataTypes } = require('sequelize');
 
-const sequelize = new Sequelize('database', 'user', 'password', {
+const sequelize = new Sequelize('empire_eats', 'user', 'password', {
   host: 'localhost',
   dialect: 'postgres',
 });
@@ -16,6 +16,9 @@ const Leaderboard = sequelize.define('leaderboard', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+}, {
+  tableName: 'leaderboard',
+  schema: 'public'
 });
 
 const Feed = sequelize.define('feed', {
@@ -26,7 +29,7 @@ const Feed = sequelize.define('feed', {
 });
 
 // Route for fetching leaderboard data
-router.get('/leaderboard', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const leaderboardData = await Leaderboard.findAll({ order: [['rank', 'ASC']] });
     res.json(leaderboardData);
@@ -37,7 +40,7 @@ router.get('/leaderboard', async (req, res) => {
 });
 
 // Route for updating user rankings
-router.post('/leaderboard/update', async (req, res) => {
+router.post('/update', async (req, res) => {
   try {
     const { userId, newRank } = req.body;
     await Leaderboard.update({ rank: newRank }, { where: { user_id: userId } });
