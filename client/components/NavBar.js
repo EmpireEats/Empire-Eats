@@ -16,15 +16,15 @@ const NavBar = () => {
     <div className='nav-container'>
       {auth.token ? (
         <>
-          <Link to='/' onClick={handleLogout}>Logout</Link>
-          <Link to='/yerrr/now'>YERRR</Link>
-          <Link to='/restaurants'>We Outside</Link>
-          <Link to='/leaderboard'>Leaderboard</Link>
+          <Link to='/' onClick={handleLogout}>Logout |</Link>
+          <Link to='/yerrr/now'>YERRR |</Link>
+          <Link to='/restaurants'>We Outside |</Link>
+          <Link to='/leaderboard'>Leaderboard |</Link>
           <Link to='/users/:id'>👤</Link>
         </>
       ) : (
         <>
-          <Link to='/login'>Login</Link>
+          <Link to='/login'>Login |</Link>
           <Link to='/signup'>Sign Up</Link>
         </>
       )}
