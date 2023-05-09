@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { addPostAsync, addPost } from '../redux/actions/postActions';
+import { addPostAsync, addPost } from '../../redux/actions/postActions';
 import { useNavigate } from 'react-router';
 import io from 'socket.io-client';
-
 
 const YerrrForm = () => {
   const dispatch = useDispatch();
@@ -92,6 +91,3 @@ const YerrrForm = () => {
 };
 
 export default YerrrForm;
-
-
-
