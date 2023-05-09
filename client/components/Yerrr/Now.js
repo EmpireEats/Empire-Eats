@@ -22,77 +22,31 @@ const Now = () => {
 
   useEffect(() => {
     dispatch(fetchAllPostsAsync());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     setPosts(reduxPosts);
-
-    // Subscribe to new post events from the server
     socket.on('newPost', (post) => {
-      // Add the new post to the current list of posts
-      // Replace the existing array to force a re-render
       setPosts((prevPosts) => [...prevPosts, post]);
     });
-
-    // Subscribe to post update events from the server
     socket.on('updatePost', (updatedPost) => {
-      // Update the post in the current list of posts
-      // Replace the existing array to force a re-render
       setPosts((prevPosts) =>
-        prevPosts.map((post) => (post.id === updatedPost.id ? updatedPost : post))
+        prevPosts.map((post) =>
+          post.id === updatedPost.id ? updatedPost : post
+        )
       );
     });
-
-    // Subscribe to post delete events from the server
     socket.on('deletePost', (deletedPostId) => {
-      // Remove the post from the current list of posts
-      // Replace the existing array to force a re-render
-      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== deletedPostId));
+      setPosts((prevPosts) =>
+        prevPosts.filter((post) => post.id !== deletedPostId)
+      );
     });
-
-    // Clean up the listeners when the component unmounts
     return () => {
       socket.off('newPost');
       socket.off('updatePost');
       socket.off('deletePost');
     };
   }, [reduxPosts]);
-
-
-  useEffect(() => {
-    setPosts(reduxPosts);
-
-    // Subscribe to new post events from the server
-    socket.on('newPost', (post) => {
-      // Add the new post to the current list of posts
-      // Replace the existing array to force a re-render
-      setPosts((prevPosts) => [...prevPosts, post]);
-    });
-
-    // Subscribe to post update events from the server
-    socket.on('updatePost', (updatedPost) => {
-      // Update the post in the current list of posts
-      // Replace the existing array to force a re-render
-      setPosts((prevPosts) =>
-        prevPosts.map((post) => (post.id === updatedPost.id ? updatedPost : post))
-      );
-    });
-
-    // Subscribe to post delete events from the server
-    socket.on('deletePost', (deletedPostId) => {
-      // Remove the post from the current list of posts
-      // Replace the existing array to force a re-render
-      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== deletedPostId));
-    });
-
-    // Clean up the listeners when the component unmounts
-    return () => {
-      socket.off('newPost');
-      socket.off('updatePost');
-      socket.off('deletePost');
-    };
-  }, [reduxPosts]);
-
 
   // pagination
   const totalPages = Math.ceil(posts.length / postsPerPage);
@@ -174,4 +128,3 @@ const Now = () => {
 };
 
 export default Now;
-
