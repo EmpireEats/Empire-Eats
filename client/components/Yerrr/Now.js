@@ -27,25 +27,22 @@ const Now = ({ onChatEnabledChange }) => {
 
   useEffect(() => {
     setPosts(reduxPosts);
-
-    // Subscribe to new post events from the server
+    
     socket.on('newPost', (post) => {
       setPosts((prevPosts) => [...prevPosts, post]);
     });
 
-    // Subscribe to post update events from the server
+
     socket.on('updatePost', (updatedPost) => {
       setPosts((prevPosts) =>
         prevPosts.map((post) => (post.id === updatedPost.id ? updatedPost : post))
       );
     });
 
-    // Subscribe to post delete events from the server
     socket.on('deletePost', (deletedPostId) => {
       setPosts((prevPosts) => prevPosts.filter((post) => post.id !== deletedPostId));
     });
 
-    // Clean up the listeners when the component unmounts
     return () => {
       socket.off('newPost');
       socket.off('updatePost');

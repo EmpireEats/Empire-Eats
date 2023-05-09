@@ -21,7 +21,6 @@ io.on('connection', (socket) => {
 
   socket.on('message', (message) => {
     console.log('Received message:', message);
-    // Broadcast the received message to all connected clients, including the sender
     io.emit('message', message);
     console.log('Server emitted message:', message);
   });
@@ -37,8 +36,6 @@ io.on('connection', (socket) => {
       });
 
       console.log('Created new post in database:', newPost);
-
-      // Broadcast the new post to all connected clients, including the sender
       io.emit('newPost', newPost);
     } catch (error) {
       console.error('error adding post', error);

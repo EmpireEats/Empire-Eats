@@ -19,3 +19,21 @@ export const createUserInteractionAsync = createAsyncThunk(
     }
   }
 );
+export const fetchChatMembersIdAsync = createAsyncThunk(
+    'userInteractions/findAll',
+    async () => {
+      try {
+        const token = window.localStorage.getItem('token');
+        const response = await axios.get('/api/userInteractions/chatMembers', {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
+        console.log('Fetched chat members:', response.data);
+  
+        return response.data;
+      } catch (error) {
+        console.error('error fetching chat members');
+      }
+    }
+  )
