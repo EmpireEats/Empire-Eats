@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server",
-    "start-dev": "webpack --config webpack.config.js & nodemon server/index",
+    "start-dev": "webpack --watch & nodemon server/index",
     "build": "webpack & node seed.js",
     "seed": "node seed.js"
   },
