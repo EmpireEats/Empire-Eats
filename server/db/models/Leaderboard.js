@@ -1,20 +1,17 @@
-const Sequelize = require('sequelize');
-const db = require('../db');
-
-const Leaderboard = db.define('leaderboard', {
-    image: {
-        type: Sequelize.STRING,
-        defaultValue: 'https://i.imgur.com/6VBx3io.png',
-    },
-    username: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-    },
-    rank: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0,
-    },
-});
-
-module.exports = Leaderboard
+class Leaderboard {
+    constructor() {
+      this.data = []; //! placeholder, replace with your actual data source
+    }
+  
+    async getLeaderboard() {
+      //! placeholder - fetch leaderboard data from data source
+      return this.data;
+    }
+  
+    async updateUserRankings(userData) {
+      //! placeholder- will implement logic to update user rankings in data source
+    }
+  }
+  
+  module.exports = new Leaderboard();
+  
