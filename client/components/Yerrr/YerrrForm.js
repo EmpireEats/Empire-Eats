@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { addPostAsync, addPost } from '../../redux/actions/postActions';
 import { useNavigate } from 'react-router';
-import io from 'socket.io-client';
+import { useSocket } from '../../contexts/SocketContext';
 
 const YerrrForm = () => {
   const dispatch = useDispatch();
@@ -12,21 +12,7 @@ const YerrrForm = () => {
     sortingOptions: 'one on one',
   });
 
-  const socketRef = useRef(null);
-
-  useEffect(() => {
-    if (!socketRef.current) {
-      const newSocket = io('http://localhost:3000');
-      socketRef.current = newSocket;
-      console.log('Socket connection created:', newSocket);
-    }
-
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.disconnect();
-      }
-    };
-  }, []);
+  const socket = useSocket();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -43,7 +29,10 @@ const YerrrForm = () => {
 
       await dispatch(addPostAsync({ text, sortingOptions }));
 
-      socketRef.current.emit('newPost', { text, sortingOptions });
+      // Use the socket instance from the context instead of socketRef
+      if (socket) {
+        socket.emit('newPost', { text, sortingOptions });
+      }
 
       setFormState({
         text: '',

@@ -75,7 +75,7 @@ const Now = ({ onChatEnabledChange }) => {
     <div className='user-post-list'>
       {posts && (
         <>
-          <div className='user-post'>
+          <div>
             {currentPosts.map((post) => (
               <div key={`${post.id}`} className='user-post'>
                 {post.user && post.user.firstName ? (
