@@ -8,7 +8,9 @@ router.use('/chat', require('./chat'));
 router.use('/posts', require('./posts'));
 router.use('/restaurants', require('./restaurants'));
 router.use('/reviews', require('./reviews'));
+router.use('/leaderboard', require('./leaderboard'));
 router.use('/userInteractions', require('./userInteractions'));
+
 
 router.use(function (req, res, next) {
   const err = new Error('Cannot find API route!');

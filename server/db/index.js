@@ -4,6 +4,7 @@ const Post = require('./models/Post');
 const Restaurant = require('./models/Restaurant');
 const UserInteraction = require('./models/UserInteraction');
 
+
 User.hasMany(Post);
 Post.belongsTo(User);
 
