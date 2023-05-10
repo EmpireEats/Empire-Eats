@@ -6,7 +6,7 @@ const express = require('express');
 
 const dotenv = require('dotenv');
 dotenv.config();
-const { Post } = require('./db/index');
+const { Post, UserInteraction } = require('./db/index');
 
 //* kim added
 const leaderboardRoutes = require('./api/leaderboard');
@@ -22,7 +22,6 @@ const app = require('./app');
 app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/api/feed', feedRoutes);
 
-
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
@@ -34,10 +33,11 @@ const io = new Server(server, {
 io.on('connection', (socket) => {
   console.log('a user connected:', socket.id);
 
-  socket.on('message', (message) => {
-    console.log('Received message:', message);
-    io.emit('message', message);
-    console.log('Server emitted message:', message);
+  socket.on('message', ({ sender, text, postId }) => {
+    console.log('Received message:', { sender, text, postId });
+    // io.emit('message', message);
+    io.emit('message', { sender, text, postId });
+    console.log('Server emitted message:', { sender, text, postId });
   });
 
   socket.on('newPost', async (post) => {
@@ -83,6 +83,41 @@ io.on('connection', (socket) => {
       console.error('Error deleting post:', error);
     }
   });
+
+  socket.on(
+    'createUserInteraction',
+    async ({ postId, postAuthorId, loggedInUserId }) => {
+      try {
+        const existingUserInteraction = await UserInteraction.findOne({
+          where: { interactingUserId: loggedInUserId },
+        });
+
+        if (existingUserInteraction) {
+          await existingUserInteraction.update({
+            postId,
+            postAuthorId,
+            isActive: true,
+          });
+        } else {
+          await UserInteraction.create({
+            postId,
+            postAuthorId,
+            interactingUserId: loggedInUserId,
+            isActive: true,
+          });
+        }
+
+        io.emit('userInteractionCreated', {
+          postId,
+          postAuthorId,
+          loggedInUserId,
+        });
+      } catch (error) {
+        console.error('Error creating user interaction:', error);
+        socket.emit('userInteractionError', 'Error creating user interaction');
+      }
+    }
+  );
 
   socket.on('disconnect', () => {
     console.log('user disconnected:', socket.id);

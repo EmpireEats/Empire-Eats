@@ -5,19 +5,21 @@ import io from 'socket.io-client';
 // import { sendMessage, requestLatestMessages } from '../redux/actions/yerrrChatActions';
 import { useSocket } from '../../contexts/SocketContext';
 
-const YerrrChat = () => {
-  const messages = useSelector((state) => state.yerrrChat.messages);
+const YerrrChat = ({ postId }) => {
   const [currentMessage, setCurrentMessage] = useState('');
   const dispatch = useDispatch();
   const socket = useSocket();
 
+  const messages = useSelector((state) =>
+    state.yerrrChat.messages.filter((message) => message.postId === postId)
+  );
 
   const handleSendMessage = (e) => {
     e.preventDefault();
     if (currentMessage.trim()) {
       if (socket) {
         console.log('sending message...', currentMessage);
-        socket.emit('message', { sender: 'you', text: currentMessage });
+        socket.emit('message', { sender: 'you', text: currentMessage, postId });
         setCurrentMessage('');
       } else {
         console.error('Socket reference is undefined.');
@@ -29,7 +31,9 @@ const YerrrChat = () => {
     <div className='chat-container'>
       <div className='chat-window'>
         {messages.map((message, index) => (
-          <div key={`${message.sender}-${index}`} className={`message ${message.sender}`}>
+          <div
+            key={`${message.sender}-${index}`}
+            className={`message ${message.sender}`}>
             <span>{message.text}</span>
           </div>
         ))}
@@ -48,9 +52,3 @@ const YerrrChat = () => {
 };
 
 export default YerrrChat;
-
-
-
-
-
-
