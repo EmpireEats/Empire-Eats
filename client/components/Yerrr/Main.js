@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getLoggedInUserData } from '../../redux/actions/authActions';
 import Now from './Now';
@@ -12,6 +12,9 @@ const Main = () => {
   const user = auth.user;
   const dispatch = useDispatch();
   const [chatEnabled, setChatEnabled] = useState(false);
+  const location = useLocation();
+  const postId = location.state?.postId;
+  console.log('postId from now:', postId);
 
   const handleChatEnabledChange = (enabled) => {
     setChatEnabled(enabled);
@@ -54,9 +57,14 @@ const Main = () => {
             )}
           </nav>
           <Routes>
-            <Route path='now' element={<Now onChatEnabledChange={handleChatEnabledChange} />} />
+            <Route
+              path='now'
+              element={<Now onChatEnabledChange={handleChatEnabledChange} />}
+            />
             <Route path='postYerrr' element={<YerrrForm />} />
-            {chatEnabled && <Route path='chat' element={<YerrrChat messages={messages} />} />}
+            {chatEnabled && (
+              <Route path='chat' element={<YerrrChat postId={postId} />} />
+            )}
           </Routes>
         </div>
       )}
@@ -65,8 +73,3 @@ const Main = () => {
 };
 
 export default Main;
-
-
-
-
-

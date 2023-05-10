@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const router = require('express').Router();
-const { User, Post, Review } = require('../../db/index');
+const { User, Post, Review, UserInteraction } = require('../../db/index');
 
 router.post('/login', async (req, res, next) => {
   try {
@@ -9,7 +9,7 @@ router.post('/login', async (req, res, next) => {
 
     const user = await User.findOne({
       where: { email },
-      include: [Post, Review],
+      include: [Post, Review, UserInteraction],
     });
     if (!user) {
       return res.status(401).json({ error: 'User not found' });
