@@ -7,9 +7,7 @@ import {
   fetchAllPostsAsync,
 } from '../../redux/actions/postActions';
 import { createUserInteractionAsync } from '../../redux/actions/userInteractionActions';
-import { io } from 'socket.io-client';
-
-const socket = io();
+import { useSocket } from '../../contexts/SocketContext';
 
 const Now = ({ onChatEnabledChange }) => {
   const navigate = useNavigate();
@@ -18,8 +16,8 @@ const Now = ({ onChatEnabledChange }) => {
   const loggedInUserId = useSelector((state) => state.auth.user.id);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 2;
-
   const [posts, setPosts] = useState(reduxPosts);
+  const socket = useSocket();
 
   useEffect(() => {
     dispatch(fetchAllPostsAsync());
@@ -27,27 +25,33 @@ const Now = ({ onChatEnabledChange }) => {
 
   useEffect(() => {
     setPosts(reduxPosts);
-    socket.on('newPost', (post) => {
-      setPosts((prevPosts) => [...prevPosts, post]);
-    });
-    socket.on('updatePost', (updatedPost) => {
-      setPosts((prevPosts) =>
-        prevPosts.map((post) =>
-          post.id === updatedPost.id ? updatedPost : post
-        )
-      );
-    });
-    socket.on('deletePost', (deletedPostId) => {
-      setPosts((prevPosts) =>
-        prevPosts.filter((post) => post.id !== deletedPostId)
-      );
-    });
-    return () => {
-      socket.off('newPost');
-      socket.off('updatePost');
-      socket.off('deletePost');
-    };
-  }, [reduxPosts]);
+    if (socket) {
+      socket.on('newPost', (post) => {
+        setPosts((prevPosts) => [...prevPosts, post]);
+      });
+      socket.on('updatePost', (updatedPost) => {
+        setPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post.id === updatedPost.id ? updatedPost : post
+          )
+        );
+      });
+      socket.on('deletePost', (deletedPostId) => {
+        setPosts((prevPosts) =>
+          prevPosts.filter((post) => post.id !== deletedPostId)
+        );
+      });
+      socket.on('postError', (error) => {
+        alert(error);
+      });
+      return () => {
+        socket.off('newPost');
+        socket.off('updatePost');
+        socket.off('deletePost');
+        socket.off('postError');
+      };
+    }
+  }, [reduxPosts, socket]);
 
   // pagination
   const totalPages = Math.ceil(posts.length / postsPerPage);
@@ -66,16 +70,18 @@ const Now = ({ onChatEnabledChange }) => {
     onChatEnabledChange(true);
     navigate('/yerrr/chat');
   };
-  
+
   const handleDeletePost = (id) => {
-    dispatch(deletePostAsync({ id, loggedInUserId }));
+    if (socket) {
+      socket.emit('deletePost', id);
+    }
   };
 
   return (
     <div className='user-post-list'>
       {posts && (
         <>
-          <div className='user-post'>
+          <div>
             {currentPosts.map((post) => (
               <div key={`${post.id}`} className='user-post'>
                 {post.user && post.user.firstName ? (
@@ -83,7 +89,7 @@ const Now = ({ onChatEnabledChange }) => {
                 ) : (
                   <p>No name</p>
                 )}
-  
+
                 <p>Preference: {post.preference}</p>
                 {post.isActive ? <p>Active</p> : <p>No Longer Active</p>}
                 <button
@@ -127,7 +133,6 @@ const Now = ({ onChatEnabledChange }) => {
       )}
     </div>
   );
-                }  
-
+};
 
 export default Now;

@@ -29,16 +29,43 @@ io.on('connection', (socket) => {
     console.log('Received new post from client:', post);
 
     try {
-      const newPost = await Post.create({
-        text: post.text,
-        preference: post.sortingOptions,
-        isActive: true,
+      const existingPost = await Post.findOne({
+        where: { userId: post.userId },
       });
 
-      console.log('Created new post in database:', newPost);
-      io.emit('newPost', newPost);
+      if (existingPost) {
+        console.log(`User ${post.userId} already has a post.`);
+        socket.emit('postError', 'User can only have one post at a time.');
+      } else {
+        const newPost = await Post.create({
+          text: post.text,
+          preference: post.preferences,
+          isActive: true,
+          userId: post.userId,
+        });
+
+        console.log('Created new post in database:', newPost);
+        io.emit('newPost', newPost);
+      }
     } catch (error) {
       console.error('error adding post', error);
+    }
+  });
+
+  socket.on('deletePost', async (postId) => {
+    console.log('Received deletePost event for postId:', postId);
+
+    try {
+      const deletedPost = await Post.destroy({ where: { id: postId } });
+
+      if (deletedPost) {
+        console.log('Deleted post in database:', postId);
+        io.emit('deletePost', postId);
+      } else {
+        console.error('Post not found:', postId);
+      }
+    } catch (error) {
+      console.error('Error deleting post:', error);
     }
   });
 
@@ -48,5 +75,3 @@ io.on('connection', (socket) => {
 });
 
 server.listen(port, () => console.log(`listening on port ${port}`));
-
-
