@@ -43,6 +43,23 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('deletePost', async (postId) => {
+    console.log('Received deletePost event for postId:', postId);
+
+    try {
+      const deletedPost = await Post.destroy({ where: { id: postId } });
+
+      if (deletedPost) {
+        console.log('Deleted post in database:', postId);
+        io.emit('deletePost', postId);
+      } else {
+        console.error('Post not found:', postId);
+      }
+    } catch (error) {
+      console.error('Error deleting post:', error);
+    }
+  });
+
   socket.on('disconnect', () => {
     console.log('user disconnected:', socket.id);
   });

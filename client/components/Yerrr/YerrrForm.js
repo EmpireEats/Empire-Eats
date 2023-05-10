@@ -28,8 +28,6 @@ const YerrrForm = () => {
       console.log('Text:', text);
       console.log('Sorting Options:', sortingOptions);
 
-      // await dispatch(addPostAsync({ text, sortingOptions }));
-
       if (socket) {
         socket.emit('newPost', {
           text,

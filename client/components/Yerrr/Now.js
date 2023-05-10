@@ -68,7 +68,9 @@ const Now = ({ onChatEnabledChange }) => {
   };
 
   const handleDeletePost = (id) => {
-    dispatch(deletePostAsync({ id, loggedInUserId }));
+    if (socket) {
+      socket.emit('deletePost', id);
+    }
   };
 
   return (
