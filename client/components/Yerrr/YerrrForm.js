@@ -1,18 +1,19 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { addPostAsync, addPost } from '../../redux/actions/postActions';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addPostAsync } from '../../redux/actions/postActions';
 import { useNavigate } from 'react-router';
 import { useSocket } from '../../contexts/SocketContext';
 
 const YerrrForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const socket = useSocket();
+  const user = useSelector((state) => state.auth.user);
   const [formState, setFormState] = useState({
     text: '',
     sortingOptions: 'one on one',
   });
-
-  const socket = useSocket();
+  console.log('user:', user);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -27,11 +28,15 @@ const YerrrForm = () => {
       console.log('Text:', text);
       console.log('Sorting Options:', sortingOptions);
 
-      await dispatch(addPostAsync({ text, sortingOptions }));
+      // await dispatch(addPostAsync({ text, sortingOptions }));
 
-      // Use the socket instance from the context instead of socketRef
       if (socket) {
-        socket.emit('newPost', { text, sortingOptions });
+        socket.emit('newPost', {
+          text,
+          preferences: sortingOptions,
+          isActive: true,
+          userId: user.id,
+        });
       }
 
       setFormState({

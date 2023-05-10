@@ -31,8 +31,9 @@ io.on('connection', (socket) => {
     try {
       const newPost = await Post.create({
         text: post.text,
-        preference: post.sortingOptions,
+        preference: post.preferences,
         isActive: true,
+        userId: post.userId,
       });
 
       console.log('Created new post in database:', newPost);
@@ -48,5 +49,3 @@ io.on('connection', (socket) => {
 });
 
 server.listen(port, () => console.log(`listening on port ${port}`));
-
-
