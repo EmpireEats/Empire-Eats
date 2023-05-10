@@ -2,18 +2,56 @@ import React, { useEffect, useState } from 'react';
 import '../../../public/styles/now.css';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllPostsAsync } from '../../redux/actions/postActions';
+import {
+  deletePostAsync,
+  fetchAllPostsAsync,
+} from '../../redux/actions/postActions';
+import { createUserInteractionAsync } from '../../redux/actions/userInteractionActions';
+import { useSocket } from '../../contexts/SocketContext';
 
-const Now = () => {
+const Now = ({ onChatEnabledChange }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const posts = useSelector((state) => state.post.allPosts);
+  const reduxPosts = useSelector((state) => state.post.allPosts);
+  const loggedInUserId = useSelector((state) => state.auth.user.id);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 2;
+  const [posts, setPosts] = useState(reduxPosts);
+  const socket = useSocket();
 
   useEffect(() => {
     dispatch(fetchAllPostsAsync());
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    setPosts(reduxPosts);
+    if (socket) {
+      socket.on('newPost', (post) => {
+        setPosts((prevPosts) => [...prevPosts, post]);
+      });
+      socket.on('updatePost', (updatedPost) => {
+        setPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post.id === updatedPost.id ? updatedPost : post
+          )
+        );
+      });
+      socket.on('deletePost', (deletedPostId) => {
+        setPosts((prevPosts) =>
+          prevPosts.filter((post) => post.id !== deletedPostId)
+        );
+      });
+      socket.on('postError', (error) => {
+        alert(error);
+      });
+      return () => {
+        socket.off('newPost');
+        socket.off('updatePost');
+        socket.off('deletePost');
+        socket.off('postError');
+      };
+    }
+  }, [reduxPosts, socket]);
 
   // pagination
   const totalPages = Math.ceil(posts.length / postsPerPage);
@@ -25,15 +63,25 @@ const Now = () => {
     setCurrentPage(newPage);
   };
 
-  const handleNavigate = () => {
+  const handleUserInteraction = async ({ postId, postAuthorId }) => {
+    await dispatch(
+      createUserInteractionAsync({ postId, postAuthorId, loggedInUserId })
+    );
+    onChatEnabledChange(true);
     navigate('/yerrr/chat');
+  };
+
+  const handleDeletePost = (id) => {
+    if (socket) {
+      socket.emit('deletePost', id);
+    }
   };
 
   return (
     <div className='user-post-list'>
       {posts && (
         <>
-          <div className='user-post'>
+          <div>
             {currentPosts.map((post) => (
               <div key={`${post.id}`} className='user-post'>
                 {post.user && post.user.firstName ? (
@@ -44,10 +92,25 @@ const Now = () => {
 
                 <p>Preference: {post.preference}</p>
                 {post.isActive ? <p>Active</p> : <p>No Longer Active</p>}
-                <button onClick={handleNavigate}>👍🏽</button>
+                <button
+                  onClick={() =>
+                    handleUserInteraction({
+                      postId: post?.id,
+                      postAuthorId: post?.user?.id,
+                    })
+                  }>
+                  👍🏽
+                </button>
                 <span>
                   <button>👎🏽</button>
                 </span>
+                {post.userId === loggedInUserId && (
+                  <span>
+                    <button onClick={() => handleDeletePost(post.id)}>
+                      ❌
+                    </button>
+                  </span>
+                )}
               </div>
             ))}
           </div>

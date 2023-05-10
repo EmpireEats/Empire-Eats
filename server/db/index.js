@@ -2,7 +2,7 @@ const User = require('./models/User');
 const Review = require('./models/Review');
 const Post = require('./models/Post');
 const Restaurant = require('./models/Restaurant');
-const db = require('./db');
+const UserInteraction = require('./models/UserInteraction');
 
 
 User.hasMany(Post);
@@ -14,9 +14,19 @@ Review.belongsTo(User);
 Restaurant.hasMany(Review);
 Review.belongsTo(Restaurant);
 
+User.hasMany(UserInteraction, { foreignKey: 'postAuthorId' });
+UserInteraction.belongsTo(User, { foreignKey: 'postAuthorId' });
+
+User.hasOne(UserInteraction, { foreignKey: 'interactingUserId' });
+UserInteraction.belongsTo(User, { foreignKey: 'interactingUserId' });
+
+Post.hasMany(UserInteraction);
+UserInteraction.belongsTo(Post);
+
 module.exports = {
   User,
   Restaurant,
   Review,
   Post,
+  UserInteraction,
 };
