@@ -18,9 +18,7 @@ export const userSlice = createSlice({
             state.singleUser = action.payload;
         });
         builder.addCase(editUser.fulfilled, (state, action) => {
-            state.allUsers = state.allUsers.filter(
-                (user) => user.id !== action.payload
-                );
+            state.singleUser = action.payload;
         });
     },
 });
