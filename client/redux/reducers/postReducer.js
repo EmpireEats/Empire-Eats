@@ -39,7 +39,8 @@ export const postSlice = createSlice({
       })
       .addCase(addPostAsync.rejected, (state, action) => {
         console.error('error adding post', action.error);
-      });
+    });
+
   },
 });
 
