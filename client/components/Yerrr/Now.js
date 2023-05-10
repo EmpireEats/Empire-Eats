@@ -41,10 +41,14 @@ const Now = ({ onChatEnabledChange }) => {
           prevPosts.filter((post) => post.id !== deletedPostId)
         );
       });
+      socket.on('postError', (error) => {
+        alert(error);
+      });
       return () => {
         socket.off('newPost');
         socket.off('updatePost');
         socket.off('deletePost');
+        socket.off('postError');
       };
     }
   }, [reduxPosts, socket]);

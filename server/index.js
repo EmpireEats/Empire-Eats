@@ -29,15 +29,24 @@ io.on('connection', (socket) => {
     console.log('Received new post from client:', post);
 
     try {
-      const newPost = await Post.create({
-        text: post.text,
-        preference: post.preferences,
-        isActive: true,
-        userId: post.userId,
+      const existingPost = await Post.findOne({
+        where: { userId: post.userId },
       });
 
-      console.log('Created new post in database:', newPost);
-      io.emit('newPost', newPost);
+      if (existingPost) {
+        console.log(`User ${post.userId} already has a post.`);
+        socket.emit('postError', 'User can only have one post at a time.');
+      } else {
+        const newPost = await Post.create({
+          text: post.text,
+          preference: post.preferences,
+          isActive: true,
+          userId: post.userId,
+        });
+
+        console.log('Created new post in database:', newPost);
+        io.emit('newPost', newPost);
+      }
     } catch (error) {
       console.error('error adding post', error);
     }
