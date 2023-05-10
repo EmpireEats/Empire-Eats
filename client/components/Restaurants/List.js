@@ -9,7 +9,7 @@ const List = ({ restaurants, map }) => {
   };
 
   return (
-    <div>
+    <div style={{ height: '300px', overflowY: 'scroll' }}>
       {restaurants.map(restaurant => (
         <div key={restaurant.place_id} onClick={() => handleClick(restaurant)}>
           <h3>{restaurant.name}</h3>
