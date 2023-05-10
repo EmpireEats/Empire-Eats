@@ -1,17 +1,41 @@
-class Leaderboard {
-    constructor() {
-      this.data = []; //! placeholder, replace with your actual data source
-    }
+const Sequelize = require("sequelize");
+const db = require("../db");
+const User = require("./User");
+const Review = require("./Review");
+
+const getLeaderboard = async () => {
+    const leaderboard = await Review.findAll({
+      attributes: [
+        "userId",
+        [
+          Sequelize.fn("COUNT", Sequelize.col("restaurantId")),
+          "reviewsCount",
+        ],
+        [Sequelize.literal('"user"."username"'), "username"]
+      ],
+      where: {
+        userId: { [Sequelize.Op.not]: null },
+        restaurantId: { [Sequelize.Op.not]: null },
+      },
+      group: ["userId", '"user.username"'],
+      include: [
+        {
+          model: User,
+          attributes: [],
+        },
+      ],
+      order: [[Sequelize.literal('"reviewsCount"'), "DESC"]],
+      raw: true,
+    });
   
-    async getLeaderboard() {
-      //! placeholder - fetch leaderboard data from data source
-      return this.data;
-    }
+    leaderboard.forEach((review, index) => {
+      review.rank = index + 1;
+    });
   
-    async updateUserRankings(userData) {
-      //! placeholder- will implement logic to update user rankings in data source
-    }
-  }
+    return leaderboard;
+};
+
   
-  module.exports = new Leaderboard();
-  
+module.exports = {
+  getLeaderboard,
+};

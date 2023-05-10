@@ -4,8 +4,8 @@ class Feed {
     }
   
     async getRecentFeedData() {
-      //! placeholder -will implement logic to fetch recent feed data
-      return this.data;
+      //! implement logic to fetch recent feed data
+        return this.data;
     }
   }
   

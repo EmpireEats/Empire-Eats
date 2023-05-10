@@ -37,7 +37,7 @@ const Leaderboard = () => {
           {leaderboard.map((user, index) => (
             <tr key={index}>
               <td>
-                <img src={user.photoUrl} alt={user.name} />
+
                 {index + 1}
               </td>
               <td>{user.name}</td>
