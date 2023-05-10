@@ -10,8 +10,8 @@ const List = ({ restaurants, map }) => {
 
   return (
     <div style={{ height: '300px', overflowY: 'scroll' }}>
-      {restaurants.map(restaurant => (
-        <div key={restaurant.place_id} onClick={() => handleClick(restaurant)}>
+      {restaurants.map((restaurant, index) => (
+        <div key={`${restaurant.place_id}-${index}`} onClick={() => handleClick(restaurant)}>
           <h3>{restaurant.name}</h3>
           <p>{restaurant.vicinity}</p>
           <button>Review</button>

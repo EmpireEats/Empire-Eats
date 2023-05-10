@@ -1,40 +1,39 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const Map = ({ restaurants, position }) => {
-  const mapRef = useRef(null);
+const Map = ({ restaurants }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [map, setMap] = useState(null);
 
   useEffect(() => {
-    if (!position || isNaN(position.lat) || isNaN(position.lng)) {
-      console.error('Invalid position data:', position);
-      return;
-    }
+    // const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+    const script = document.createElement('script');
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB8WHeAkLekUORmNa6_J30MwviZqj6qMM8';
+    script.onload = () => setIsLoaded(true);
+    document.body.appendChild(script);
+  }, []);
 
-    const mapOptions = {
-      center: { lat: position.lat, lng: position.lng },
-      zoom: 14,
+  const initMap = async () => {
+    const { Map } = await window.google.maps.importLibrary('maps');
+    const mapElement = document.getElementById('map');
+    const options = {
+      center: { lat: 40.712776, lng: -74.005974 }, // Default to NYC
+      zoom: 12,
     };
+    const newMap = new Map(mapElement, options);
+    setMap(newMap);
+  };
 
-    const map = new window.google.maps.Map(mapRef.current, mapOptions);
+  useEffect(() => {
+    if (isLoaded) {
+      initMap();
+    }
+  }, [isLoaded]);
 
-    // Add markers for each restaurant
-    restaurants.forEach((restaurant) => {
-      const marker = new window.google.maps.Marker({
-        position: { lat: restaurant.lat, lng: restaurant.lng },
-        map,
-        title: restaurant.name,
-      });
-
-      marker.addListener('click', () => {
-        // Open the info window when the marker is clicked
-        const infoWindow = new window.google.maps.InfoWindow({
-          content: `<div><strong>${restaurant.name}</strong><br>${restaurant.address}<br><a href="/restaurants/${restaurant.placeId}">More info</a></div>`,
-        });
-        infoWindow.open(map, marker);
-      });
-    });
-  }, [restaurants, position]);
-
-  return <div className="map" ref={mapRef}></div>;
+  return (
+    <div>
+      <div id="map" style={{ height: '500px', width: '100%' }} />
+    </div>
+  );
 };
 
 export default Map;

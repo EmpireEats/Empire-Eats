@@ -7,20 +7,19 @@ import List from './List';
 const WeOutside = () => {
   const dispatch = useDispatch();
   const { allRestaurants } = useSelector(state => state.restaurant);
-  const [isMapsLoaded, setIsMapsLoaded] = useState(false);
+  const [userLocation, setUserLocation] = useState({});
 
   useEffect(() => {
     dispatch(fetchRestaurants());
-    const apiKey = 'AIzaSyB8WHeAkLekUORmNa6_J30MwviZqj6qMM8';
-    const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}`;
-    script.onload = () => setIsMapsLoaded(true);
-    document.body.appendChild(script);
+    navigator.geolocation.getCurrentPosition(
+      position => setUserLocation({ lat: position.coords.latitude, lng: position.coords.longitude }),
+      error => console.error(error)
+    );
   }, [dispatch]);
 
   return (
     <div>
-      {isMapsLoaded && <Map restaurants={allRestaurants} />}
+      <Map userLocation={userLocation} restaurants={allRestaurants} />
       <List restaurants={allRestaurants} />
     </div>
   );
