@@ -4,37 +4,50 @@ const User = require("./User");
 const Review = require("./Review");
 
 const getLeaderboard = async () => {
-    const leaderboard = await Review.findAll({
-      attributes: [
-        "userId",
-        [
-          Sequelize.fn("COUNT", Sequelize.col("restaurantId")),
-          "reviewsCount",
-        ],
-        [Sequelize.literal('"user"."username"'), "username"]
+  const leaderboard = await Review.findAll({
+    attributes: [
+      "userId",
+      [
+        Sequelize.fn("COUNT", Sequelize.col("restaurantId")),
+        "reviewsCount",
       ],
-      where: {
-        userId: { [Sequelize.Op.not]: null },
-        restaurantId: { [Sequelize.Op.not]: null },
+      [Sequelize.literal('"user"."username"'), "username"]
+    ],
+    where: {
+      userId: { [Sequelize.Op.not]: null },
+      restaurantId: { [Sequelize.Op.not]: null },
+    },
+    group: ["userId", '"user.username"'],
+    include: [
+      {
+        model: User,
+        attributes: [],
       },
-      group: ["userId", '"user.username"'],
-      include: [
-        {
-          model: User,
-          attributes: [],
-        },
-      ],
-      order: [[Sequelize.literal('"reviewsCount"'), "DESC"]],
-      raw: true,
-    });
-  
-    leaderboard.forEach((review, index) => {
-      review.rank = index + 1;
-    });
-  
-    return leaderboard;
-};
+    ],
+    order: [
+      [Sequelize.literal('"reviewsCount"'), "DESC"],
+      [Sequelize.literal('"user"."username"'), "ASC"]
+    ],
+    raw: true,
+  });
 
+  let currentRank = 1;
+  let rankIncrement = 1;
+  let currentReviewsCount = null;
+
+  leaderboard.forEach((user, index) => {
+    if (index === 0 || currentReviewsCount !== user.reviewsCount) {
+      currentRank += rankIncrement - 1;
+      rankIncrement = 1;
+      currentReviewsCount = user.reviewsCount;
+    } else {
+      rankIncrement++;
+    }
+    user.rank = currentRank;
+  });
+
+  return leaderboard;
+};
   
 module.exports = {
   getLeaderboard,
