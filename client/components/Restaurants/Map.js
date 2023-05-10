@@ -1,38 +1,40 @@
-import React, { useState, useEffect, useRef } from 'react';
-import GoogleMapReact from 'google-map-react';
-import { LoadScript } from '@react-google-maps/api';
+import React, { useEffect, useRef } from 'react';
 
-const Map = () => {
-  const [center, setCenter] = useState({ lat: 40.7128, lng: -74.0060 });
-  const mapRef = useRef();
+const Map = ({ restaurants, position }) => {
+  const mapRef = useRef(null);
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords;
-        setCenter({ lat: latitude, lng: longitude });
-      });
+    if (!position || isNaN(position.lat) || isNaN(position.lng)) {
+      console.error('Invalid position data:', position);
+      return;
     }
-  }, []);
 
-  return (
-    <LoadScript
-      googleMapsApiKey={process.env.REACT_APP_MAPS_API_KEY}
-    >
-      <div style={{ height: '50vh', width: '100%' }}>
-        <GoogleMapReact
-          center={center}
-          defaultZoom={11}
-          yesIWantToUseGoogleMapApiInternals
-          onGoogleApiLoaded={({ map, maps }) => {
-            mapRef.current = { map, maps };
-          }}
-        >
-          {/* Render markers or other map components */}
-        </GoogleMapReact>
-      </div>
-    </LoadScript>
-  );  
+    const mapOptions = {
+      center: { lat: position.lat, lng: position.lng },
+      zoom: 14,
+    };
+
+    const map = new window.google.maps.Map(mapRef.current, mapOptions);
+
+    // Add markers for each restaurant
+    restaurants.forEach((restaurant) => {
+      const marker = new window.google.maps.Marker({
+        position: { lat: restaurant.lat, lng: restaurant.lng },
+        map,
+        title: restaurant.name,
+      });
+
+      marker.addListener('click', () => {
+        // Open the info window when the marker is clicked
+        const infoWindow = new window.google.maps.InfoWindow({
+          content: `<div><strong>${restaurant.name}</strong><br>${restaurant.address}<br><a href="/restaurants/${restaurant.placeId}">More info</a></div>`,
+        });
+        infoWindow.open(map, marker);
+      });
+    });
+  }, [restaurants, position]);
+
+  return <div className="map" ref={mapRef}></div>;
 };
 
 export default Map;

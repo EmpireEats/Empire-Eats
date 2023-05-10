@@ -9,8 +9,8 @@ const users = [
     username: 'admin',
     password: 'admin',
     isAdmin: true,
-    latitude: 40.760423,
-    longitude: -73.829546
+    // latitude: 40.760423,
+    // longitude: -73.829546
   },
   {
     firstName: 'John',
@@ -19,8 +19,8 @@ const users = [
     username: 'johndoe',
     password: 'password1',
     isAdmin: false,
-    latitude: 40.759013,
-    longitude: -73.831967
+    // latitude: 40.759013,
+    // longitude: -73.831967
   },
   {
     firstName: 'Jane',
@@ -29,8 +29,8 @@ const users = [
     username: 'janesmith',
     password: 'password2',
     isAdmin: false,
-    latitude: 40.755234,
-    longitude: -73.827604
+    // latitude: 40.755234,
+    // longitude: -73.827604
   },
   {
     firstName: 'Michael',
@@ -39,8 +39,8 @@ const users = [
     username: 'mjohnson',
     password: 'password3',
     isAdmin: false,
-    latitude: 40.752476,
-    longitude: -73.829408
+    // latitude: 40.752476,
+    // longitude: -73.829408
   },
   {
     firstName: 'Emily',
@@ -49,8 +49,8 @@ const users = [
     username: 'emilyw',
     password: 'password4',
     isAdmin: false,
-    latitude: 40.750059,
-    longitude: -73.838952
+    // latitude: 40.750059,
+    // longitude: -73.838952
   },
   {
     firstName: 'David',
@@ -59,8 +59,8 @@ const users = [
     username: 'davidb',
     password: 'password5',
     isAdmin: false,
-    latitude: 40.750710,
-    longitude: -73.838543
+    // latitude: 40.750710,
+    // longitude: -73.838543
   },
   {
     firstName: 'Sophia',
@@ -69,8 +69,8 @@ const users = [
     username: 'sophiat',
     password: 'password6',
     isAdmin: false,
-    latitude: 40.752860,
-    longitude: -73.840511
+    // latitude: 40.752860,
+    // longitude: -73.840511
   },
   {
     firstName: 'Daniel',
@@ -79,8 +79,8 @@ const users = [
     username: 'daniela',
     password: 'password7',
     isAdmin: false,
-    latitude: 40.754686,
-    longitude: -73.838244
+    // latitude: 40.754686,
+    // longitude: -73.838244
   },
   {
     firstName: 'Olivia',
@@ -89,8 +89,8 @@ const users = [
     username: 'oliviat',
     password: 'password8',
     isAdmin: false,
-    latitude: 40.758797,
-    longitude: -73.828764
+    // latitude: 40.758797,
+    // longitude: -73.828764
   },
   {
     firstName: 'Lucas',
@@ -99,8 +99,8 @@ const users = [
     username: 'lucasj',
     password: 'password9',
     isAdmin: false,
-    latitude: 40.758186,
-    longitude: -73.830291
+    // latitude: 40.758186,
+    // longitude: -73.830291
   },
   {
     firstName: 'Ava',
@@ -109,8 +109,8 @@ const users = [
     username: 'avaw',
     password: 'password10',
     isAdmin: false,
-    latitude: 40.756068,
-    longitude: -73.830317
+    // latitude: 40.756068,
+    // longitude: -73.830317
   },
 ];
 

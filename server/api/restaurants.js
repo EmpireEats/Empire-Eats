@@ -1,63 +1,47 @@
-const router = require('express').Router();
-const jwt = require('jsonwebtoken');
-const { requireAuth } = require('./authentication/authMiddleware');
-const googleMapsClient = require('@google/maps').createClient({
-  key: process.env.MAPS_API_KEY,
-  Promise: Promise
-});
+require('dotenv').config();
+const express = require('express');
+const router = express.Router();
+const axios = require('axios');
 
-router.get('/', requireAuth, async (req, res, next) => {
+router.get('/', async (req, res) => {
   try {
-    const userLat = req.user.latitude;
-    const userLng = req.user.longitude;
-    console.log("User latitude:", userLat);
-    console.log("User longitude:", userLng);
-
-    // Call the Google Places API to get nearby restaurants, cafes, bakeries, delis, and bodegas
-    const response = await googleMapsClient.placesNearby({
-      location: [userLat, userLng],
-      radius: 1609,
-      type: 'restaurant'
-    }).asPromise();
-
-    // Extract the relevant information from the API response and create a new Restaurant instance for each place
-    const restaurants = response.json.results.map((result) => ({
-      name: result.name,
-      address: result.vicinity,
-      latitude: result.geometry.location.lat,
-      longitude: result.geometry.location.lng,
-      photoUrl: result.photos && result.photos[0] && result.photos[0].getUrl ? result.photos[0].getUrl() : null,
-      rating: result.rating || null,
-      types: result.types || null,
-      website: result.website || null,
-      phoneNumber: result.formatted_phone_number || null,
-      openingHours: result.opening_hours ? {
-        weekdayText: result.opening_hours.weekday_text,
-        isOpenNow: result.opening_hours.open_now
-      } : null
-    }));
-
-    // Compute the distance between the user and each restaurant using the Haversine formula
-    restaurants.forEach((restaurant) => {
-      const R = 6371e3; // Earth's radius in meters
-      const φ1 = userLat * Math.PI/180;
-      const λ1 = userLng * Math.PI/180;
-      const φ2 = restaurant.latitude * Math.PI/180;
-      const λ2 = restaurant.longitude * Math.PI/180;
-      const Δφ = φ2 - φ1;
-      const Δλ = λ2 - λ1;
-      const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ/2) * Math.sin(Δλ/2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-      const d = R * c;
-      restaurant.distance = d;
+    const { latitude, longitude } = req.query;
+    const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+    const response = await axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=500&type=restaurant&key=${apiKey}`);
+    const results = response.data.results;
+    const restaurants = results.map(result => {
+      return {
+        name: result.name,
+        address: result.vicinity,
+        rating: result.rating,
+        photoUrl: result.photos ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${result.photos[0].photo_reference}&key=${apiKey}` : null,
+        placeId: result.place_id
+      };
     });
-
-    // Sort the restaurants by distance, closest first
-    restaurants.sort((a, b) => a.distance - b.distance);
-
     res.json(restaurants);
   } catch (error) {
-    next(error);
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
+
+router.get('/:placeId', async (req, res) => {
+  try {
+    const { placeId } = req.params;
+    const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+    const response = await axios.get(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,formatted_address,formatted_phone_number,website,photo&key=${apiKey}`);
+    const result = response.data.result;
+    const restaurant = {
+      name: result.name,
+      address: result.formatted_address,
+      phoneNumber: result.formatted_phone_number,
+      website: result.website,
+      photoUrl: result.photos ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${result.photos[0].photo_reference}&key=${apiKey}` : null,
+    };
+    res.json(restaurant);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
   }
 });
 
