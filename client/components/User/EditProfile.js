@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { getLoggedInUserData } from '../../redux/actions/authActions';
 import { fetchSingleUser, editUser } from '../../redux/actions/userActions';
+
 
 const EditProfile = () => {
     const auth = useSelector((state) => state.auth);
     const user = auth.user;
     const dispatch = useDispatch();
     const id = user.id;
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(getLoggedInUserData());
@@ -19,20 +22,29 @@ const EditProfile = () => {
     const [username, setUserName] = useState('');
     const [password, setPassword] = useState('');
 
-     useEffect(() => {
+    useEffect(() => {
         setFirstName(user.firstName);
         setLastName(user.lastName);
         setEmail(user.email);
         setUserName(user.username);
     }, [user]);
 
-    const handleSubmit = async (event) => {
-    event.preventDefault();
-    await dispatch(editUser({ id, firstName, lastName, email, username, password }));
-    dispatch(fetchSingleUser(id));
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const editedUser = {
+            id,
+            firstName: firstName.trim() === '' ? user.firstName : firstName,
+            lastName: lastName.trim() === '' ? user.lastName : lastName,
+            email: email.trim() === '' ? user.email : email,
+            username: username.trim() === '' ? user.username : username,
+            password: password.trim() === '' ? undefined : password,
+        };
+        dispatch(editUser(editedUser)).then(() => {
+            dispatch(fetchSingleUser(id)).then(() => {
+                navigate('/users/${id}');
+            });
+        });
     };
-
-
 
     return (
         <div>
@@ -89,6 +101,7 @@ const EditProfile = () => {
                     />
                 </div>
                 <button type='submit'>Edit Profile</button>
+                
             </form>
         </div>
     );
