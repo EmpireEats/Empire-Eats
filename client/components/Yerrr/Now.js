@@ -25,7 +25,7 @@ const Now = ({ onChatEnabledChange }) => {
     setPosts(reduxPosts);
     if (socket) {
       socket.on('newPost', (post) => {
-        setPosts((prevPosts) => [...prevPosts, post]);
+        setPosts((prevPosts) => [post, ...prevPosts]);
       });
       socket.on('updatePost', (updatedPost) => {
         setPosts((prevPosts) =>

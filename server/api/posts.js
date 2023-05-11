@@ -7,7 +7,10 @@ const {
 
 router.get('/', async (req, res, next) => {
   try {
-    const getAllPosts = await Post.findAll({ include: User });
+    const getAllPosts = await Post.findAll({
+      include: User,
+      order: [['createdAt', 'DESC']],
+    });
     res.send(getAllPosts);
   } catch (error) {
     console.error('error fetching all posts', error);
