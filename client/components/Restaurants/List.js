@@ -1,20 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchSingleRestaurant } from '../../redux/actions/restaurantActions';
 
-const List = ({ restaurants, map }) => {
-  const handleClick = restaurant => {
-    if (map) {
-      map.setCenter(restaurant.geometry.location);
-      map.setZoom(15);
-    }
+const List = ({ map }) => {
+  const dispatch = useDispatch();
+  const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
+  const allRestaurants = useSelector(state => state.restaurant.allRestaurants);
+  const singleRestaurant = useSelector(state => state.restaurant.singleRestaurant);
+
+  const handleClick = async (restaurant) => {
+    setSelectedRestaurantId(restaurant.placeId);
+    await dispatch(fetchSingleRestaurant(restaurant.placeId));
   };
 
   return (
     <div style={{ height: '300px', overflowY: 'scroll' }}>
-      {restaurants.map((restaurant, index) => (
-        <div key={`${restaurant.place_id}-${index}`} onClick={() => handleClick(restaurant)}>
+      {allRestaurants.map((restaurant, index) => (
+        <div key={`${restaurant.placeId}-${index}`} onClick={() => handleClick(restaurant)}>
           <h3>{restaurant.name}</h3>
-          <p>{restaurant.vicinity}</p>
-          <button>Review</button>
+          <p>{restaurant.address}</p>
+          {selectedRestaurantId === restaurant.placeId && (
+            <div>
+              <p>Address: {singleRestaurant.address}</p>
+              {singleRestaurant.formattedPhoneNumber && (
+                <p>Phone: {singleRestaurant.formattedPhoneNumber}</p>
+              )}
+              {singleRestaurant.openingHours && (
+                <p>Opening Hours: {singleRestaurant.openingHours.weekday_text.join(', ')}</p>
+              )}
+              {singleRestaurant.website && (
+                <p>Website: <a href={singleRestaurant.website} target="_blank">{singleRestaurant.website}</a></p>
+              )}
+              <button>Review</button>
+            </div>
+          )}
         </div>
       ))}
     </div>
