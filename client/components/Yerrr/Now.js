@@ -3,7 +3,6 @@ import '../../../public/styles/now.css';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllPostsAsync } from '../../redux/actions/postActions';
-import { createUserInteractionAsync } from '../../redux/actions/userInteractionActions';
 import { useSocket } from '../../contexts/SocketContext';
 import EditYerrr from './EditYerrr';
 
@@ -58,6 +57,10 @@ const Now = ({ onChatEnabledChange }) => {
       socket.on('userInteractionError', (error) => {
         alert(error);
       });
+      socket.on('userInteractionDeleted', (deletedInteraction) => {
+        onChatEnabledChange(false);
+        setHasActiveInteraction(false);
+      });
 
       return () => {
         socket.off('newPost');
@@ -65,6 +68,7 @@ const Now = ({ onChatEnabledChange }) => {
         socket.off('deletePost');
         socket.off('postError');
         socket.off('userInteractionError');
+        socket.off('userInteractionDeleted');
       };
     }
   }, [reduxPosts, socket]);
@@ -99,7 +103,6 @@ const Now = ({ onChatEnabledChange }) => {
     }
     onChatEnabledChange(true);
     setHasActiveInteraction(true);
-    // navigate('/yerrr/chat');
     navigate('/yerrr/chat', { state: { postId } });
   };
 
