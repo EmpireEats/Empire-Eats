@@ -3,6 +3,7 @@ import {
   fetchAllPostsAsync,
   addPostAsync,
   deletePostAsync,
+  updatePostAsync,
 } from '../actions/postActions';
 import { fetchChatMembersIdAsync } from '../actions/userInteractionActions';
 

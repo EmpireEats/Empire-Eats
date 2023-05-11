@@ -30,6 +30,10 @@ const YerrrChat = ({ postId }) => {
     }
   };
 
+  const removeUserInteraction = () => {
+    dispatch(remove);
+  };
+
   return (
     <div className='chat-container'>
       <div className='chat-window'>
@@ -52,6 +56,7 @@ const YerrrChat = ({ postId }) => {
         />
         <button type='submit'>Send</button>
       </form>
+      <button onClick={removeUserInteraction}>Nvm..</button>
     </div>
   );
 };
