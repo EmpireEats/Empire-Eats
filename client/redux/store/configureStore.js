@@ -5,6 +5,7 @@ import postReducer from '../reducers/postReducer';
 import leaderboardReducer from '../reducers/leaderboardReducer';
 import userReducer from '../reducers/userReducer';
 import restaurantReducer from '../reducers/restaurantReducer';
+import feedReducer from '../reducers/feedReducer';
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     leaderboard: leaderboardReducer, 
     user: userReducer,
     restaurant: restaurantReducer,
+    feed: feedReducer,
   },
 });
 
