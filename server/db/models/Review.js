@@ -6,13 +6,9 @@ const Review = db.define('review', {
     type: Sequelize.STRING,
     allowNull: true, //must be changed to false when we're ready to roll out
   },
-  rating: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    validate: {
-      min: 1,
-      max: 3,
-    }
+  name: {
+    type: Sequelize.STRING,
+    allowNull: true //must be changed to false when we're ready to roll out
   },
   body: {
     type: Sequelize.TEXT,

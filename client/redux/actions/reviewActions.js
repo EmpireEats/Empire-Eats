@@ -7,7 +7,7 @@ export const addReviewAsync = createAsyncThunk('reviews/addReview', async (revie
     if (token) {
       const { data } = await axios.post('/api/reviews', reviewData, {
         headers: {
-          authorization: token,
+          authorization: `Bearer ${token}`,
         },
       });
       return data;
