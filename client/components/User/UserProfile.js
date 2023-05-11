@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { fetchSingleUser } from '../../redux/actions/userActions';
 import { getLoggedInUserData } from '../../redux/actions/authActions';
 
+
 const UserProfile = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
