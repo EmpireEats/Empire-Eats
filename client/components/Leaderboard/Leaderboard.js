@@ -1,5 +1,3 @@
-//! Placeholder code - will update as we get more data/design
-
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchLeaderboard } from "../../redux/actions/leaderboardActions";
@@ -36,12 +34,9 @@ const Leaderboard = () => {
         <tbody>
           {leaderboard.map((user, index) => (
             <tr key={index}>
-              <td>
-
-                {index + 1}
-              </td>
+              <td>{index + 1}</td>
               <td>{user.name}</td>
-              <td>{user.restaurantVisitCount}</td>
+              <td>{user.restaurantVisitCount}</td> 
             </tr>
           ))}
         </tbody>

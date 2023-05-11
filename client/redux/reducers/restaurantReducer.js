@@ -4,6 +4,12 @@ import { fetchRestaurants, fetchSingleRestaurant } from '../actions/restaurantAc
 const initialState = {
   allRestaurants: [],
   singleRestaurant: {},
+  nycBounds: {
+    north: 40.917577,
+    south: 40.477399,
+    east: -73.700272,
+    west: -74.259090,
+  },
 };
 
 const restaurantSlice = createSlice({

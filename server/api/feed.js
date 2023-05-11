@@ -1,13 +1,14 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Feed = require('../db/models/Feed');
+const { getFeed } = require("../db/models/Feed");
 
-router.get('/recent', async (req, res) => {
+router.get("/", async (req, res, next) => {
   try {
-    const feedData = await Feed.getRecentFeedData();
-    res.json(feedData);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+    const feed = await getFeed();
+    console.log("Feed data: ", feed); 
+    res.json(feed);
+  } catch (error) {
+    next(error);
   }
 });
 

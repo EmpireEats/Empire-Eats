@@ -19,8 +19,8 @@ export const leaderboardSlice = createSlice({
       .addCase(fetchLeaderboard.fulfilled, (state, action) => {
         state.loading = false;
         state.leaderboard = action.payload.map((user) => ({
-          ...user,
-          photoUrl: `/api/users/${user.id}/photo` //! We might need to change this
+          name: user.username,
+          restaurantVisitCount: user.reviewsCount
         }));
       })
       .addCase(fetchLeaderboard.rejected, (state, action) => {
