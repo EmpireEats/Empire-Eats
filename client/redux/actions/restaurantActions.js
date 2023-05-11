@@ -41,4 +41,6 @@ export const fetchSingleRestaurant = createAsyncThunk('singleRestaurant/fetchSin
 
 //     return restaurants;
 //   }
+
 // );
+
