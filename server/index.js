@@ -53,7 +53,7 @@ io.on('connection', (socket) => {
         socket.emit('postError', 'User can only have one post at a time.');
       } else {
         const newPost = await Post.create({
-          text: post.text,
+          message: post.message,
           preference: post.preferences,
           isActive: true,
           userId: post.userId,
