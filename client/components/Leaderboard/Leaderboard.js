@@ -36,7 +36,7 @@ const Leaderboard = () => {
             <tr key={index}>
               <td>{index + 1}</td>
               <td>{user.name}</td>
-              <td>{user.restaurantVisitCount}</td> //! this needs to be updated
+              <td>{user.restaurantVisitCount}</td> 
             </tr>
           ))}
         </tbody>
