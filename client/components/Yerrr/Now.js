@@ -12,6 +12,7 @@ const Now = ({ onChatEnabledChange }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [posts, setPosts] = useState(reduxPosts);
   const [hasActiveInteraction, setHasActiveInteraction] = useState(false);
+  const [selectedOption, setSelectedOption] = useState('no preference');
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const socket = useSocket();
@@ -56,14 +57,24 @@ const Now = ({ onChatEnabledChange }) => {
     }
   }, [reduxPosts, socket]);
 
+  // filter by preference
+  const filteredPosts = posts.filter((post) =>
+    selectedOption === 'all' ? true : post.preference === selectedOption
+  );
+
   // pagination
-  const totalPages = Math.ceil(posts.length / postsPerPage);
+  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+  const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
+  };
+
+  const handleSort = (event) => {
+    setSelectedOption(event.target.value);
+    setCurrentPage(1);
   };
 
   const handleUserInteraction = async ({ postId, postAuthorId }) => {
@@ -88,7 +99,7 @@ const Now = ({ onChatEnabledChange }) => {
 
   return (
     <div className='user-post-list'>
-      {posts && (
+      {filteredPosts && (
         <>
           <div>
             {currentPosts.map((post) => (
@@ -123,6 +134,15 @@ const Now = ({ onChatEnabledChange }) => {
                 )}
               </div>
             ))}
+          </div>
+          <div className='filter'>
+            <span>Filter By Preference: </span>
+            <select value={selectedOption} onChange={handleSort}>
+              <option value='all'>All</option>
+              <option value='no preference'>No Preference</option>
+              <option value='group'>Group</option>
+              <option value='one on one'>1 on 1</option>
+            </select>
           </div>
           <div className='pagination'>
             <button
