@@ -1,17 +1,25 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSingleRestaurant } from '../../redux/actions/restaurantActions';
+import ReviewForm from '../Reviews/ReviewForm';
 
 const List = ({ map }) => {
   const dispatch = useDispatch();
   const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
+  const [showReviewForm, setShowReviewForm] = useState(false);
   const allRestaurants = useSelector(state => state.restaurant.allRestaurants);
   const singleRestaurant = useSelector(state => state.restaurant.singleRestaurant);
 
   const handleClick = async (restaurant) => {
     setSelectedRestaurantId(restaurant.placeId);
+    setShowReviewForm(false);
     await dispatch(fetchSingleRestaurant(restaurant.placeId));
   };
+
+  const handleReviewButtonClick = (event) => {
+    event.stopPropagation();
+    setShowReviewForm(!showReviewForm);
+  };  
 
   return (
     <div style={{ height: '300px', overflowY: 'scroll' }}>
@@ -21,7 +29,7 @@ const List = ({ map }) => {
           <p>{restaurant.address}</p>
           {selectedRestaurantId === restaurant.placeId && (
             <div>
-              <p>Address: {singleRestaurant.address}</p>
+              {/* <p>Address: {singleRestaurant.address}</p> */}
               {singleRestaurant.formattedPhoneNumber && (
                 <p>Phone: {singleRestaurant.formattedPhoneNumber}</p>
               )}
@@ -31,7 +39,10 @@ const List = ({ map }) => {
               {singleRestaurant.website && (
                 <p>Website: <a href={singleRestaurant.website} target="_blank">{singleRestaurant.website}</a></p>
               )}
-              <button>Review</button>
+              <button onClick={handleReviewButtonClick}>Review</button>
+              {showReviewForm && (
+                <ReviewForm placeId={selectedRestaurantId} restaurantName={restaurant.name} />
+              )}
             </div>
           )}
         </div>
