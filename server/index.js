@@ -144,6 +144,20 @@ io.on('connection', (socket) => {
     }
   );
 
+  socket.on('removeUserInteraction', async ({ postId, userId }) => {
+    try {
+      const userInteractionToDelete = await UserInteraction.findOne({
+        where: { postId: postId, interactingUserId: userId },
+      });
+      if (!userInteractionToDelete) console.error('cannot find interac tion');
+      userInteractionToDelete.destroy();
+      io.emit('userInteractionDeleted', userInteractionToDelete);
+    } catch (error) {
+      console.error('error deleting users interaction with post');
+      socket.emit('userInteractionError', 'error deleting user interaction');
+    }
+  });
+
   socket.on('disconnect', () => {
     console.log('user disconnected:', socket.id);
   });

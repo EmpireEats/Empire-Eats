@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useSocket } from '../../contexts/SocketContext';
 
 const EditYerrr = ({ post, onSave, onCancel }) => {
   const [updatedPost, setUpdatedPost] = useState(post);
-  const dispatch = useDispatch();
   const socket = useSocket();
 
   const handleUpdatePreference = (event) => {
