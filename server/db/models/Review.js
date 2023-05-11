@@ -2,6 +2,10 @@ const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../db');
 
 const Review = db.define('review', {
+  placeId: {
+    type: Sequelize.STRING,
+    allowNull: true, //must be changed to false when we're ready to roll out
+  },
   rating: {
     type: Sequelize.INTEGER,
     allowNull: false,
