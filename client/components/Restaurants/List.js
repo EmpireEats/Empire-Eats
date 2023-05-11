@@ -9,16 +9,8 @@ const List = ({ map }) => {
   const singleRestaurant = useSelector(state => state.restaurant.singleRestaurant);
 
   const handleClick = async (restaurant) => {
-    if (map) {
-      map.setCenter(restaurant.location);
-      map.setZoom(15);
-    }
     setSelectedRestaurantId(restaurant.placeId);
     await dispatch(fetchSingleRestaurant(restaurant.placeId));
-  };
-
-  const handleClose = () => {
-    setSelectedRestaurantId(null);
   };
 
   return (
@@ -39,7 +31,6 @@ const List = ({ map }) => {
               {singleRestaurant.website && (
                 <p>Website: <a href={singleRestaurant.website} target="_blank">{singleRestaurant.website}</a></p>
               )}
-              <button onClick={handleClose}>Close</button>
               <button>Review</button>
             </div>
           )}
