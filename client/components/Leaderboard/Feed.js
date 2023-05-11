@@ -26,9 +26,10 @@ const Feed = () => {
       <ul>
         {feed.map((review, index) => (
           <li key={index}>
-            <img src={`/api/users/${review.userId}/photo`} alt={review.username} />
+            <img src={review.userPhotoUrl} alt={review.username} />
             <div>{review.username}</div>
             <div>{review.previewText}</div>
+            <div>Restaurant: {review.restaurantName}</div> 
           </li>
         ))}
       </ul>

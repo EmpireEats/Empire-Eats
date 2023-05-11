@@ -12,7 +12,7 @@ const { Post, UserInteraction } = require('./db/index');
 const leaderboardRoutes = require('./api/leaderboard');
 
 //* kim added
-const feedRoutes = require('./api/feed');
+const feedRouter = require('./api/feed');
 dotenv.config();
 
 const port = process.env.PORT || 3000;
@@ -20,7 +20,7 @@ const app = require('./app');
 
 //* kim added. Adding the leaderboard and feed routes to the Express app
 app.use('/api/leaderboard', leaderboardRoutes);
-app.use('/api/feed', feedRoutes);
+app.use('/api/feed', feedRouter);
 
 const server = http.createServer(app);
 const io = new Server(server, {
