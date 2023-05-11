@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchRestaurants, fetchSingleRestaurant, fetchRestaurantsInBounds } from '../actions/restaurantActions';
+import { fetchRestaurants, fetchSingleRestaurant } from '../actions/restaurantActions';
 
 const initialState = {
   allRestaurants: [],
@@ -24,9 +24,6 @@ const restaurantSlice = createSlice({
       .addCase(fetchSingleRestaurant.fulfilled, (state, action) => {
         state.singleRestaurant = action.payload
       })
-      .addCase(fetchRestaurantsInBounds.fulfilled, (state, action) => {
-        state.allRestaurants = action.payload;
-      });
   }
 });
 
