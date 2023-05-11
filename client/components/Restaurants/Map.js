@@ -1,66 +1,63 @@
-import React, { useRef, useEffect } from 'react';
-import { GoogleMap, useLoadScript } from '@react-google-maps/api';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchRestaurantsInBounds } from '../../redux/actions/restaurantActions';
+import React, { useEffect, useState } from 'react';
+import { getGeolocation } from '../../redux/actions/restaurantActions';
 
-const mapContainerStyle = {
-  width: '100%',
-  height: '100%',
+let map;
+const NYC_BOUNDS = {
+  north: 40.917577,
+  south: 40.477399,
+  west: -74.25909,
+  east: -73.700181,
 };
+const DEFAULT_CENTER = { lat: 40.712776, lng: -74.005974 };
 
-const Map = () => {
-  const dispatch = useDispatch();
-  const nycBounds = useSelector((state) => state.restaurant.nycBounds);
-  const mapRef = useRef();
-
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyB8WHeAkLekUORmNa6_J30MwviZqj6qMM8',
-  });
-
-  const onMapLoad = (map) => {
-    mapRef.current = map;
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const userLocation = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-
-        map.setCenter(userLocation);
-      },
-      (error) => {
-        console.error('Error getting user location:', error);
-      }
-    );
-  };
+const Map = ({ restaurants }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    if (mapRef.current) {
-      const bounds = mapRef.current.getBounds();
-      dispatch(fetchRestaurantsInBounds(bounds));
+    const script = document.createElement('script');
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB8WHeAkLekUORmNa6_J30MwviZqj6qMM8&callback=initMap';
+    document.head.appendChild(script);
+    script.onload = () => setIsLoaded(true);
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isLoaded) {
+      getGeolocation()
+        .then(({ latitude, longitude }) => {
+          const center = { lat: latitude, lng: longitude };
+          const options = {
+            center,
+            restriction: {
+              latLngBounds: NYC_BOUNDS,
+              strictBounds: true,
+            },
+            zoom: 14,
+          };
+          map = new window.google.maps.Map(document.getElementById('map'), options);
+        })
+        .catch(error => {
+          console.error(error);
+          const options = {
+            center: DEFAULT_CENTER,
+            restriction: {
+              latLngBounds: NYC_BOUNDS,
+              strictBounds: true,
+            },
+            zoom: 14,
+          };
+          map = new window.google.maps.Map(document.getElementById('map'), options);
+        });
     }
-  }, [dispatch, mapRef]);
+  }, [isLoaded]);
 
-  if (loadError) {
-    return <div>Map cannot be loaded right now, sorry.</div>;
-  }
-
-  return isLoaded ? (
-    <GoogleMap
-      mapContainerStyle={mapContainerStyle}
-      center={{ lat: 40.7128, lng: -74.0060 }} // Set the initial center to New York City
-      zoom={15}
-      onLoad={onMapLoad}
-      onBoundsChanged={() => {
-        if (mapRef.current) {
-          const bounds = mapRef.current.getBounds();
-          dispatch(fetchRestaurantsInBounds(bounds));
-        }
-      }}
-    />
-  ) : (
-    <></>
+  return (
+    <div>
+      <div id="map" style={{ height: '300px', width: '100%' }} />
+    </div>
   );
 };
 
