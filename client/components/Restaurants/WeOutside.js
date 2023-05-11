@@ -6,7 +6,7 @@ import List from './List';
 
 const WeOutside = () => {
   const dispatch = useDispatch();
-  const { allRestaurants } = useSelector(state => state.restaurant);
+  const { allRestaurants } = useSelector(state => state.restaurant.allRestaurants);
 
   useEffect(() => {
     dispatch(fetchRestaurants());

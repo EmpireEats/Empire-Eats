@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveMessage } from '../../redux/actions/yerrrChatActions';
-import io from 'socket.io-client';
 import { useSocket } from '../../contexts/SocketContext';
 import { useNavigate } from 'react-router';
 
@@ -16,6 +15,15 @@ const YerrrChat = ({ postId }) => {
   const username = auth.user.username;
   const userId = auth.user.id;
   const navigate = useNavigate();
+  const [isChatOpen, setIsChatOpen] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsChatOpen(false);
+    }, 600000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp || Date.now());
@@ -27,7 +35,7 @@ const YerrrChat = ({ postId }) => {
 
   const handleSendMessage = (e) => {
     e.preventDefault();
-    if (currentMessage.trim()) {
+    if (isChatOpen && currentMessage.trim()) {
       if (socket) {
         console.log('sending message...', currentMessage);
         socket.emit('message', {
@@ -40,6 +48,8 @@ const YerrrChat = ({ postId }) => {
       } else {
         console.error('Socket reference is undefined.');
       }
+    } else {
+      console.log('Chat is closed.');
     }
   };
 
@@ -75,8 +85,11 @@ const YerrrChat = ({ postId }) => {
           onChange={(e) => setCurrentMessage(e.target.value)}
           placeholder='Type your message...'
         />
-        <button type='submit'>Send</button>
+        <button type='submit' disabled={!isChatOpen}>
+          Send
+        </button>
       </form>
+      {!isChatOpen && <div>Chat is closed.</div>}
       <button onClick={removeUserInteraction}>Nvm..</button>
     </div>
   );
