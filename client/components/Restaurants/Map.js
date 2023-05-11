@@ -1,38 +1,67 @@
-import React, { useState, useEffect, useRef } from 'react';
-import GoogleMapReact from 'google-map-react';
-import { LoadScript } from '@react-google-maps/api';
+import React, { useRef, useEffect } from 'react';
+import { GoogleMap, useLoadScript } from '@react-google-maps/api';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchRestaurantsInBounds } from '../../redux/actions/restaurantActions';
+
+const mapContainerStyle = {
+  width: '100%',
+  height: '100%',
+};
 
 const Map = () => {
-  const [center, setCenter] = useState({ lat: 40.7128, lng: -74.0060 });
+  const dispatch = useDispatch();
+  const nycBounds = useSelector((state) => state.restaurant.nycBounds);
   const mapRef = useRef();
 
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords;
-        setCenter({ lat: latitude, lng: longitude });
-      });
-    }
-  }, []);
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: 'AIzaSyB8WHeAkLekUORmNa6_J30MwviZqj6qMM8',
+  });
 
-  return (
-    <LoadScript
-      googleMapsApiKey={process.env.REACT_APP_MAPS_API_KEY}
-    >
-      <div style={{ height: '50vh', width: '100%' }}>
-        <GoogleMapReact
-          center={center}
-          defaultZoom={11}
-          yesIWantToUseGoogleMapApiInternals
-          onGoogleApiLoaded={({ map, maps }) => {
-            mapRef.current = { map, maps };
-          }}
-        >
-          {/* Render markers or other map components */}
-        </GoogleMapReact>
-      </div>
-    </LoadScript>
-  );  
+  const onMapLoad = (map) => {
+    mapRef.current = map;
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const userLocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+
+        map.setCenter(userLocation);
+      },
+      (error) => {
+        console.error('Error getting user location:', error);
+      }
+    );
+  };
+
+  useEffect(() => {
+    if (mapRef.current) {
+      const bounds = mapRef.current.getBounds();
+      dispatch(fetchRestaurantsInBounds(bounds));
+    }
+  }, [dispatch, mapRef]);
+
+  if (loadError) {
+    return <div>Map cannot be loaded right now, sorry.</div>;
+  }
+
+  return isLoaded ? (
+    <GoogleMap
+      mapContainerStyle={mapContainerStyle}
+      center={{ lat: 40.7128, lng: -74.0060 }} // Set the initial center to New York City
+      zoom={15}
+      onLoad={onMapLoad}
+      onBoundsChanged={() => {
+        if (mapRef.current) {
+          const bounds = mapRef.current.getBounds();
+          dispatch(fetchRestaurantsInBounds(bounds));
+        }
+      }}
+    />
+  ) : (
+    <></>
+  );
 };
 
 export default Map;

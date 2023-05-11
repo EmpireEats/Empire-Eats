@@ -41,7 +41,7 @@ const EditProfile = () => {
         };
         dispatch(editUser(editedUser)).then(() => {
             dispatch(fetchSingleUser(id)).then(() => {
-                navigate('/users/${id}');
+                navigate(`/users/${id}`);
             });
         });
     };

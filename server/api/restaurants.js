@@ -1,63 +1,59 @@
-const router = require('express').Router();
-const jwt = require('jsonwebtoken');
-const { requireAuth } = require('./authentication/authMiddleware');
-const googleMapsClient = require('@google/maps').createClient({
-  key: process.env.MAPS_API_KEY,
-  Promise: Promise
-});
+const express = require('express');
+const axios = require('axios');
+const router = express.Router();
 
-router.get('/', requireAuth, async (req, res, next) => {
+const nycBounds = {
+  north: 40.917577,
+  south: 40.477399,
+  east: -73.700272,
+  west: -74.259090
+};
+
+router.get('/', async (req, res) => {
   try {
-    const userLat = req.user.latitude;
-    const userLng = req.user.longitude;
-    console.log("User latitude:", userLat);
-    console.log("User longitude:", userLng);
-
-    // Call the Google Places API to get nearby restaurants, cafes, bakeries, delis, and bodegas
-    const response = await googleMapsClient.placesNearby({
-      location: [userLat, userLng],
-      radius: 1609,
-      type: 'restaurant'
-    }).asPromise();
-
-    // Extract the relevant information from the API response and create a new Restaurant instance for each place
-    const restaurants = response.json.results.map((result) => ({
+    const { data } = await axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${req.query.location}&radius=${req.query.radius}&type=restaurant&key=${process.env.GOOGLE_MAPS_API_KEY}`);
+    const restaurants = data.results.filter(result =>
+      result.geometry &&
+      result.geometry.location &&
+      result.geometry.location.lat >= nycBounds.south &&
+      result.geometry.location.lat <= nycBounds.north &&
+      result.geometry.location.lng >= nycBounds.west &&
+      result.geometry.location.lng <= nycBounds.east
+    ).map(result => ({
       name: result.name,
       address: result.vicinity,
-      latitude: result.geometry.location.lat,
-      longitude: result.geometry.location.lng,
-      photoUrl: result.photos && result.photos[0] && result.photos[0].getUrl ? result.photos[0].getUrl() : null,
-      rating: result.rating || null,
-      types: result.types || null,
-      website: result.website || null,
-      phoneNumber: result.formatted_phone_number || null,
-      openingHours: result.opening_hours ? {
-        weekdayText: result.opening_hours.weekday_text,
-        isOpenNow: result.opening_hours.open_now
-      } : null
+      location: {
+        lat: result.geometry.location.lat,
+        lng: result.geometry.location.lng
+      },
+      placeId: result.place_id
     }));
-
-    // Compute the distance between the user and each restaurant using the Haversine formula
-    restaurants.forEach((restaurant) => {
-      const R = 6371e3; // Earth's radius in meters
-      const φ1 = userLat * Math.PI/180;
-      const λ1 = userLng * Math.PI/180;
-      const φ2 = restaurant.latitude * Math.PI/180;
-      const λ2 = restaurant.longitude * Math.PI/180;
-      const Δφ = φ2 - φ1;
-      const Δλ = λ2 - λ1;
-      const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ/2) * Math.sin(Δλ/2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-      const d = R * c;
-      restaurant.distance = d;
-    });
-
-    // Sort the restaurants by distance, closest first
-    restaurants.sort((a, b) => a.distance - b.distance);
-
     res.json(restaurants);
   } catch (error) {
-    next(error);
+    res.status(500).send(error.message);
+  }
+});
+
+router.get('/:placeId', async (req, res) => {
+  try {
+    const { data } = await axios.get(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${req.params.placeId}&fields=name,formatted_address,geometry,formatted_phone_number,opening_hours,types,website&key=${process.env.GOOGLE_MAPS_API_KEY}`);
+    const restaurant = {
+      name: data.result.name,
+      address: data.result.formatted_address,
+      location: {
+        lat: data.result.geometry.location.lat,
+        lng: data.result.geometry.location.lng
+      },
+      vicinity: data.result.vicinity,
+      placeId: data.result.place_id,
+      formattedPhoneNumber: data.result.formatted_phone_number,
+      openingHours: data.result.opening_hours,
+      types: data.result.types,
+      website: data.result.website
+    };
+    res.json(restaurant);
+  } catch (error) {
+    res.status(500).send(error.message);
   }
 });
 

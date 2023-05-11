@@ -2,22 +2,20 @@ import React, { useEffect, useState } from 'react';
 import '../../../public/styles/now.css';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  deletePostAsync,
-  fetchAllPostsAsync,
-} from '../../redux/actions/postActions';
+import { fetchAllPostsAsync } from '../../redux/actions/postActions';
 import { createUserInteractionAsync } from '../../redux/actions/userInteractionActions';
 import { useSocket } from '../../contexts/SocketContext';
 
 const Now = ({ onChatEnabledChange }) => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const reduxPosts = useSelector((state) => state.post.allPosts);
   const loggedInUserId = useSelector((state) => state.auth.user.id);
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 2;
   const [posts, setPosts] = useState(reduxPosts);
+  const [hasActiveInteraction, setHasActiveInteraction] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const socket = useSocket();
+  const postsPerPage = 2;
 
   useEffect(() => {
     dispatch(fetchAllPostsAsync());
@@ -44,11 +42,16 @@ const Now = ({ onChatEnabledChange }) => {
       socket.on('postError', (error) => {
         alert(error);
       });
+      socket.on('userInteractionError', (error) => {
+        alert(error);
+      });
+
       return () => {
         socket.off('newPost');
         socket.off('updatePost');
         socket.off('deletePost');
         socket.off('postError');
+        socket.off('userInteractionError');
       };
     }
   }, [reduxPosts, socket]);
@@ -64,11 +67,17 @@ const Now = ({ onChatEnabledChange }) => {
   };
 
   const handleUserInteraction = async ({ postId, postAuthorId }) => {
-    await dispatch(
-      createUserInteractionAsync({ postId, postAuthorId, loggedInUserId })
-    );
+    if (socket) {
+      socket.emit('createUserInteraction', {
+        postId,
+        postAuthorId,
+        loggedInUserId,
+      });
+    }
     onChatEnabledChange(true);
-    navigate('/yerrr/chat');
+    setHasActiveInteraction(true);
+    // navigate('/yerrr/chat');
+    navigate('/yerrr/chat', { state: { postId } });
   };
 
   const handleDeletePost = (id) => {
@@ -98,7 +107,8 @@ const Now = ({ onChatEnabledChange }) => {
                       postId: post?.id,
                       postAuthorId: post?.user?.id,
                     })
-                  }>
+                  }
+                  disabled={hasActiveInteraction}>
                   👍🏽
                 </button>
                 <span>

@@ -1,14 +1,17 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import Map from './Map';
-import RestaurantsList from './RestaurantsList';
+import List from './List';
 
 const WeOutside = () => {
-  return(
+  const { allRestaurants } = useSelector((state) => state.restaurant);
+
+  return (
     <div>
       <Map />
-      <RestaurantsList />
+      <List restaurants={allRestaurants} />
     </div>
-  )
+  );
 };
 
 export default WeOutside;
