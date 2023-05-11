@@ -3,6 +3,7 @@ import {
   fetchAllPostsAsync,
   addPostAsync,
   deletePostAsync,
+  updatePostAsync,
 } from '../actions/postActions';
 import { fetchChatMembersIdAsync } from '../actions/userInteractionActions';
 
@@ -35,6 +36,15 @@ export const postSlice = createSlice({
       })
       .addCase(addPostAsync.rejected, (state, action) => {
         console.error('error adding post', action.error);
+      })
+      .addCase(updatePostAsync.fulfilled, (state, action) => {
+        const updatedPost = action.payload;
+        const index = state.allPosts.findIndex(
+          (post) => post.id === updatedPost.id
+        );
+        if (index !== -1) {
+          state.allPosts[index] = updatedPost;
+        }
       });
   },
 });

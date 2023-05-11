@@ -73,8 +73,12 @@ export const updatePostAsync = createAsyncThunk(
       const token = window.localStorage.getItem('token');
       const response = await axios.put(
         `/api/posts/${updatedPost.id}`,
-        updatedPost
+        updatedPost,
+        { headers: { authorization: `Bearer ${token}` } }
       );
-    } catch (error) {}
+      return response.data;
+    } catch (error) {
+      console.error('error updating post', error);
+    }
   }
 );

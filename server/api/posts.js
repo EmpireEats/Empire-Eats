@@ -20,11 +20,24 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', requireAuth, requireUserMatch, async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.id);
+    const user = await User.findByPk(req.user.id);
     const getUsersPosts = await Post.findAll({ where: { userId: user.id } });
     res.send(getUsersPosts);
   } catch (error) {
     console.error('error fetching users yerrr posts', error);
+    next(error);
+  }
+});
+
+router.put('/:id', requireAuth, requireUserMatch, async (req, res, next) => {
+  try {
+    const postData = req.body;
+    const postToUpdate = await Post.findByPk(req.params.id);
+    const updatedPost = await postToUpdate.update(postData);
+    updatedPost.save();
+    res.send(updatedPost);
+  } catch (error) {
+    console.error('error updating post', error);
     next(error);
   }
 });
