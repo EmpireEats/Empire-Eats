@@ -65,3 +65,16 @@ export const deletePostAsync = createAsyncThunk(
     }
   }
 );
+
+export const updatePostAsync = createAsyncThunk(
+  'post/updateOne',
+  async (updatedPost) => {
+    try {
+      const token = window.localStorage.getItem('token');
+      const response = await axios.put(
+        `/api/posts/${updatedPost.id}`,
+        updatedPost
+      );
+    } catch (error) {}
+  }
+);
