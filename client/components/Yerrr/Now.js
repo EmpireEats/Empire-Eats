@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllPostsAsync } from '../../redux/actions/postActions';
 import { createUserInteractionAsync } from '../../redux/actions/userInteractionActions';
 import { useSocket } from '../../contexts/SocketContext';
+import EditYerrr from './EditYerrr';
 
 const Now = ({ onChatEnabledChange }) => {
   const reduxPosts = useSelector((state) => state.post.allPosts);
@@ -12,7 +13,10 @@ const Now = ({ onChatEnabledChange }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [posts, setPosts] = useState(reduxPosts);
   const [hasActiveInteraction, setHasActiveInteraction] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('no preference');
+  const [selectedOption, setSelectedOption] = useState('all');
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editablePost, setEditablePost] = useState(null);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const socket = useSocket();
@@ -97,6 +101,12 @@ const Now = ({ onChatEnabledChange }) => {
     }
   };
 
+  const handleEditPost = (id) => {
+    const postToEdit = currentPosts.find((post) => post.id === id);
+    setEditablePost(postToEdit);
+    setIsEditMode(true);
+  };
+
   return (
     <div className='user-post-list'>
       {filteredPosts && (
@@ -104,33 +114,50 @@ const Now = ({ onChatEnabledChange }) => {
           <div>
             {currentPosts.map((post) => (
               <div key={`${post.id}`} className='user-post'>
-                {post.user && post.user.firstName ? (
-                  <p>User: {post.user.firstName}</p>
+                {isEditMode && editablePost?.id === post.id ? (
+                  <EditYerrr
+                    post={editablePost}
+                    onSave={() => setIsEditMode(false)}
+                    onCancel={() => setIsEditMode(false)}
+                  />
                 ) : (
-                  <p>No name</p>
-                )}
+                  <>
+                    {post.user && post.user.firstName ? (
+                      <p>User: {post.user.firstName}</p>
+                    ) : (
+                      <p>No name</p>
+                    )}
 
-                <p>Preference: {post.preference}</p>
-                {post.isActive ? <p>Active</p> : <p>No Longer Active</p>}
-                <button
-                  onClick={() =>
-                    handleUserInteraction({
-                      postId: post?.id,
-                      postAuthorId: post?.user?.id,
-                    })
-                  }
-                  disabled={hasActiveInteraction}>
-                  👍🏽
-                </button>
-                <span>
-                  <button>👎🏽</button>
-                </span>
-                {post.userId === loggedInUserId && (
-                  <span>
-                    <button onClick={() => handleDeletePost(post.id)}>
-                      ❌
+                    <p>Preference: {post.preference}</p>
+                    {post.isActive ? <p>Active</p> : <p>No Longer Active</p>}
+                    <button
+                      onClick={() =>
+                        handleUserInteraction({
+                          postId: post?.id,
+                          postAuthorId: post?.user?.id,
+                        })
+                      }
+                      disabled={hasActiveInteraction}>
+                      👍🏽
                     </button>
-                  </span>
+                    <span>
+                      <button>👎🏽</button>
+                    </span>
+                    {post.userId === loggedInUserId && (
+                      <>
+                        <span>
+                          <button onClick={() => handleDeletePost(post.id)}>
+                            ❌
+                          </button>
+                        </span>
+                        <span>
+                          <button onClick={() => handleEditPost(post.id)}>
+                            Edit Yerrr
+                          </button>
+                        </span>
+                      </>
+                    )}
+                  </>
                 )}
               </div>
             ))}
