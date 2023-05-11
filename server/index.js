@@ -6,7 +6,7 @@ const express = require('express');
 
 const dotenv = require('dotenv');
 dotenv.config();
-const { Post, UserInteraction } = require('./db/index');
+const { Post, UserInteraction, User } = require('./db/index');
 
 //* kim added
 const leaderboardRoutes = require('./api/leaderboard');
@@ -64,6 +64,31 @@ io.on('connection', (socket) => {
       }
     } catch (error) {
       console.error('error adding post', error);
+    }
+  });
+
+  socket.on('updatePost', async (post) => {
+    console.log('received updated post from client', post);
+    try {
+      const updatedPost = await Post.findOne({
+        where: { id: post.id },
+        include: [User],
+      });
+
+      if (!updatedPost) {
+        console.log(`Post with id ${post.id} not found.`);
+        return;
+      }
+
+      for (let key in post) {
+        updatedPost[key] = post[key];
+      }
+
+      await updatedPost.save();
+      io.emit('updatePost', updatedPost);
+    } catch (error) {
+      console.log('error updating post:', error);
+      socket.emit('postError', 'Error updating post.');
     }
   });
 

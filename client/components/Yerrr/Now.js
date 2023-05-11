@@ -44,6 +44,14 @@ const Now = ({ onChatEnabledChange }) => {
           prevPosts.filter((post) => post.id !== deletedPostId)
         );
       });
+      socket.on('updatePost', (updatedPost) => {
+        setPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post.id === updatedPost.id ? { ...post, ...updatedPost } : post
+          )
+        );
+      });
+
       socket.on('postError', (error) => {
         alert(error);
       });

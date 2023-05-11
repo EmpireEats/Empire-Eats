@@ -29,11 +29,12 @@ router.get('/:id', requireAuth, requireUserMatch, async (req, res, next) => {
   }
 });
 
-router.put('/:id', requireAuth, requireUserMatch, async (req, res, next) => {
+router.put('/:id', requireAuth, async (req, res, next) => {
   try {
     const postData = req.body;
     const postToUpdate = await Post.findByPk(req.params.id);
     const updatedPost = await postToUpdate.update(postData);
+    console.log('updated post in server: ', updatedPost);
     updatedPost.save();
     res.send(updatedPost);
   } catch (error) {

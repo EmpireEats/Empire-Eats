@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { updatePostAsync } from '../../redux/actions/postActions';
+import { useSocket } from '../../contexts/SocketContext';
 
 const EditYerrr = ({ post, onSave, onCancel }) => {
   const [updatedPost, setUpdatedPost] = useState(post);
   const dispatch = useDispatch();
+  const socket = useSocket();
 
   const handleUpdatePreference = (event) => {
     setUpdatedPost({ ...updatedPost, preference: event.target.value });
-    console.log(updatedPost);
+    console.log('updated post in component:', updatedPost);
   };
 
   const handleSave = () => {
-    dispatch(updatePostAsync(updatedPost));
+    console.log('updated post before dispatch', updatedPost);
+    if (socket) {
+      socket.emit('updatePost', updatedPost);
+    }
     onSave();
   };
 
