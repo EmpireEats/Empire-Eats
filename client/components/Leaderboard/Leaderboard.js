@@ -1,5 +1,3 @@
-//! Placeholder code - will update as we get more data/design
-
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchLeaderboard } from "../../redux/actions/leaderboardActions";
@@ -38,7 +36,7 @@ const Leaderboard = () => {
             <tr key={index}>
               <td>{index + 1}</td>
               <td>{user.name}</td>
-              <td>{user.restaurantVisitCount}</td> //! this needs to be updated
+              <td>{user.restaurantVisitCount}</td> 
             </tr>
           ))}
         </tbody>

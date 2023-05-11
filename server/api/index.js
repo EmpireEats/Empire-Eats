@@ -10,6 +10,7 @@ router.use('/restaurants', require('./restaurants'));
 router.use('/reviews', require('./reviews'));
 router.use('/leaderboard', require('./leaderboard'));
 router.use('/userInteractions', require('./userInteractions'));
+router.use('/feed', require('./feed'));
 
 
 router.use(function (req, res, next) {
