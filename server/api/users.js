@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const User = require('../db/models/User');
+const Review = require('../db/models/Review')
 const {
   requireAuth,
   requireUserMatch,
@@ -19,7 +20,9 @@ router.get('/all', adminAuth, async (req, res, next) => {
 router.get('/:id', requireAuth, requireUserMatch, async (req, res, next) => {
   try {
     const { id } = req.params;
-    const user = await User.findByPk(id);
+    const user = await User.findByPk(id, {
+      include: [Review],
+    });
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });

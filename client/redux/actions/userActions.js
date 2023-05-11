@@ -18,16 +18,19 @@ export const fetchAllUsers = createAsyncThunk('users/fetchAll', async () => {
 });
 
 export const fetchSingleUser = createAsyncThunk('users/fetchSingle', async (id) => {
-    try {
+  try {
         const token = window.localStorage.getItem('token');
-        const { data } = await axios.get(`/api/users/${id}`,
+        const { data } = await axios.get(`/api/users/${id}`, 
             {
                 headers: {
                     authorization: `Bearer ${token}`,
                 },
-            } 
+            }
         );
-        return data;
+        const reviews = data.Reviews || [];
+
+        return { user: data, reviews };
+
     } catch (err) {
         return err.message;
     }

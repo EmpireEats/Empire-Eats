@@ -28,3 +28,17 @@ export const fetchSingleRestaurant = createAsyncThunk('singleRestaurant/fetchSin
     throw error;
   }
 });
+
+export const fetchRestaurantsInBounds = createAsyncThunk(
+  'restaurants/fetchInBounds',
+  async (bounds) => {
+    const northEast = bounds.getNorthEast();
+    const southWest = bounds.getSouthWest();
+
+    const { data: restaurants } = await axios.get(
+      `/api/restaurants?northEastLat=${northEast.lat()}&northEastLng=${northEast.lng()}&southWestLat=${southWest.lat()}&southWestLng=${southWest.lng()}`
+    );
+
+    return restaurants;
+  }
+);

@@ -11,7 +11,7 @@ const nycBounds = {
 
 router.get('/', async (req, res) => {
   try {
-    const { data } = await axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${req.query.latitude},${req.query.longitude}&radius=1609.34&type=restaurant&key=${process.env.GOOGLE_MAPS_API_KEY}`);
+    const { data } = await axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${req.query.location}&radius=${req.query.radius}&type=restaurant&key=${process.env.GOOGLE_MAPS_API_KEY}`);
     const restaurants = data.results.filter(result =>
       result.geometry &&
       result.geometry.location &&
