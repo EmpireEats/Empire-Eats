@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const login = createAsyncThunk(
   'auth/login',
-  async ({ email, password }) => {
+  async ({ email, password }, { rejectWithValue }) => {
     try {
       const response = await axios.post('/api/authentication/auth/login', {
         email,
@@ -17,8 +17,13 @@ export const login = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      console.error('error logging in user', error);
-      throw error;
+      let errorMessage = 'An error occurred during login. Please try again.';
+      
+      if (error.response && error.response.data) {
+        errorMessage = error.response.data.message || errorMessage;
+      }
+      
+      return rejectWithValue(errorMessage);
     }
   }
 );
@@ -44,9 +49,15 @@ export const signup = createAsyncThunk(
         isAdmin,
         adminPassphrase,
       });
+
+      const { token, user } = response.data;
+
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+
       return response.data;
     } catch (error) {
-      console.error('error signing up user', error);
+      console.error('Error signing up user', error);
       throw error;
     }
   }
@@ -55,8 +66,10 @@ export const signup = createAsyncThunk(
 export const logout = createAsyncThunk('auth/logout', async () => {
   try {
     await axios.post('/api/authentication/auth/logout');
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
   } catch (error) {
-    console.error('error logging out user', error);
+    console.error('Error logging out user', error);
     throw error;
   }
 });
@@ -74,7 +87,7 @@ export const getLoggedInUserData = createAsyncThunk(
         throw new Error('No user data found');
       }
     } catch (error) {
-      console.error('error getting logged-in user data', error);
+      console.error('Error getting logged-in user data', error);
       throw error;
     }
   }
