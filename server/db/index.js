@@ -3,7 +3,7 @@ const Review = require('./models/Review');
 const Post = require('./models/Post');
 const Restaurant = require('./models/Restaurant');
 const UserInteraction = require('./models/UserInteraction');
-
+const HiddenPost = require('./models/HiddenPost');
 
 User.hasMany(Post);
 Post.belongsTo(User);
@@ -23,10 +23,17 @@ UserInteraction.belongsTo(User, { foreignKey: 'interactingUserId' });
 Post.hasMany(UserInteraction);
 UserInteraction.belongsTo(Post);
 
+User.hasMany(HiddenPost, { foreignKey: 'userId' });
+HiddenPost.belongsTo(User);
+
+Post.hasMany(HiddenPost, { foreignKey: 'postId' });
+HiddenPost.belongsTo(Post);
+
 module.exports = {
   User,
   Restaurant,
   Review,
   Post,
   UserInteraction,
+  HiddenPost,
 };
