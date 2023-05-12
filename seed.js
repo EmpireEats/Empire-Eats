@@ -1,5 +1,11 @@
 const db = require('./server/db/db');
-const { User, Review, Post, Restaurant } = require('./server/db/index');
+const {
+  User,
+  Review,
+  Post,
+  Restaurant,
+  HiddenPost,
+} = require('./server/db/index');
 
 const users = [
   {
