@@ -43,6 +43,18 @@ router.put('/:id', requireAuth, async (req, res, next) => {
   }
 });
 
+router.get('/hidden/:userId', requireAuth, async (req, res, next) => {
+  try {
+    const getHiddenPosts = await HiddenPost.findAll({
+      where: { userId: req.params.userId },
+    });
+    res.send(getHiddenPosts);
+  } catch (error) {
+    console.error('error fetching users hidden posts', error);
+    next(error);
+  }
+});
+
 router.put('/:id/hide', requireAuth, async (req, res, next) => {
   try {
     const userId = req.user.id;
