@@ -8,14 +8,14 @@ const getLeaderboard = async () => {
     attributes: [
       "userId",
       [
-        Sequelize.fn("COUNT", Sequelize.col("restaurantId")),
+        Sequelize.fn("COUNT", Sequelize.col("placeId")),
         "reviewsCount",
       ],
       [Sequelize.literal('"user"."username"'), "username"]
     ],
     where: {
       userId: { [Sequelize.Op.not]: null },
-      restaurantId: { [Sequelize.Op.not]: null },
+      placeId: { [Sequelize.Op.not]: null },
     },
     group: ["userId", '"user.username"'],
     include: [
