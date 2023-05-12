@@ -1,0 +1,27 @@
+.review-modal {
+  width: 350px; /* Increase the width */
+  min-height: 250px; /* Increase the height and use min-height to allow content to grow */
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  font-size: 20px;
+  font-weight: bold; /* Make the text bold */
+  color: #2B3434;
+  border: 3px solid #2B3434;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.review-modal-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #e5f0ecd6;
+}
