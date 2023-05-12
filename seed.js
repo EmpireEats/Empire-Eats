@@ -213,6 +213,7 @@ const reviews = [
   {
     userId: 1,
     placeId: 3,
+    name: 'Tasty Tacos',
     rating: 3,
     body: 'Amazing tacos! Loved the atmosphere and service was great.',
     picture: null,
@@ -220,6 +221,7 @@ const reviews = [
   {
     userId: 2,
     placeId: 6,
+    name: 'Hearty Healthy',
     rating: 2,
     body: 'Good food but the service was slow.',
     picture: null,
@@ -227,6 +229,7 @@ const reviews = [
   {
     userId: 3,
     placeId: 1,
+    name: 'Delicious Diner',
     rating: 3,
     body: "The best breakfast I've ever had! Highly recommend!",
     picture: null,
@@ -234,6 +237,7 @@ const reviews = [
   {
     userId: 4,
     placeId: 7,
+    name: 'Vibrant Vegan',
     rating: 1,
     body: "I'm not a fan of their vegan options.",
     picture: null,
@@ -241,6 +245,7 @@ const reviews = [
   {
     userId: 5,
     placeId: 10,
+    name: 'Scrumptious Seafood',
     rating: 3,
     body: 'The seafood was fresh and delicious! Will definitely come back.',
     picture: null,
@@ -248,6 +253,7 @@ const reviews = [
   {
     userId: 1,
     placeId: 4,
+    name: 'Perfect Pizza',
     rating: 3,
     body: 'The pizza was absolutely fantastic! Loved it!',
     picture: null,
@@ -255,6 +261,7 @@ const reviews = [
   {
     userId: 2,
     placeId: 5,
+    name: 'Sizzling Sushi',
     rating: 2,
     body: "The sushi was just okay. I've had better.",
     picture: null,
@@ -262,6 +269,7 @@ const reviews = [
   {
     userId: 3,
     placeId: 8,
+    name: 'Cozy Café',
     rating: 3,
     body: 'A cozy spot with great coffee and pastries.',
     picture: null,
@@ -269,6 +277,7 @@ const reviews = [
   {
     userId: 4,
     placeId: 9,
+    name: 'Delightful Donuts',
     rating: 1,
     body: 'The donuts were too sweet for my taste.',
     picture: null,
@@ -276,6 +285,7 @@ const reviews = [
   {
     userId: 5,
     placeId: 2,
+    name: 'Burgers & More', 
     rating: 3,
     body: 'Burgers were juicy and flavorful. A great spot for lunch!',
     picture: null,
