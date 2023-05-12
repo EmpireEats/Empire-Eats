@@ -8,32 +8,40 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  const auth = useSelector((state) => state.auth);
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    dispatch(login({ email, password }));
-    navigate('/yerrr');
+    dispatch(login({ email, password })).then((result) => {
+      if (result.meta.requestStatus === 'fulfilled') {
+        setEmail('');
+        setPassword('');
+        navigate('/leaderboard');
+      }
+    });
   };
 
   return (
-    <form>
-      <input
-        type='email'
-        placeholder='Email'
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type='password'
-        placeholder='Password'
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      {isLoggedIn ? null : (
-        <button onClick={handleLogin}>Login</button>
-      )}
-    </form>
+    <div>
+      <form onSubmit={handleLogin}>
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button type="submit">Login</button>
+      </form>
+    </div>
   );
 };
 
