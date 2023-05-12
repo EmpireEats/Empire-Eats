@@ -61,7 +61,8 @@ const ReviewForm = ({ placeId, restaurantName, restaurantAddress }) => {
         overlayClassName="review-modal-overlay"
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        contentLabel="Thank you for your review"
+        shouldCloseOnOverlayClick={false}
+        contentLabel="Take me to crAPP"
       >
         <p>In need of a post-meal porcelain sanctuary? Look no further! Click the link for a spotless haven to answer nature's call. Trust us, it's a potty paradise!</p>
         <a href="https://example.com" 
