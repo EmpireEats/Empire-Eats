@@ -212,6 +212,7 @@ const restaurants = [
 const reviews = [
   {
     userId: 1,
+    name: 'Tasty Tacos',
     restaurantId: 3,
     rating: 3,
     body: 'Amazing tacos! Loved the atmosphere and service was great.',
@@ -219,6 +220,7 @@ const reviews = [
   },
   {
     userId: 2,
+    name: 'Hearty Healthy',
     restaurantId: 6,
     rating: 2,
     body: 'Good food but the service was slow.',
@@ -226,6 +228,7 @@ const reviews = [
   },
   {
     userId: 3,
+    name: 'Delicious Diner',
     restaurantId: 1,
     rating: 3,
     body: "The best breakfast I've ever had! Highly recommend!",
@@ -233,6 +236,7 @@ const reviews = [
   },
   {
     userId: 4,
+    name: 'Vibrant Vegan',
     restaurantId: 7,
     rating: 1,
     body: "I'm not a fan of their vegan options.",
@@ -240,6 +244,7 @@ const reviews = [
   },
   {
     userId: 5,
+    name: 'Scrumptious Seafood',
     restaurantId: 10,
     rating: 3,
     body: 'The seafood was fresh and delicious! Will definitely come back.',
@@ -247,6 +252,7 @@ const reviews = [
   },
   {
     userId: 1,
+    name: 'Perfect Pizza',
     restaurantId: 4,
     rating: 3,
     body: 'The pizza was absolutely fantastic! Loved it!',
@@ -254,6 +260,7 @@ const reviews = [
   },
   {
     userId: 2,
+    name: 'Sizzling Sushi',
     restaurantId: 5,
     rating: 2,
     body: "The sushi was just okay. I've had better.",
@@ -261,6 +268,7 @@ const reviews = [
   },
   {
     userId: 3,
+    name: 'Cozy Café',
     restaurantId: 8,
     rating: 3,
     body: 'A cozy spot with great coffee and pastries.',
@@ -268,6 +276,7 @@ const reviews = [
   },
   {
     userId: 4,
+    name: 'Delightful Donuts',
     restaurantId: 9,
     rating: 1,
     body: 'The donuts were too sweet for my taste.',
@@ -275,6 +284,7 @@ const reviews = [
   },
   {
     userId: 5,
+    name: 'Burgers & More',
     restaurantId: 2,
     rating: 3,
     body: 'Burgers were juicy and flavorful. A great spot for lunch!',
