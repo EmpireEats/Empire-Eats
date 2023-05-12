@@ -11,6 +11,8 @@ import Leaderboard from './Leaderboard/Leaderboard';
 import UserProfile from './User/UserProfile';
 import EditProfile from './User/EditProfile';
 import WeOutside from './Restaurants/WeOutside';
+import Feed from './Leaderboard/Feed';
+
 
 const App = () => {
   const dispatch = useDispatch();
@@ -62,6 +64,7 @@ const App = () => {
         <Route path='/users/:id' element={<UserProfile />} />
         <Route path='/users/:id/edit' element={<EditProfile />} />
         <Route path='/restaurants' element={<WeOutside />} />
+        <Route path='/feed' element={<Feed />} />
       </Routes>
     </div>
   );
