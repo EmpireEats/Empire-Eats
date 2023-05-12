@@ -26,7 +26,7 @@ const getLeaderboard = async () => {
     ],
     order: [
       [Sequelize.literal('"reviewsCount"'), "DESC"],
-      [Sequelize.literal('"user"."username"'), "ASC"]
+      [Sequelize.literal('"user"."username"'), "ASC"],
     ],
     raw: true,
   });
