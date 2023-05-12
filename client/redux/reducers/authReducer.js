@@ -12,29 +12,47 @@ export const authSlice = createSlice({
     token: null,
     status: 'idle',
     user: null,
+    error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(login.fulfilled, (state, action) => {
         state.token = action.payload.token;
-        state.status = 'idle';
+        state.status = 'succeeded';
         state.user = action.payload.user;
+      })
+      .addCase(login.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
       })
       .addCase(signup.fulfilled, (state, action) => {
         state.token = action.payload.token;
-        state.status = 'idle';
+        state.status = 'succeeded';
         state.user = action.payload.user;
+      })
+      .addCase(signup.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
       })
       .addCase(logout.fulfilled, (state) => {
         state.token = null;
-        state.status = 'idle';
+        state.status = 'succeeded';
         state.user = null;
+        state.error = null;
+      })
+      .addCase(logout.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
       })
       .addCase(getLoggedInUserData.fulfilled, (state, action) => {
         state.token = action.payload.token;
-        state.status = 'idle';
+        state.status = 'succeeded';
         state.user = action.payload.user;
+      })
+      .addCase(getLoggedInUserData.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
       });
   },
 });
