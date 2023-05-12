@@ -20,6 +20,14 @@ const EditYerrr = ({ post, onSave, onCancel }) => {
 
   return (
     <div>
+      <input
+        placeholder='message'
+        value={updatedPost.message}
+        onChange={(e) =>
+          setUpdatedPost({ ...updatedPost, message: e.target.value })
+        }
+      />
+
       <select value={updatedPost.preference} onChange={handleUpdatePreference}>
         <option value='one on one'>1 on 1</option>
         <option value='group'>Group</option>

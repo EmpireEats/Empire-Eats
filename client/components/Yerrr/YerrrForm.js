@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addPostAsync } from '../../redux/actions/postActions';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { useSocket } from '../../contexts/SocketContext';
 
 const YerrrForm = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const socket = useSocket();
   const user = useSelector((state) => state.auth.user);
+
   const [formState, setFormState] = useState({
-    text: '',
+    message: '',
     sortingOptions: 'one on one',
   });
+
   console.log('user:', user);
 
   const handleInputChange = (event) => {
@@ -22,15 +22,15 @@ const YerrrForm = () => {
 
   const postData = async (event) => {
     event.preventDefault();
-    const { text, sortingOptions } = formState;
+    const { message, sortingOptions } = formState;
 
-    if (text.trim()) {
-      console.log('Text:', text);
+    if (message.trim()) {
+      console.log('Message:', message);
       console.log('Sorting Options:', sortingOptions);
 
       if (socket) {
         socket.emit('newPost', {
-          text,
+          message: message,
           preferences: sortingOptions,
           isActive: true,
           userId: user.id,
@@ -38,13 +38,13 @@ const YerrrForm = () => {
       }
 
       setFormState({
-        text: '',
+        message: '',
         sortingOptions: 'one on one',
       });
 
       navigate('/yerrr/now');
     } else {
-      alert('Please enter a valid text.');
+      alert('Please enter a valid message.');
     }
   };
 
@@ -52,20 +52,20 @@ const YerrrForm = () => {
     <div>
       <form onSubmit={postData} method='POST'>
         <div>
-          <label htmlFor='text'>
-            <small>Text</small>
+          <label htmlFor='message'>
+            <small>Message</small>
           </label>
           <input
-            name='text'
+            name='message'
             type='text'
-            value={formState.text}
+            value={formState.message}
             onChange={handleInputChange}
             required
           />
         </div>
         <div>
           <label htmlFor='sortingOptions'>
-            <small>Sorting Options</small>
+            <small>Party: </small>
           </label>
           <select
             name='sortingOptions'

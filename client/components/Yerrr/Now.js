@@ -138,7 +138,7 @@ const Now = ({ onChatEnabledChange }) => {
                     ) : (
                       <p>No name</p>
                     )}
-
+                    <p>{post.message}</p>
                     <p>Preference: {post.preference}</p>
                     {post.isActive ? <p>Active</p> : <p>No Longer Active</p>}
                     <button
