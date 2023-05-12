@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { addReviewAsync } from '../../redux/actions/reviewActions';
 
-const ReviewForm = ({ placeId, restaurantName }) => {
+const ReviewForm = ({ placeId, restaurantName, restaurantAddress }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -11,7 +11,7 @@ const ReviewForm = ({ placeId, restaurantName }) => {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    dispatch(addReviewAsync({ placeId, name: restaurantName, body }))
+    dispatch(addReviewAsync({ placeId, name: restaurantName, address: restaurantAddress, body }))
       .then (() => {
         navigate('/');
         setBody('');
@@ -29,6 +29,8 @@ const ReviewForm = ({ placeId, restaurantName }) => {
         <input type="hidden" name="placeId" value={placeId} />
         <br />
         <input type="hidden" name="restaurantName" value={restaurantName} />
+        <br />
+        <input type="hidden" name="restaurantAddress" value={restaurantAddress} />
         <br />
         <label htmlFor="body">Review:</label>
         <textarea

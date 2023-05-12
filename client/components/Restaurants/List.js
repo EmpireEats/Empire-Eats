@@ -9,6 +9,7 @@ const List = ({ map }) => {
   const [showReviewForm, setShowReviewForm] = useState(false);
   const allRestaurants = useSelector(state => state.restaurant.allRestaurants);
   const singleRestaurant = useSelector(state => state.restaurant.singleRestaurant);
+  const loggedInUser = useSelector(state => state.auth.user);
 
   const handleClick = async (restaurant) => {
     setSelectedRestaurantId(restaurant.placeId);
@@ -18,8 +19,12 @@ const List = ({ map }) => {
 
   const handleReviewButtonClick = (event) => {
     event.stopPropagation();
-    setShowReviewForm(!showReviewForm);
-  };  
+    if (loggedInUser) {
+      setShowReviewForm(!showReviewForm);
+    } else {
+      alert('Please login or signup to leave a review.');
+    }
+  };
 
   return (
     <div style={{ height: '300px', overflowY: 'scroll' }}>
@@ -29,7 +34,6 @@ const List = ({ map }) => {
           <p>{restaurant.address}</p>
           {selectedRestaurantId === restaurant.placeId && (
             <div>
-              {/* <p>Address: {singleRestaurant.address}</p> */}
               {singleRestaurant.formattedPhoneNumber && (
                 <p>Phone: {singleRestaurant.formattedPhoneNumber}</p>
               )}
@@ -41,7 +45,7 @@ const List = ({ map }) => {
               )}
               <button onClick={handleReviewButtonClick}>Review</button>
               {showReviewForm && (
-                <ReviewForm placeId={selectedRestaurantId} restaurantName={restaurant.name} />
+                <ReviewForm placeId={selectedRestaurantId} restaurantName={restaurant.name} restaurantAddress={restaurant.address}/>
               )}
             </div>
           )}
