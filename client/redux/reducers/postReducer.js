@@ -4,6 +4,7 @@ import {
   addPostAsync,
   deletePostAsync,
   updatePostAsync,
+  hidePostAsync,
 } from '../actions/postActions';
 import { fetchChatMembersIdAsync } from '../actions/userInteractionActions';
 
@@ -13,6 +14,7 @@ export const postSlice = createSlice({
     allPosts: [],
     singleUsersPosts: [],
     chatMemberIds: [],
+    hiddenPosts: [],
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -37,6 +39,11 @@ export const postSlice = createSlice({
       .addCase(addPostAsync.rejected, (state, action) => {
         console.error('error adding post', action.error);
       });
+    // .addCase(hidePostAsync.fulfilled, (state,action) => {
+    //   const postId= action.payload.postId
+    //   state.hiddenPosts.push(action.payload)
+    //   const findIndex =
+    // })
   },
 });
 

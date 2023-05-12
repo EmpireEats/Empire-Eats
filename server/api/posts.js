@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Post, Review } = require('../db/index');
+const { User, Post, HiddenPost } = require('../db/index');
 const {
   requireAuth,
   requireUserMatch,
@@ -18,7 +18,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/:id', requireAuth, requireUserMatch, async (req, res, next) => {
+router.get('/:id', requireAuth, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.user.id);
     const getUsersPosts = await Post.findAll({ where: { userId: user.id } });
@@ -39,6 +39,21 @@ router.put('/:id', requireAuth, async (req, res, next) => {
     res.send(updatedPost);
   } catch (error) {
     console.error('error updating post', error);
+    next(error);
+  }
+});
+
+router.put('/:id/hide', requireAuth, async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const postToHide = req.params.id;
+    const hiddenPost = await HiddenPost.create({
+      postId: postToHide,
+      userId: userId,
+    });
+    res.send(hiddenPost);
+  } catch (error) {
+    console.error('error hiding post', error);
     next(error);
   }
 });

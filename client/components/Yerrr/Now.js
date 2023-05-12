@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import '../../../public/styles/now.css';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllPostsAsync } from '../../redux/actions/postActions';
+import {
+  fetchAllPostsAsync,
+  hidePostAsync,
+} from '../../redux/actions/postActions';
 import { useSocket } from '../../contexts/SocketContext';
 import EditYerrr from './EditYerrr';
 
@@ -118,6 +121,10 @@ const Now = ({ onChatEnabledChange }) => {
     setIsEditMode(true);
   };
 
+  const handleHidePost = (id) => {
+    dispatch(hidePostAsync({ id, userId: loggedInUserId }));
+  };
+
   return (
     <div className='user-post-list'>
       {filteredPosts && (
@@ -152,7 +159,9 @@ const Now = ({ onChatEnabledChange }) => {
                       👍🏽
                     </button>
                     <span>
-                      <button>👎🏽</button>
+                      <button onClick={() => handleHidePost(post.id)}>
+                        👎🏽
+                      </button>
                     </span>
                     {post.userId === loggedInUserId && (
                       <>

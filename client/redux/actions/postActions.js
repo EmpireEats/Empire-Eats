@@ -66,3 +66,23 @@ export const deletePostAsync = createAsyncThunk(
   }
 );
 
+export const hidePostAsync = createAsyncThunk(
+  'post/hideOne',
+  async ({ id, userId }) => {
+    try {
+      const token = window.localStorage.getItem('token');
+      const response = await axios.put(
+        `/api/posts/${id}/hide`,
+        { id, userId },
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('error hiding post front-end', error);
+    }
+  }
+);
