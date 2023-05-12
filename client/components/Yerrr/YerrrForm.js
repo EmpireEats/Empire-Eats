@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addPostAsync } from '../../redux/actions/postActions';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { useSocket } from '../../contexts/SocketContext';
 
 const YerrrForm = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const socket = useSocket();
   const user = useSelector((state) => state.auth.user);
@@ -67,7 +65,7 @@ const YerrrForm = () => {
         </div>
         <div>
           <label htmlFor='sortingOptions'>
-            <small>Sorting Options</small>
+            <small>Party: </small>
           </label>
           <select
             name='sortingOptions'
