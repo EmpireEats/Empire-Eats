@@ -1,5 +1,5 @@
 .review-modal {
-  width: 350px; /* Increase the width */
+  width: 350px;
   min-height: 250px; /* Increase the height and use min-height to allow content to grow */
   margin: auto;
   display: flex;
@@ -8,7 +8,7 @@
   align-items: center;
   padding: 20px;
   font-size: 20px;
-  font-weight: bold; /* Make the text bold */
+  font-weight: bold;
   color: #2B3434;
   border: 3px solid #2B3434;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -25,3 +25,19 @@
   bottom: 0;
   background-color: #e5f0ecd6;
 }
+
+.list-container {
+  height: 40vh;
+  overflow-y: auto;
+  margin-bottom: 16px;
+  /* border: 1px solid #ccc; */
+  padding: 8px;
+}
+
+.restaurant-item {
+  margin-bottom: 16px;
+}
+
+/* .restaurant-item:last-child {
+  margin-bottom: 0;
+} */

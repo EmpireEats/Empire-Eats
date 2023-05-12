@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { addReviewAsync } from '../../redux/actions/reviewActions';
 import Modal from 'react-modal';
-import '../../../public/styles/reviews.css';
+import '../../../public/styles/weOutside.css';
 
 Modal.setAppElement('#root'); // Replace '#root' with your app's root element ID
 
