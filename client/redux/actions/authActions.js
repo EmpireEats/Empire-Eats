@@ -1,49 +1,49 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// export const login = createAsyncThunk(
-//   'auth/login',
-//   async ({ email, password }, { rejectWithValue }) => {
-//     try {
-//       const response = await axios.post('/api/authentication/auth/login', {
-//         email,
-//         password,
-//       });
-
-//       const { token, user } = response.data;
-
-//       localStorage.setItem('token', token);
-//       localStorage.setItem('user', JSON.stringify(user));
-
-//       return response.data;
-//     } catch (error) {
-//       let errorMessage = 'An error occurred during login. Please try again.';
-      
-//       if (error.response && error.response.data) {
-//         errorMessage = error.response.data.message || errorMessage;
-//       }
-      
-//       return rejectWithValue(errorMessage);
-//     }
-//   }
-// );
-
 export const login = createAsyncThunk(
   'auth/login',
-  async ({ email, password }) => {
+  async ({ email, password }, { rejectWithValue }) => {
     try {
       const response = await axios.post('/api/authentication/auth/login', {
         email,
         password,
       });
+
       const { token, user } = response.data;
+
       localStorage.setItem('token', token);
-      return { token, user };
+      localStorage.setItem('user', JSON.stringify(user));
+
+      return response.data;
     } catch (error) {
-      throw error;
+      let errorMessage = 'An error occurred during login. Please try again.';
+      
+      if (error.response && error.response.data) {
+        errorMessage = error.response.data.message || errorMessage;
+      }
+      
+      return rejectWithValue(errorMessage);
     }
   }
 );
+
+// export const login = createAsyncThunk(
+//   'auth/login',
+//   async ({ email, password }) => {
+//     try {
+//       const response = await axios.post('/api/authentication/auth/login', {
+//         email,
+//         password,
+//       });
+//       const { token, user } = response.data;
+//       localStorage.setItem('token', token);
+//       return { token, user };
+//     } catch (error) {
+//       throw error;
+//     }
+//   }
+// );
 
 export const signup = createAsyncThunk(
   'auth/signup',
