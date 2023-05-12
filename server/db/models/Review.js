@@ -10,6 +10,10 @@ const Review = db.define('review', {
     type: Sequelize.STRING,
     allowNull: true //must be changed to false when we're ready to roll out
   },
+  address: {
+    type: Sequelize.STRING,
+    allowNull: true //must be changed to false when we're ready to roll out
+  },
   body: {
     type: Sequelize.TEXT,
     allowNull: false,
