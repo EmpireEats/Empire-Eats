@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { useSocket } from '../../contexts/SocketContext';
 
-const YerrrForm = () => {
+const YerrrForm = ({ onChatEnabledChange }) => {
   const navigate = useNavigate();
   const socket = useSocket();
   const user = useSelector((state) => state.auth.user);
@@ -12,8 +12,6 @@ const YerrrForm = () => {
     message: '',
     sortingOptions: 'one on one',
   });
-
-  console.log('user:', user);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -35,14 +33,20 @@ const YerrrForm = () => {
           isActive: true,
           userId: user.id,
         });
+
+        // Wait for the server to emit the 'newPost' event
+        socket.once('newPost', (post) => {
+          if (post) {
+            onChatEnabledChange(true); // Enable chat
+            navigate('/yerrr/chat', { state: { postId: post.id } }); // Navigate to chat
+          }
+        });
       }
 
       setFormState({
         message: '',
         sortingOptions: 'one on one',
       });
-
-      navigate('/yerrr/now');
     } else {
       alert('Please enter a valid message.');
     }
@@ -83,3 +87,4 @@ const YerrrForm = () => {
 };
 
 export default YerrrForm;
+
