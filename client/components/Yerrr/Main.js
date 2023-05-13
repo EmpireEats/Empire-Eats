@@ -5,6 +5,8 @@ import { getLoggedInUserData } from '../../redux/actions/authActions';
 import Now from './Now';
 import YerrrForm from './YerrrForm';
 import YerrrChat from './YerrrChat';
+import Modal from 'react-modal';
+import Instructions from './Instructions';
 
 const Main = () => {
   const auth = useSelector((state) => state.auth);
@@ -14,7 +16,16 @@ const Main = () => {
   const [chatEnabled, setChatEnabled] = useState(false);
   const location = useLocation();
   const postId = location.state?.postId;
-  console.log('postId from now:', postId);
+  Modal.setAppElement('#root');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleChatEnabledChange = (enabled) => {
     setChatEnabled(enabled);
@@ -66,6 +77,15 @@ const Main = () => {
               <Route path='chat' element={<YerrrChat postId={postId} />} />
             )}
           </Routes>
+          <button onClick={openModal}>i</button>
+          <Modal
+            className='review-modal'
+            overlayClassName='review-modal-overlay'
+            isOpen={isModalOpen}
+            onRequestClose={closeModal}
+            contentLabel='Yerrr Tab Instructions'>
+            <Instructions closeModal={closeModal} />
+          </Modal>
         </div>
       )}
     </div>
