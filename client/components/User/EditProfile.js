@@ -46,64 +46,72 @@ const EditProfile = () => {
         });
     };
 
+    const handleCancel = () => {
+        navigate(`/users/${id}`);
+    };
+
     return (
-        <div>
-            <h5>Edit Profile:</h5>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor='firstName'>First Name:</label>
-                    <input
-                        type='text'
-                        id='name'
-                        name='name'
-                        value={firstName}
-                        onChange={(event) => setFirstName(event.target.value)}
-                    />
-                </div>
-                <div>
-                    <label htmlFor='firstName'>Last Name:</label>
-                    <input
-                        type='text'
-                        id='name'
-                        name='name'
-                        value={lastName}
-                        onChange={(event) => setLastName(event.target.value)}
-                    />
-                </div>
-                <div>
-                    <label htmlFor='email'>Email:</label>
-                    <input
-                        type='text'
-                        id='email'
-                        name='email'
-                        value={email}
-                        onChange={(event) => setEmail(event.target.value)}
-                    />
-                </div>
-                <div>
-                    <label htmlFor='username'>User Name:</label>
-                    <input
-                        type='text'
-                        id='name'
-                        name='name'
-                        value={username}
-                        onChange={(event) => setUserName(event.target.value)}
-                    />
-                </div>
-                <div>
-                    <label htmlFor='password'>Password:</label>
-                    <input
-                        type='text'
-                        id='password'
-                        name='password'
-                        value={password}
-                        onChange={(event) => setPassword(event.target.value)}
-                    />
-                </div>
-                <button type='submit'>Edit Profile</button>
-                
-            </form>
-        </div>
+        <>
+            <h4>Edit Profile</h4>
+            <div>
+                <img src='https://ih1.redbubble.net/image.1046392278.3346/mp,840x830,matte,f8f8f8,t-pad,1000x1000,f8f8f8.jpg' width={100} />
+                <p>{firstName} {lastName} </p>
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <label htmlFor='firstName'>First Name:</label>
+                        <input
+                            type='text'
+                            id='name'
+                            name='name'
+                            value={firstName}
+                            onChange={(event) => setFirstName(event.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor='firstName'>Last Name:</label>
+                        <input
+                            type='text'
+                            id='name'
+                            name='name'
+                            value={lastName}
+                            onChange={(event) => setLastName(event.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor='email'>Email:</label>
+                        <input
+                            type='text'
+                            id='email'
+                            name='email'
+                            value={email}
+                            onChange={(event) => setEmail(event.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor='username'>User Name:</label>
+                        <input
+                            type='text'
+                            id='name'
+                            name='name'
+                            value={username}
+                            onChange={(event) => setUserName(event.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor='password'>Password:</label>
+                        <input
+                            type='text'
+                            id='password'
+                            name='password'
+                            value={password}
+                            onChange={(event) => setPassword(event.target.value)}
+                        />
+                    </div>
+                    <button type="button" onClick={handleCancel}>Cancel</button>
+                    <button type='submit'>Edit Profile</button>
+                </form>
+            </div>
+        </>
     );
 };
 

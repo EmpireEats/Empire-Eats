@@ -24,9 +24,9 @@ const NavBar = () => {
     <div className='nav-container'>
       {auth.token ? (
         <>
-          <Link to='/yerrr/now'>YERRR |</Link>
-          <Link to='/restaurants'>We Outside |</Link>
-          <Link to='/leaderboard'>Leaderboard |</Link>
+          <Link to='/leaderboard'>Home </Link>
+          <Link to='/restaurants'>We Outside </Link>
+          <Link to='/yerrr/now'>YERRR </Link>
           <div className='dropdown-container' onClick={handleDropdownClick}>
             <div className='dropdown-icon'>
               👤 <span className= 'dropdown-caret'></span>
@@ -41,8 +41,10 @@ const NavBar = () => {
         </>
       ) : (
         <>
-          <Link to='/login'>Login |</Link>
-          <Link to='/signup'>Sign Up</Link>
+          <Link to='/leaderboard'>Home </Link>
+          <Link to='/restaurants'>We Outside </Link>
+          <Link to='/yerrr/now'>YERRR </Link>
+          {!auth.token && <Link to='/login'>Login </Link>}
         </>
       )}
     </div>
