@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchRestaurants } from '../../redux/actions/restaurantActions';
 import Map from './Map';
-import List from './List';
+import AllRestaurants from './AllRestaurants';
 
 const WeOutside = () => {
   const dispatch = useDispatch();
-  const { allRestaurants } = useSelector(state => state.restaurant.allRestaurants);
+  const { allRestaurants } = useSelector(state => state.restaurant);
 
   useEffect(() => {
     dispatch(fetchRestaurants());
@@ -15,7 +15,7 @@ const WeOutside = () => {
   return (
     <div>
       <Map restaurants={allRestaurants} />
-      <List restaurants={allRestaurants} />
+      <AllRestaurants restaurants={allRestaurants} />
     </div>
   );
 };
