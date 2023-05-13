@@ -13,11 +13,18 @@ body {
   justify-content: center;
   align-items: center;
   background-color: aliceblue;
+  position: relative;
 }
 
 .nav-container {
   display: flex;
   justify-content: space-around;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-top: 20px;
+  padding-bottom: 8px;
 }
 
 .app-container {
@@ -25,6 +32,9 @@ body {
   background-color: antiquewhite;
   border: 5px solid;
   padding: 20px;
+  position: relative;
+  padding-bottom: 15%;
+
 }
 
 .chat-container {
