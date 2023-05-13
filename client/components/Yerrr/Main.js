@@ -27,10 +27,6 @@ const Main = () => {
     setIsModalOpen(false);
   };
 
-  const handleChatEnabledChange = (enabled) => {
-    setChatEnabled(enabled);
-  };
-
   useEffect(() => {
     dispatch(getLoggedInUserData());
   }, [dispatch]);
@@ -70,9 +66,12 @@ const Main = () => {
           <Routes>
             <Route
               path='now'
-              element={<Now onChatEnabledChange={handleChatEnabledChange} />}
+              element={<Now onChatEnabledChange={setChatEnabled} />}
             />
-            <Route path='postYerrr' element={<YerrrForm />} />
+            <Route
+              path='postYerrr'
+              element={<YerrrForm onChatEnabledChange={setChatEnabled} />}
+            />
             {chatEnabled && (
               <Route path='chat' element={<YerrrChat postId={postId} />} />
             )}
