@@ -79,8 +79,8 @@ const Main = () => {
           </Routes>
           <button onClick={openModal}>i</button>
           <Modal
-            className='review-modal'
-            overlayClassName='review-modal-overlay'
+            className='weOutside-modal'
+            overlayClassName='weOutside-modal-overlay'
             isOpen={isModalOpen}
             onRequestClose={closeModal}
             contentLabel='Yerrr Tab Instructions'>
