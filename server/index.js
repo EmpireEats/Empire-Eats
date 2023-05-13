@@ -113,6 +113,22 @@ io.on('connection', (socket) => {
     'createUserInteraction',
     async ({ postId, postAuthorId, loggedInUserId }) => {
       try {
+        const post = await Post.findByPk(postId);
+        console.log('post:', post);
+        if (post.preference === 'one on one') {
+          const existingInteraction = await UserInteraction.findOne({
+            where: { postId },
+          });
+          console.log(existingInteraction);
+          if (existingInteraction) {
+            socket.emit(
+              'userInteractionError',
+              'This post already has an active one on one interaction'
+            );
+            return;
+          }
+        }
+
         const existingUserInteraction = await UserInteraction.findOne({
           where: { interactingUserId: loggedInUserId },
         });

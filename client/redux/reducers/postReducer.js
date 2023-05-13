@@ -45,6 +45,9 @@ export const postSlice = createSlice({
       })
       .addCase(fetchHiddenPosts.fulfilled, (state, action) => {
         state.hiddenPosts = action.payload.map((post) => post.postId);
+      })
+      .addCase(fetchHiddenPosts.rejected, (state, action) => {
+        console.error('Error fetching hidden posts', action.error);
       });
   },
 });

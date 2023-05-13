@@ -26,7 +26,6 @@ const Main = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
   useEffect(() => {
     dispatch(getLoggedInUserData());
   }, [dispatch]);
@@ -48,45 +47,47 @@ const Main = () => {
 
   return (
     <div className='yerrr-tab-container'>
-      {user && (
-        <div>
-          <nav className='yerrr-tab-nav'>
-            <Link className='yerrr-tab-link' to='/yerrr/now'>
-              Now
-            </Link>
+      <div>
+        <nav className='yerrr-tab-nav'>
+          <Link className='yerrr-tab-link' to='/yerrr/now'>
+            Now
+          </Link>
+          {user && (
             <Link className='yerrr-tab-link' to='/yerrr/postYerrr'>
               Yerrr
             </Link>
-            {chatEnabled && (
-              <Link className='yerrr-tab-link' to='/yerrr/chat'>
-                Chat
-              </Link>
-            )}
-          </nav>
-          <Routes>
-            <Route
-              path='now'
-              element={<Now onChatEnabledChange={setChatEnabled} />}
-            />
+          )}
+          {chatEnabled && user && (
+            <Link className='yerrr-tab-link' to='/yerrr/chat'>
+              Chat
+            </Link>
+          )}
+        </nav>
+        <Routes>
+          <Route
+            path='now'
+            element={<Now onChatEnabledChange={setChatEnabled} />}
+          />
+          {user && (
             <Route
               path='postYerrr'
               element={<YerrrForm onChatEnabledChange={setChatEnabled} />}
             />
-            {chatEnabled && (
-              <Route path='chat' element={<YerrrChat postId={postId} />} />
-            )}
-          </Routes>
-          <button onClick={openModal}>i</button>
-          <Modal
-            className='weOutside-modal'
-            overlayClassName='weOutside-modal-overlay'
-            isOpen={isModalOpen}
-            onRequestClose={closeModal}
-            contentLabel='Yerrr Tab Instructions'>
-            <Instructions closeModal={closeModal} />
-          </Modal>
-        </div>
-      )}
+          )}
+          {chatEnabled && user && (
+            <Route path='chat' element={<YerrrChat postId={postId} />} />
+          )}
+        </Routes>
+        <button onClick={openModal}>i</button>
+        <Modal
+          className='weOutside-modal'
+          overlayClassName='weOutside-modal-overlay'
+          isOpen={isModalOpen}
+          onRequestClose={closeModal}
+          contentLabel='Yerrr Tab Instructions'>
+          <Instructions closeModal={closeModal} />
+        </Modal>
+      </div>
     </div>
   );
 };
