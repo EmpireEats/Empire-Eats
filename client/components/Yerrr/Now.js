@@ -12,8 +12,13 @@ import EditYerrr from './EditYerrr';
 
 const Now = ({ onChatEnabledChange }) => {
   const reduxPosts = useSelector((state) => state.post.allPosts);
-  const loggedInUserId = useSelector((state) => state.auth.user.id);
+  // const loggedInUserId = useSelector((state) => state.auth.user.id);
+  const loggedInUserId = useSelector(
+    (state) => state.auth.user && state.auth.user.id
+  );
+
   const hiddenPosts = useSelector((state) => state.post.hiddenPosts);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [posts, setPosts] = useState(reduxPosts);
   const [hasActiveInteraction, setHasActiveInteraction] = useState(false);
@@ -28,7 +33,9 @@ const Now = ({ onChatEnabledChange }) => {
 
   useEffect(() => {
     dispatch(fetchAllPostsAsync());
-    dispatch(fetchHiddenPosts(loggedInUserId));
+    if (loggedInUserId) {
+      dispatch(fetchHiddenPosts(loggedInUserId));
+    }
   }, [dispatch]);
 
   useEffect(() => {
@@ -103,16 +110,20 @@ const Now = ({ onChatEnabledChange }) => {
   };
 
   const handleUserInteraction = async ({ postId, postAuthorId }) => {
-    if (socket) {
-      socket.emit('createUserInteraction', {
-        postId,
-        postAuthorId,
-        loggedInUserId,
-      });
+    if (loggedInUserId) {
+      if (socket) {
+        socket.emit('createUserInteraction', {
+          postId,
+          postAuthorId,
+          loggedInUserId,
+        });
+      }
+      onChatEnabledChange(true);
+      setHasActiveInteraction(true);
+      navigate('/yerrr/chat', { state: { postId } });
+    } else {
+      alert('You need to be logged in');
     }
-    onChatEnabledChange(true);
-    setHasActiveInteraction(true);
-    navigate('/yerrr/chat', { state: { postId } });
   };
 
   const handleDeletePost = (id) => {

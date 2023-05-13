@@ -66,17 +66,34 @@ export const deletePostAsync = createAsyncThunk(
   }
 );
 
+// export const fetchHiddenPosts = createAsyncThunk(
+//   'post/fetchAll',
+//   async (userId) => {
+//     try {
+//       const token = window.localStorage.getItem('token');
+//       const response = await axios.get(`/api/posts/hidden/${userId}`, {
+//         headers: { authorization: `Bearer ${token}` },
+//       });
+//       return response.data;
+//     } catch (error) {
+//       console.error('error fetching users hidden posts', error);
+//     }
+//   }
+// );
 export const fetchHiddenPosts = createAsyncThunk(
-  'post/fetchAll',
-  async (userId) => {
+  'post/fetchHiddenPosts',
+  async (userId, thunkAPI) => {
     try {
+      if (!userId) {
+        return thunkAPI.rejectWithValue('User is not logged in');
+      }
       const token = window.localStorage.getItem('token');
       const response = await axios.get(`/api/posts/hidden/${userId}`, {
         headers: { authorization: `Bearer ${token}` },
       });
       return response.data;
     } catch (error) {
-      console.error('error fetching users hidden posts', error);
+      console.error('error fetching hidden posts', error);
     }
   }
 );

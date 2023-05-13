@@ -46,10 +46,17 @@ export const authSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(getLoggedInUserData.fulfilled, (state, action) => {
-        state.token = action.payload.token;
-        state.status = 'succeeded';
-        state.user = action.payload.user;
+        if (action.payload) {
+          state.token = action.payload.token;
+          state.status = 'succeeded';
+          state.user = action.payload.user;
+        } else {
+          state.token = null;
+          state.status = 'idle';
+          state.user = null;
+        }
       })
+
       .addCase(getLoggedInUserData.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;

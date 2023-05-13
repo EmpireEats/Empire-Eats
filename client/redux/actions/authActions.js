@@ -18,11 +18,11 @@ export const login = createAsyncThunk(
       return response.data;
     } catch (error) {
       let errorMessage = 'An error occurred during login. Please try again.';
-      
+
       if (error.response && error.response.data) {
         errorMessage = error.response.data.message || errorMessage;
       }
-      
+
       return rejectWithValue(errorMessage);
     }
   }
@@ -101,7 +101,7 @@ export const getLoggedInUserData = createAsyncThunk(
       if (storedToken && storedUser) {
         return { token: storedToken, user: storedUser };
       } else {
-        throw new Error('No user data found');
+        return null;
       }
     } catch (error) {
       console.error('Error getting logged-in user data', error);
