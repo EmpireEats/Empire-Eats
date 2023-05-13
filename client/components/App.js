@@ -15,7 +15,6 @@ import UserProfile from "./User/UserProfile";
 import EditProfile from "./User/EditProfile";
 import WeOutside from "./Restaurants/WeOutside";
 import Feed from "./Leaderboard/Feed";
-import Home from "./Leaderboard/Home";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -70,7 +69,6 @@ const App = () => {
         <Route path="/feed" element={<Feed />} />
         <Route path="/home/leaderboard" element={<Leaderboard />} />
         <Route path="/home/feed" element={<Feed />} />
-        <Route path="/home" element={<Home />} />
       </Routes>
     </div>
   );
