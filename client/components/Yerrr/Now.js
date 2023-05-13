@@ -2,13 +2,18 @@ import React, { useEffect, useState } from 'react';
 import '../../../public/styles/now.css';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllPostsAsync } from '../../redux/actions/postActions';
+import {
+  fetchAllPostsAsync,
+  fetchHiddenPosts,
+  hidePostAsync,
+} from '../../redux/actions/postActions';
 import { useSocket } from '../../contexts/SocketContext';
 import EditYerrr from './EditYerrr';
 
 const Now = ({ onChatEnabledChange }) => {
   const reduxPosts = useSelector((state) => state.post.allPosts);
   const loggedInUserId = useSelector((state) => state.auth.user.id);
+  const hiddenPosts = useSelector((state) => state.post.hiddenPosts);
   const [currentPage, setCurrentPage] = useState(1);
   const [posts, setPosts] = useState(reduxPosts);
   const [hasActiveInteraction, setHasActiveInteraction] = useState(false);
@@ -23,10 +28,14 @@ const Now = ({ onChatEnabledChange }) => {
 
   useEffect(() => {
     dispatch(fetchAllPostsAsync());
+    dispatch(fetchHiddenPosts(loggedInUserId));
   }, [dispatch]);
 
   useEffect(() => {
-    setPosts(reduxPosts);
+    const visiblePosts = reduxPosts.filter(
+      (post) => !hiddenPosts.includes(post.id)
+    );
+    setPosts(visiblePosts);
     if (socket) {
       socket.on('newPost', (post) => {
         setPosts((prevPosts) => [post, ...prevPosts]);
@@ -71,7 +80,7 @@ const Now = ({ onChatEnabledChange }) => {
         socket.off('userInteractionDeleted');
       };
     }
-  }, [reduxPosts, socket]);
+  }, [reduxPosts, socket, hiddenPosts]);
 
   // filter by preference
   const filteredPosts = posts.filter((post) =>
@@ -118,6 +127,11 @@ const Now = ({ onChatEnabledChange }) => {
     setIsEditMode(true);
   };
 
+  const handleHidePost = (id) => {
+    dispatch(hidePostAsync({ id, userId: loggedInUserId }));
+    setPosts(posts.filter((post) => post.id !== id));
+  };
+
   return (
     <div className='user-post-list'>
       {filteredPosts && (
@@ -152,7 +166,9 @@ const Now = ({ onChatEnabledChange }) => {
                       👍🏽
                     </button>
                     <span>
-                      <button>👎🏽</button>
+                      <button onClick={() => handleHidePost(post.id)}>
+                        👎🏽
+                      </button>
                     </span>
                     {post.userId === loggedInUserId && (
                       <>

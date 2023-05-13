@@ -8,14 +8,14 @@ const getLeaderboard = async () => {
     attributes: [
       "userId",
       [
-        Sequelize.fn("COUNT", Sequelize.col("restaurantId")),
+        Sequelize.fn("COUNT", Sequelize.col("placeId")),
         "reviewsCount",
       ],
       [Sequelize.literal('"user"."username"'), "username"]
     ],
     where: {
       userId: { [Sequelize.Op.not]: null },
-      restaurantId: { [Sequelize.Op.not]: null },
+      placeId: { [Sequelize.Op.not]: null },
     },
     group: ["userId", '"user.username"'],
     include: [
@@ -26,7 +26,7 @@ const getLeaderboard = async () => {
     ],
     order: [
       [Sequelize.literal('"reviewsCount"'), "DESC"],
-      [Sequelize.literal('"user"."username"'), "ASC"]
+      [Sequelize.literal('"user"."username"'), "ASC"],
     ],
     raw: true,
   });

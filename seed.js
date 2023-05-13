@@ -1,5 +1,11 @@
 const db = require('./server/db/db');
-const { User, Review, Post, Restaurant } = require('./server/db/index');
+const {
+  User,
+  Review,
+  Post,
+  Restaurant,
+  HiddenPost,
+} = require('./server/db/index');
 
 const users = [
   {
@@ -212,70 +218,80 @@ const restaurants = [
 const reviews = [
   {
     userId: 1,
-    restaurantId: 3,
+    placeId: 3,
+    name: 'Tasty Tacos',
     rating: 3,
     body: 'Amazing tacos! Loved the atmosphere and service was great.',
     picture: null,
   },
   {
     userId: 2,
-    restaurantId: 6,
+    placeId: 6,
+    name: 'Hearty Healthy',
     rating: 2,
     body: 'Good food but the service was slow.',
     picture: null,
   },
   {
     userId: 3,
-    restaurantId: 1,
+    placeId: 1,
+    name: 'Delicious Diner',
     rating: 3,
     body: "The best breakfast I've ever had! Highly recommend!",
     picture: null,
   },
   {
     userId: 4,
-    restaurantId: 7,
+    placeId: 7,
+    name: 'Vibrant Vegan',
     rating: 1,
     body: "I'm not a fan of their vegan options.",
     picture: null,
   },
   {
     userId: 5,
-    restaurantId: 10,
+    placeId: 10,
+    name: 'Scrumptious Seafood',
     rating: 3,
     body: 'The seafood was fresh and delicious! Will definitely come back.',
     picture: null,
   },
   {
     userId: 1,
-    restaurantId: 4,
+    placeId: 4,
+    name: 'Perfect Pizza',
     rating: 3,
     body: 'The pizza was absolutely fantastic! Loved it!',
     picture: null,
   },
   {
     userId: 2,
-    restaurantId: 5,
+    placeId: 5,
+    name: 'Sizzling Sushi',
     rating: 2,
     body: "The sushi was just okay. I've had better.",
     picture: null,
   },
   {
     userId: 3,
-    restaurantId: 8,
+    placeId: 8,
+    name: 'Cozy Café',
     rating: 3,
     body: 'A cozy spot with great coffee and pastries.',
     picture: null,
   },
   {
     userId: 4,
-    restaurantId: 9,
+    placeId: 9,
+    name: 'Delightful Donuts',
     rating: 1,
     body: 'The donuts were too sweet for my taste.',
     picture: null,
   },
   {
     userId: 5,
-    restaurantId: 2,
+    placeId: 2,
+    name: 'Burgers & More', 
     rating: 3,
     body: 'Burgers were juicy and flavorful. A great spot for lunch!',
     picture: null,
