@@ -16,7 +16,7 @@ const ReviewForm = ({ placeId, restaurantName, restaurantAddress }) => {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    dispatch(addReviewAsync({ placeId, name: restaurantName, address: restaurantAddress, body }))
+    dispatch(addReviewAsync({ placeId: placeId, name: restaurantName, address: restaurantAddress, body }))
       .then(() => {
         setModalIsOpen(true);
         setBody('');
@@ -57,8 +57,8 @@ const ReviewForm = ({ placeId, restaurantName, restaurantAddress }) => {
           <button type="submit">Submit</button>
         </form>
       <Modal
-        className='review-modal'
-        overlayClassName="review-modal-overlay"
+        className='weOutside-modal'
+        overlayClassName="weOutside-modal-overlay"
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         shouldCloseOnOverlayClick={false}

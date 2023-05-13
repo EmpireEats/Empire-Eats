@@ -1,20 +1,26 @@
-.review-modal {
-  width: 350px;
+/* .weOutside-modal-content {
+  text-align: center;
+} */
+
+.weOutside-modal {
+  width: 400px;
   min-height: 250px; /* Increase the height and use min-height to allow content to grow */
   margin: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  text-align: center;
   padding: 20px;
   font-size: 20px;
   font-weight: bold;
   color: #2B3434;
   border: 3px solid #2B3434;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #b3cbc7be;
 }
 
-.review-modal-overlay {
+.weOutside-modal-overlay {
   display: flex;
   justify-content: center;
   align-items: center;
