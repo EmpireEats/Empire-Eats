@@ -71,6 +71,8 @@ const Now = ({ onChatEnabledChange }) => {
         alert(error);
       });
       socket.on('userInteractionError', (error) => {
+        onChatEnabledChange(false);
+        setHasActiveInteraction(false);
         alert(error);
       });
       socket.on('userInteractionDeleted', (deletedInteraction) => {
