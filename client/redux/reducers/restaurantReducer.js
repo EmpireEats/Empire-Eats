@@ -4,6 +4,8 @@ import { fetchRestaurants, fetchSingleRestaurant } from '../actions/restaurantAc
 const initialState = {
   allRestaurants: [],
   singleRestaurant: {},
+  status: 'idle',
+  error: 'null',
   nycBounds: {
     north: 40.917577,
     south: 40.477399,
@@ -18,13 +20,22 @@ const restaurantSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(fetchRestaurants.pending, (state) => {
+        state.status = 'loading';
+        state.error = null;
+      })
       .addCase(fetchRestaurants.fulfilled, (state, action) => {
-        state.allRestaurants = action.payload
+        state.status = 'succeeded';
+        state.allRestaurants = action.payload;
+      })
+      .addCase(fetchRestaurants.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
       })
       .addCase(fetchSingleRestaurant.fulfilled, (state, action) => {
-        state.singleRestaurant = action.payload
-      })
-  }
+        state.singleRestaurant = action.payload;
+      });
+  },
 });
 
 export default restaurantSlice.reducer;
