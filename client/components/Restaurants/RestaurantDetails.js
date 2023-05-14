@@ -16,11 +16,11 @@ const RestaurantDetails = ({ restaurant }) => {
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
-  const handleClick = async () => {
+  const handleClick = () => {
     if (expanded) {
       setExpanded(false);
     } else {
-      await dispatch(fetchSingleRestaurant(restaurant.placeId));
+       dispatch(fetchSingleRestaurant(restaurant.placeId));
       setExpanded(true);
     }
   };
@@ -28,9 +28,9 @@ const RestaurantDetails = ({ restaurant }) => {
   const handleReviewButtonClick = (event) => {
     event.stopPropagation();
     if (loggedInUser) {
-      setShowReviewForm(!showReviewForm); // Toggle the review form visibility
+      setShowReviewForm(!showReviewForm); 
     } else {
-      setShowLoginModal(true); // Show the login modal
+      setShowLoginModal(true);
     }
   };
 
