@@ -35,7 +35,6 @@ io.on('connection', (socket) => {
 
   socket.on('message', ({ sender, text, postId }) => {
     console.log('Received message:', { sender, text, postId });
-    // io.emit('message', message);
     io.emit('message', { sender, text, postId });
     console.log('Server emitted message:', { sender, text, postId });
   });
@@ -108,63 +107,42 @@ io.on('connection', (socket) => {
       console.error('Error deleting post:', error);
     }
   });
-
   socket.on(
     'createUserInteraction',
     async ({ postId, postAuthorId, loggedInUserId }) => {
-      console.log(postId, postAuthorId, loggedInUserId);
       try {
         const post = await Post.findByPk(postId);
-        if (post.preference === 'one on one') {
-          console.log('post preference', post.preference);
-          const existingInteraction = await UserInteraction.findOne({
-            where: { postId: postId },
-          });
-          console.log('existing:', existingInteraction);
-          if (existingInteraction) {
-            io.emit(
-              'userInteractionError',
-              'user interaction already active for this post'
-            );
-          } else {
-            const newUserInteraction = await UserInteraction.create({
-              postId,
-              postAuthorId,
-              interactingUserId: loggedInUserId,
-              isActive: true,
-            });
-            io.to(socket.id).emit('userInteractionCreated', {
-              postId,
-              postAuthorId,
-              loggedInUserId,
-            });
-          }
-        } else {
-          const existingUserInteraction = await UserInteraction.findOne({
+        const existingInteraction = await UserInteraction.findOne({
+          where: { postId: postId },
+        });
+
+        const interactionExists =
+          existingInteraction ||
+          (await UserInteraction.findOne({
             where: { interactingUserId: loggedInUserId },
-          });
+          }));
 
-          if (existingUserInteraction) {
-            await existingUserInteraction.update({
-              postId,
-              postAuthorId,
-              isActive: true,
-            });
-          } else {
-            await UserInteraction.create({
-              postId,
-              postAuthorId,
-              interactingUserId: loggedInUserId,
-              isActive: true,
-            });
-          }
-
-          io.to(socket.id).emit('userInteractionCreated', {
-            postId,
-            postAuthorId,
-            loggedInUserId,
-          });
+        if (interactionExists && post.preference === 'one on one') {
+          return io.emit(
+            'userInteractionError',
+            'user interaction already active for this post'
+          );
         }
+
+        const interactionData = {
+          postId,
+          postAuthorId,
+          interactingUserId: loggedInUserId,
+          isActive: true,
+        };
+
+        if (interactionExists) {
+          await interactionExists.update(interactionData);
+        } else {
+          await UserInteraction.create(interactionData);
+        }
+
+        io.to(socket.id).emit('userInteractionCreated', interactionData);
       } catch (error) {
         console.error('Error creating user interaction:', error);
         socket.emit('userInteractionError', 'Error creating user interaction');
@@ -174,15 +152,19 @@ io.on('connection', (socket) => {
 
   socket.on('removeUserInteraction', async ({ postId, userId }) => {
     try {
-      const userInteractionToDelete = await UserInteraction.findOne({
-        where: { postId: postId, interactingUserId: userId },
+      const userInteraction = await UserInteraction.findOne({
+        where: { postId, interactingUserId: userId },
       });
-      if (!userInteractionToDelete) console.error('cannot find interac tion');
-      userInteractionToDelete.destroy();
-      io.emit('userInteractionDeleted', userInteractionToDelete);
+
+      if (userInteraction) {
+        await userInteraction.destroy();
+        io.to(socket.id).emit('userInteractionDeleted', userInteraction);
+      } else {
+        console.error('Cannot find interaction');
+      }
     } catch (error) {
-      console.error('error deleting users interaction with post');
-      socket.emit('userInteractionError', 'error deleting user interaction');
+      console.error("Error deleting user's interaction with post:", error);
+      socket.emit('userInteractionError', 'Error deleting user interaction');
     }
   });
 
