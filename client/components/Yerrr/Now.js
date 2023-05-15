@@ -13,6 +13,7 @@ import EditYerrr from './EditYerrr';
 const Now = ({ onChatEnabledChange }) => {
   const reduxPosts = useSelector((state) => state.post.allPosts);
   const hiddenPosts = useSelector((state) => state.post.hiddenPosts);
+  const loading = useSelector((state) => state.post.loading);
   const loggedInUserId = useSelector(
     (state) => state.auth.user && state.auth.user.id
   );
@@ -148,6 +149,8 @@ const Now = ({ onChatEnabledChange }) => {
     dispatch(hidePostAsync({ id, userId: loggedInUserId }));
     setPosts(posts.filter((post) => post.id !== id));
   };
+
+  if (loading) return <p>Loading...</p>;
 
   return (
     <div className='user-post-list'>
