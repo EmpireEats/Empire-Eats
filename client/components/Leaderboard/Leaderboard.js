@@ -29,6 +29,7 @@ const Leaderboard = () => {
       <Link to="/home/feed">
         <button>Feed</button>
       </Link>
+      {/* delete this */}
       <h1>Leaderboard</h1>
       <table>
         <thead>
