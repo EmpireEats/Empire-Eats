@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+// Auth Actions
 export const login = createAsyncThunk(
   'auth/login',
   async ({ email, password }, { rejectWithValue }) => {
@@ -27,23 +28,6 @@ export const login = createAsyncThunk(
     }
   }
 );
-
-// export const login = createAsyncThunk(
-//   'auth/login',
-//   async ({ email, password }) => {
-//     try {
-//       const response = await axios.post('/api/authentication/auth/login', {
-//         email,
-//         password,
-//       });
-//       const { token, user } = response.data;
-//       localStorage.setItem('token', token);
-//       return { token, user };
-//     } catch (error) {
-//       throw error;
-//     }
-//   }
-// );
 
 export const signup = createAsyncThunk(
   'auth/signup',
@@ -109,3 +93,60 @@ export const getLoggedInUserData = createAsyncThunk(
     }
   }
 );
+
+// User Actions
+export const fetchAllUsers = createAsyncThunk('users/fetchAll', async () => {
+    try {
+        const token = window.localStorage.getItem('token');
+        const { data } = await axios.get('/api/users/all', 
+            {
+                headers: {
+                    authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return data;
+    } catch (err) {
+        return err.message;
+    }
+});
+
+export const fetchSingleUser = createAsyncThunk('users/fetchSingle', async (id) => {
+  try {
+        const token = window.localStorage.getItem('token');
+        const { data } = await axios.get(`/api/users/${id}`, 
+            {
+                headers: {
+                    authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        const reviews = data.Reviews || [];
+
+        return { user: data, reviews };
+
+    } catch (err) {
+        return err.message;
+    }
+});
+
+export const editUser = createAsyncThunk('users/update', async ({ id, firstName, lastName, email, username, password }) => {
+    try {
+        const token = window.localStorage.getItem('token');
+        const { data } = await axios.put(`/api/users/${id}`, 
+            {
+                firstName,
+                lastName,
+                email,
+                username,
+                password,
+            }, {
+                headers: {
+                    authorization: `Bearer ${token}`,
+                },
+        });
+        return data;
+    } catch (err) {
+        return err.message;
+    }
+});
