@@ -10,10 +10,12 @@ export const getGeolocation = async () => {
   });
 };
 
-export const fetchRestaurants = createAsyncThunk('Restaurants/fetchRestaurants', async () => {
+export const fetchRestaurants = createAsyncThunk('Restaurants/fetchRestaurants', async (_, { getState }) => {
   try {
     const { latitude, longitude } = await getGeolocation();
-    const { data } = await axios.get(`/api/restaurants?latitude=${latitude}&longitude=${longitude}`);
+    const { nextPageToken } = getState().restaurant;
+    const url = `/api/restaurants?latitude=${latitude}&longitude=${longitude}&pageToken=${nextPageToken || ''}`;
+    const { data } = await axios.get(url);
     return data;
   } catch (error) {
     throw error;
@@ -28,19 +30,3 @@ export const fetchSingleRestaurant = createAsyncThunk('singleRestaurant/fetchSin
     throw error;
   }
 });
-
-// export const fetchRestaurantsInBounds = createAsyncThunk(
-//   'restaurants/fetchInBounds',
-//   async (bounds) => {
-//     const northEast = bounds.getNorthEast();
-//     const southWest = bounds.getSouthWest();
-
-//     const { data: restaurants } = await axios.get(
-//       `/api/restaurants?northEastLat=${northEast.lat()}&northEastLng=${northEast.lng()}&southWestLat=${southWest.lat()}&southWestLng=${southWest.lng()}`
-//     );
-
-//     return restaurants;
-//   }
-
-// );
-
