@@ -1,118 +1,159 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getLoggedInUserData } from '../../redux/actions/authActions';
-import { fetchSingleUser, editUser } from '../../redux/actions/userActions';
-
+import { getLoggedInUserData, fetchSingleUser, editUser } from '../../redux/actions/authActions';
 
 const EditProfile = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const auth = useSelector((state) => state.auth);
     const user = auth.user;
-    const dispatch = useDispatch();
-    const id = user.id;
-    const navigate = useNavigate();
-
+    const id = user ? user.id: null;
+    const [formData, setFormData] = useState({
+      firstName: '',
+      lastName: '',
+      email: '',
+      username: '',
+      password: '',
+    });
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    
     useEffect(() => {
-        dispatch(getLoggedInUserData());
+        dispatch(getLoggedInUserData())
+        .then(() => {
+          const updatedUser = auth.user;
+          if (updatedUser) {
+            setFormData({
+              firstName: updatedUser.firstName,
+              lastName: updatedUser.lastName,
+              email: updatedUser.email,
+              username: updatedUser.username,
+              password: updatedUser.password,
+            });
+          }
+        });
     }, [dispatch, id]);
 
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [username, setUserName] = useState('');
-    const [password, setPassword] = useState('');
-
     useEffect(() => {
-        setFirstName(user.firstName);
-        setLastName(user.lastName);
-        setEmail(user.email);
-        setUserName(user.username);
+        if (user) {
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            username: user.username,
+          }));
+        }
     }, [user]);
 
-    const handleSubmit = (event) => {
+    const handleBackToProfile = () => {
+        if (id !== null) {
+            navigate(`/users/${id}`);
+        }
+    };
+
+    const handleEditProfile = (event) => {
         event.preventDefault();
-        const editedUser = {
-            id,
-            firstName: firstName.trim() === '' ? user.firstName : firstName,
-            lastName: lastName.trim() === '' ? user.lastName : lastName,
-            email: email.trim() === '' ? user.email : email,
-            username: username.trim() === '' ? user.username : username,
-            password: password.trim() === '' ? undefined : password,
-        };
-        dispatch(editUser(editedUser)).then(() => {
-            dispatch(fetchSingleUser(id)).then(() => {
-                navigate(`/users/${id}`);
-            });
-        });
+        setLoading(true);
+        setError('');
+
+        dispatch(editUser ({ id, ...formData }))
+          .then(() => {
+            setLoading(false);
+            dispatch(fetchSingleUser(id));
+            alert('Updates have been saved successfully!');
+          })
+          .catch((error) => {
+            setLoading(false);
+            setError('Failed to save updates. Please try again.');
+            console.error(error);
+          });
     };
 
-    const handleCancel = () => {
-        navigate(`/users/${id}`);
+    const handleChange = (event) => {
+      const { name, value } = event.target;
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value
+      }));
     };
 
-    return (
-        <>
-            <h4>Edit Profile</h4>
-            <div>
-                <img src='https://ih1.redbubble.net/image.1046392278.3346/mp,840x830,matte,f8f8f8,t-pad,1000x1000,f8f8f8.jpg' width={100} />
-                <p>{firstName} {lastName} </p>
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <label htmlFor='firstName'>First Name:</label>
-                        <input
-                            type='text'
-                            id='name'
-                            name='name'
-                            value={firstName}
-                            onChange={(event) => setFirstName(event.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor='firstName'>Last Name:</label>
-                        <input
-                            type='text'
-                            id='name'
-                            name='name'
-                            value={lastName}
-                            onChange={(event) => setLastName(event.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor='email'>Email:</label>
-                        <input
-                            type='text'
-                            id='email'
-                            name='email'
-                            value={email}
-                            onChange={(event) => setEmail(event.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor='username'>User Name:</label>
-                        <input
-                            type='text'
-                            id='name'
-                            name='name'
-                            value={username}
-                            onChange={(event) => setUserName(event.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor='password'>Password:</label>
-                        <input
-                            type='text'
-                            id='password'
-                            name='password'
-                            value={password}
-                            onChange={(event) => setPassword(event.target.value)}
-                        />
-                    </div>
-                    <button type="button" onClick={handleCancel}>Cancel</button>
-                    <button type='submit'>Edit Profile</button>
-                </form>
-            </div>
-        </>
-    );
+  return (
+    <>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <button type='button' onClick={handleBackToProfile}>
+          Back to Profile
+        </button>
+        <div>
+          <button type='submit' onClick={handleEditProfile} disabled={loading}>
+            {loading ? 'Saving...' : 'Edit Profile'}
+          </button>
+        </div>
+      </div>
+      <div>
+        <img
+          src='https://ih1.redbubble.net/image.1046392278.3346/mp,840x830,matte,f8f8f8,t-pad,1000x1000,f8f8f8.jpg'
+          width={100}
+          alt='Profile'
+        />
+        <p>{formData.firstName} {formData.lastName}</p>
+        {error && <p>{error}</p>}
+        <form>
+                <div>
+                    <label htmlFor='firstName'>First Name:</label>
+                    <input
+                        type='text'
+                        id='firstName'
+                        name='firstName'
+                        value={formData.firstName}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div>
+                    <label htmlFor='lastName'>Last Name:</label>
+                    <input
+                        type='text'
+                        id='lastName'
+                        name='lastName'
+                        value={formData.lastName}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div>
+                    <label htmlFor='email'>Email:</label>
+                    <input
+                        type='email'
+                        id='email'
+                        name='email'
+                        value={formData.email}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div>
+                    <label htmlFor='username'>User Name:</label>
+                    <input
+                        type='text'
+                        id='username'
+                        name='username'
+                        value={formData.username}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div>
+                    <label htmlFor='password'>Password:</label>
+                    <input
+                        type='password'
+                        id='password'
+                        name='password'
+                        value={formData.password}
+                        onChange={handleChange}
+                    />
+                </div>
+        </form>
+      </div>
+    </>
+  );
 };
 
 export default EditProfile;

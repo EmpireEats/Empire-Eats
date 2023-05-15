@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchSingleUser } from '../../redux/actions/userActions';
-import { getLoggedInUserData } from '../../redux/actions/authActions';
+import { getLoggedInUserData, fetchSingleUser } from '../../redux/actions/authActions';
 
 const UserProfile = () => {
   const dispatch = useDispatch();
