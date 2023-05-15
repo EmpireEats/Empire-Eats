@@ -6,22 +6,19 @@ import Modal from 'react-modal';
 import { Link } from 'react-router-dom';
 import '../../../public/styles/weOutside.css';
 
-Modal.setAppElement('#root'); // Replace '#root' with your app's root element ID
+Modal.setAppElement('#root');
 
-const RestaurantDetails = ({ restaurant }) => {
+const RestaurantDetails = ({ restaurant, expanded, onRestaurantClick }) => {
   const dispatch = useDispatch();
-  const [expanded, setExpanded] = useState(false);
   const singleRestaurant = useSelector(state => state.restaurant.singleRestaurant);
   const loggedInUser = useSelector(state => state.auth.user);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   const handleClick = () => {
-    if (expanded) {
-      setExpanded(false);
-    } else {
-       dispatch(fetchSingleRestaurant(restaurant.placeId));
-      setExpanded(true);
+    onRestaurantClick(restaurant.placeId);
+    if (!expanded) {
+      dispatch(fetchSingleRestaurant(restaurant.placeId));
     }
   };
 

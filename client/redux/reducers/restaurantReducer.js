@@ -5,13 +5,14 @@ const initialState = {
   allRestaurants: [],
   singleRestaurant: {},
   status: 'idle',
-  error: 'null',
+  error: null,
   nycBounds: {
     north: 40.917577,
     south: 40.477399,
     east: -73.700272,
     west: -74.259090,
   },
+  nextPageToken: null,
 };
 
 const restaurantSlice = createSlice({
@@ -26,7 +27,8 @@ const restaurantSlice = createSlice({
       })
       .addCase(fetchRestaurants.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.allRestaurants = action.payload;
+        state.allRestaurants = state.allRestaurants.concat(action.payload.restaurants);
+        state.nextPageToken = action.payload.nextPageToken;
       })
       .addCase(fetchRestaurants.rejected, (state, action) => {
         state.status = 'failed';

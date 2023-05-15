@@ -34,6 +34,7 @@
 
 .list-container {
   height: 40vh;
+  width: 100%;
   overflow-y: auto;
   margin-bottom: 16px;
   /* border: 1px solid #ccc; */
@@ -44,6 +45,7 @@
   margin-bottom: 16px;
 }
 
-/* .restaurant-item:last-child {
-  margin-bottom: 0;
-} */
+.map-container {
+  width: 100%;
+  height: 30vh;
+}
