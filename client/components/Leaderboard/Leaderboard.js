@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchLeaderboard } from "../../redux/actions/leaderboardActions";
+import { Link } from "react-router-dom";
 
 const Leaderboard = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,13 @@ const Leaderboard = () => {
 
   return (
     <div>
+      <Link to="/home/leaderboard">
+        <button>Leaderboard</button>
+      </Link>
+      <Link to="/home/feed">
+        <button>Feed</button>
+      </Link>
+      {/* delete this */}
       <h1>Leaderboard</h1>
       <table>
         <thead>
@@ -36,7 +44,7 @@ const Leaderboard = () => {
             <tr key={index}>
               <td>{index + 1}</td>
               <td>{user.name}</td>
-              <td>{user.restaurantVisitCount}</td> 
+              <td>{user.restaurantVisitCount}</td>
             </tr>
           ))}
         </tbody>
