@@ -112,31 +112,59 @@ io.on('connection', (socket) => {
   socket.on(
     'createUserInteraction',
     async ({ postId, postAuthorId, loggedInUserId }) => {
+      console.log(postId, postAuthorId, loggedInUserId);
       try {
-        const existingUserInteraction = await UserInteraction.findOne({
-          where: { interactingUserId: loggedInUserId },
-        });
-
-        if (existingUserInteraction) {
-          await existingUserInteraction.update({
-            postId,
-            postAuthorId,
-            isActive: true,
+        const post = await Post.findByPk(postId);
+        if (post.preference === 'one on one') {
+          console.log('post preference', post.preference);
+          const existingInteraction = await UserInteraction.findOne({
+            where: { postId: postId },
           });
+          console.log('existing:', existingInteraction);
+          if (existingInteraction) {
+            io.emit(
+              'userInteractionError',
+              'user interaction already active for this post'
+            );
+          } else {
+            const newUserInteraction = await UserInteraction.create({
+              postId,
+              postAuthorId,
+              interactingUserId: loggedInUserId,
+              isActive: true,
+            });
+            io.to(socket.id).emit('userInteractionCreated', {
+              postId,
+              postAuthorId,
+              loggedInUserId,
+            });
+          }
         } else {
-          await UserInteraction.create({
+          const existingUserInteraction = await UserInteraction.findOne({
+            where: { interactingUserId: loggedInUserId },
+          });
+
+          if (existingUserInteraction) {
+            await existingUserInteraction.update({
+              postId,
+              postAuthorId,
+              isActive: true,
+            });
+          } else {
+            await UserInteraction.create({
+              postId,
+              postAuthorId,
+              interactingUserId: loggedInUserId,
+              isActive: true,
+            });
+          }
+
+          io.to(socket.id).emit('userInteractionCreated', {
             postId,
             postAuthorId,
-            interactingUserId: loggedInUserId,
-            isActive: true,
+            loggedInUserId,
           });
         }
-
-        io.emit('userInteractionCreated', {
-          postId,
-          postAuthorId,
-          loggedInUserId,
-        });
       } catch (error) {
         console.error('Error creating user interaction:', error);
         socket.emit('userInteractionError', 'Error creating user interaction');
