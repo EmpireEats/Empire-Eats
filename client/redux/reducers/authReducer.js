@@ -4,16 +4,22 @@ import {
   signup,
   logout,
   getLoggedInUserData,
+  fetchAllUsers,
+  fetchSingleUser,
+  editUser
 } from '../actions/authActions';
+
+const initialState = {
+  token: null,
+  status: 'idle',
+  user: null,
+  error: null,
+  allUsers: [],
+};
 
 export const authSlice = createSlice({
   name: 'auth',
-  initialState: {
-    token: null,
-    status: 'idle',
-    user: null,
-    error: null,
-  },
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -56,10 +62,18 @@ export const authSlice = createSlice({
           state.user = null;
         }
       })
-
       .addCase(getLoggedInUserData.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
+      })
+      .addCase(fetchAllUsers.fulfilled, (state, action) => {
+        state.allUsers = action.payload;
+      })
+      .addCase(fetchSingleUser.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+      })
+      .addCase(editUser.fulfilled, (state, action) => {
+        state.user = action.payload;
       });
   },
 });
