@@ -46,7 +46,7 @@ const UserProfile = () => {
           <p>Leaderboard Rank: {rank}</p>
           <p>Number of Restaurants Visited: {restaurantVisits}</p>
         </div>
-        <div>
+        <div style= {{ height: '40vh', overflowY: 'auto', marginBottom: '16px', padding: '8px' }}>
           {/* Will be revised to display images of food reviews like IG, where a user can expand by clicking on the picture*/}
           <p>Reviews:</p>
           {reviews && reviews.map((review) => (
