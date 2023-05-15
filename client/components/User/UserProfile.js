@@ -13,6 +13,7 @@ const UserProfile = () => {
   const lastname = user.lastName;
   const id = user.id;
   const reviews = useSelector((state) => state.auth.user.reviews);
+  const leaderboard = useSelector((state) => state.leaderboard.leaderboard);
 
   useEffect(() => {
     dispatch(fetchSingleUser(id));
@@ -21,6 +22,9 @@ const UserProfile = () => {
   useEffect(() => {
     dispatch(getLoggedInUserData());
   }, [dispatch]);
+
+  const rank = leaderboard.findIndex((user) => user.name === username) + 1;
+  const restaurantVisits = leaderboard.find((user) => user.name === username)?.restaurantVisitCount;
 
   return (
     <>
@@ -39,10 +43,10 @@ const UserProfile = () => {
           </div>
         </div>
         <div>
-          <p>Placeholder for Leaderboard Rank</p>
-          <p>Placeholder for Number of Restaurants Visited Count</p>
+          <p>Leaderboard Rank: {rank}</p>
+          <p>Number of Restaurants Visited: {restaurantVisits}</p>
         </div>
-        <div>
+        <div style= {{ height: '40vh', overflowY: 'auto', marginBottom: '16px', padding: '8px' }}>
           {/* Will be revised to display images of food reviews like IG, where a user can expand by clicking on the picture*/}
           <p>Reviews:</p>
           {reviews && reviews.map((review) => (
