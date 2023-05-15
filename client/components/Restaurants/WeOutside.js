@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchRestaurants } from '../../redux/actions/restaurantActions';
 import Map from './Map';
 import AllRestaurants from './AllRestaurants';
+import NewMap from './NewMap';
 
 const WeOutside = () => {
   const dispatch = useDispatch();
@@ -14,7 +15,8 @@ const WeOutside = () => {
 
   return (
     <div>
-      <Map restaurants={allRestaurants} />
+      <h1>We Outside</h1>
+      <NewMap />
       <AllRestaurants restaurants={allRestaurants} />
     </div>
   );
