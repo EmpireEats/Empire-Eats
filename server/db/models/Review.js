@@ -21,15 +21,15 @@ const Review = db.define('review', {
       len: [0, 300], // Set the maximum length of the body field to 300 characters
     }
   },
-  picture: {
-    type: Sequelize.BLOB,
+  image: {
+    type: Sequelize.STRING,
   },
   title: {
     type: DataTypes.VIRTUAL,
     get() {
       const maxLength = 50; // Maximum number of characters for the title
       return this.getDataValue('body').length > maxLength
-        ? this.getDataValue('body').substring(0, maxLength) + '...' // Truncate body to the maximum length and add ellipsis
+        ? this.getDataValue('body').substring(0, maxLength) + '...'
         : this.getDataValue('body');
     },
   },

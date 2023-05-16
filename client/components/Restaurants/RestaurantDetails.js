@@ -35,6 +35,18 @@ const RestaurantDetails = ({ restaurant, expanded, onRestaurantClick }) => {
     setShowLoginModal(false);
   };
 
+  const handleLogin = () => {
+    closeModal();
+    localStorage.setItem('lastLocation', location.pathname);
+    navigate('/login');
+  };
+
+  const handleSignup = () => {
+    closeModal();
+    localStorage.setItem('lastLocation', location.pathname);
+    navigate('/signup');
+  };
+
   return (
     <div onClick={handleClick} className="restaurant-item">
       <h3>{restaurant.name}</h3>
