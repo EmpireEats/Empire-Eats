@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect} from "react";
 import { useDispatch } from "react-redux";
 import io from "socket.io-client";
 import NavBar from "./NavBar";
@@ -15,10 +15,15 @@ import UserProfile from "./User/UserProfile";
 import EditProfile from "./User/EditProfile";
 import WeOutside from "./Restaurants/WeOutside";
 import Feed from "./Leaderboard/Feed";
+import { getLoggedInUserData } from "../redux/actions/authActions";
 
 const App = () => {
   const dispatch = useDispatch();
   const socketRef = React.useRef(null);
+
+  useEffect(() => {
+    dispatch(getLoggedInUserData());
+  }, [dispatch]);
 
   React.useEffect(() => {
     const newSocket = io("http://localhost:3000");

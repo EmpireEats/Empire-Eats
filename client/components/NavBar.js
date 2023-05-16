@@ -22,30 +22,24 @@ const NavBar = () => {
 
   return (
     <div className='nav-container'>
+      <Link to='/leaderboard'>Home </Link>
+      <Link to='/restaurants'>We Outside </Link>
+      <Link to='/yerrr/now'>YERRR </Link>
+      
       {auth.token ? (
-        <>
-          <Link to='/leaderboard'>Home </Link>
-          <Link to='/restaurants'>We Outside </Link>
-          <Link to='/yerrr/now'>YERRR </Link>
-          <div className='dropdown-container' onClick={handleDropdownClick}>
-            <div className='dropdown-icon'>
-              👤 <span className= 'dropdown-caret'></span>
-            </div>
-            {showDropdown && (
-              <div className='dropdown-menu'>
-                <Link to={`/users/${auth.user.id}`}>My Profile</Link>
-                <Link to='/' onClick={handleLogout}>Logout</Link>
-              </div>
-            )}
+        <div className='dropdown-container' onClick={handleDropdownClick}>
+          <div className='dropdown-icon'>
+            👤 <span className='dropdown-caret'></span>
           </div>
-        </>
+          {showDropdown && (
+            <div className='dropdown-menu'>
+              {auth.user && <Link to={`/users/${auth.user.id}`}>My Profile</Link>}
+              <Link to='/' onClick={handleLogout}>Logout</Link>
+            </div>
+          )}
+        </div>
       ) : (
-        <>
-          <Link to='/leaderboard'>Home </Link>
-          <Link to='/restaurants'>We Outside </Link>
-          <Link to='/yerrr/now'>YERRR </Link>
-          {!auth.token && <Link to='/login'>Login </Link>}
-        </>
+        <Link to='/login'>Login</Link>
       )}
     </div>
   );

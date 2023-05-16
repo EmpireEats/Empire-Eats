@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getLoggedInUserData, fetchSingleUser } from '../../redux/actions/authActions';
+import { fetchSingleUser } from '../../redux/actions/authActions';
 import { fetchLeaderboard } from '../../redux/actions/leaderboardActions';
 
 const UserProfile = () => {
@@ -17,10 +17,6 @@ const UserProfile = () => {
     }
     dispatch(fetchLeaderboard());
   }, [dispatch, id]);
-
-  useEffect(() => {
-    dispatch(getLoggedInUserData());
-  }, [dispatch]);
 
   const { username, firstName, lastName, reviews } = user || {};
 
