@@ -11,7 +11,7 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io('http://localhost:3000');
+    const newSocket = io('empireeats.onrender.com');
     setSocket(newSocket);
     console.log('Socket connection created:', newSocket);
 

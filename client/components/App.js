@@ -26,7 +26,7 @@ const App = () => {
   }, [dispatch]);
 
   React.useEffect(() => {
-    const newSocket = io("http://localhost:3000");
+    const newSocket = io("empireeats.onrender.com");
     socketRef.current = newSocket;
     console.log("Socket connection created:", newSocket);
 
