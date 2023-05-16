@@ -28,7 +28,11 @@ const UserProfile = () => {
   const restaurantVisits = leaderboard.find((user) => user.name === username)?.restaurantVisitCount;
 
   if(!user) {
-    return <p>Please log in or sign up to access.<Link to='/login'>Log In</Link> or <Link to='/signup'>Sign Up</Link></p>
+    return (
+      <div>
+        <p>Please Log In or Sign Up to access. </p>
+        <Link to='/signup'>Sign Up</Link></div>
+    )
   }
 
   return (
