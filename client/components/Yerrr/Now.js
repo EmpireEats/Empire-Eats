@@ -8,9 +8,11 @@ import {
   hidePostAsync,
 } from '../../redux/actions/postActions';
 import { useSocket } from '../../contexts/SocketContext';
-import EditYerrr from './EditYerrr';
 import Modal from 'react-modal';
 import NeedToLogIn from './NeedToLogIn';
+import Post from './Post';
+import Filter from './Filter';
+import Pagination from './Pagination';
 
 const Now = ({ onChatEnabledChange }) => {
   const reduxPosts = useSelector((state) => state.post.allPosts);
@@ -35,9 +37,7 @@ const Now = ({ onChatEnabledChange }) => {
 
   useEffect(() => {
     dispatch(fetchAllPostsAsync());
-    if (loggedInUserId) {
-      dispatch(fetchHiddenPosts(loggedInUserId));
-    }
+    if (loggedInUserId) dispatch(fetchHiddenPosts(loggedInUserId));
   }, [dispatch]);
 
   useEffect(() => {
@@ -77,13 +77,11 @@ const Now = ({ onChatEnabledChange }) => {
         setHasActiveInteraction(false);
         alert(error);
       });
-      socket.on('userInteractionDeleted', (deletedInteraction) => {
+      socket.on('userInteractionDeleted', () => {
         onChatEnabledChange(false);
         setHasActiveInteraction(false);
       });
       socket.on('userInteractionCreated', (newUi) => {
-        console.log('created user interaction:', newUi);
-        console.log('postId:', newUi.postId);
         const postId = newUi.postId;
         onChatEnabledChange(true);
         setHasActiveInteraction(true);
@@ -102,12 +100,9 @@ const Now = ({ onChatEnabledChange }) => {
     }
   }, [reduxPosts, socket, hiddenPosts]);
 
-  // filter by preference
   const filteredPosts = posts.filter((post) =>
     selectedOption === 'all' ? true : post.preference === selectedOption
   );
-
-  // pagination
   const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
@@ -144,9 +139,7 @@ const Now = ({ onChatEnabledChange }) => {
   };
 
   const handleDeletePost = (id) => {
-    if (socket) {
-      socket.emit('deletePost', id);
-    }
+    if (socket) socket.emit('deletePost', id);
   };
 
   const handleEditPost = (id) => {
@@ -168,81 +161,26 @@ const Now = ({ onChatEnabledChange }) => {
         <>
           <div>
             {currentPosts.map((post) => (
-              <div key={`${post.id}`} className='user-post'>
-                {isEditMode && editablePost?.id === post.id ? (
-                  <EditYerrr
-                    post={editablePost}
-                    onSave={() => setIsEditMode(false)}
-                    onCancel={() => setIsEditMode(false)}
-                  />
-                ) : (
-                  <>
-                    {post.user && post.user.firstName ? (
-                      <p>User: {post.user.firstName}</p>
-                    ) : (
-                      <p>No name</p>
-                    )}
-                    <p>{post.message}</p>
-                    <p>Preference: {post.preference}</p>
-                    {post.isActive ? <p>Active</p> : <p>No Longer Active</p>}
-                    <button
-                      onClick={() =>
-                        handleUserInteraction({
-                          postId: post?.id,
-                          postAuthorId: post?.user?.id,
-                        })
-                      }
-                      disabled={hasActiveInteraction}>
-                      👍🏽
-                    </button>
-                    <span>
-                      <button onClick={() => handleHidePost(post.id)}>
-                        👎🏽
-                      </button>
-                    </span>
-                    {post.userId === loggedInUserId && (
-                      <>
-                        <span>
-                          <button onClick={() => handleDeletePost(post.id)}>
-                            ❌
-                          </button>
-                        </span>
-                        <span>
-                          <button onClick={() => handleEditPost(post.id)}>
-                            Edit Yerrr
-                          </button>
-                        </span>
-                      </>
-                    )}
-                  </>
-                )}
-              </div>
+              <Post
+                key={post.id}
+                post={post}
+                handleUserInteraction={handleUserInteraction}
+                handleHidePost={handleHidePost}
+                handleDeletePost={handleDeletePost}
+                handleEditPost={handleEditPost}
+                isEditMode={isEditMode}
+                editablePost={editablePost}
+                loggedInUserId={loggedInUserId}
+                setIsEditMode={setIsEditMode}
+              />
             ))}
           </div>
-          <div className='filter'>
-            <span>Filter By Preference: </span>
-            <select value={selectedOption} onChange={handleSort}>
-              <option value='all'>All</option>
-              <option value='no preference'>No Preference</option>
-              <option value='group'>Group</option>
-              <option value='one on one'>1 on 1</option>
-            </select>
-          </div>
-          <div className='pagination'>
-            <button
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}>
-              Previous
-            </button>
-            <span>
-              Page {currentPage} of {totalPages}
-            </span>
-            <button
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}>
-              Next
-            </button>
-          </div>
+          <Filter selectedOption={selectedOption} handleSort={handleSort} />
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            handlePageChange={handlePageChange}
+          />
           <Modal
             className='weOutside-modal'
             overlayClassName='weOutside-modal-overlay'

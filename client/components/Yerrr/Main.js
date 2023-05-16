@@ -26,6 +26,7 @@ const Main = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
   useEffect(() => {
     dispatch(getLoggedInUserData());
   }, [dispatch]);
