@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { getGeolocation } from '../../redux/actions/restaurantActions';
 
-const NewMap = ({ selectedRestaurantLocation }) => {
+const Map = ({ selectedRestaurantLocation }) => {
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
   const [directionsRenderer, setDirectionsRenderer] = useState(null);
@@ -129,4 +129,4 @@ const NewMap = ({ selectedRestaurantLocation }) => {
   );
 };
 
-export default NewMap;
+export default Map;
