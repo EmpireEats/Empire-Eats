@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-// import { useNavigate } from 'react-router-dom';
 import { addReviewAsync } from '../../redux/actions/reviewActions';
 import Modal from 'react-modal';
 import '../../../public/styles/weOutside.css';
@@ -9,12 +8,10 @@ Modal.setAppElement('#root');
 
 const ReviewForm = ({ placeId, restaurantName, restaurantAddress }) => {
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
 
   const [body, setBody] = useState('');
   const [image, setImage] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  // const [file, setFile] = useState(null);
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
@@ -25,28 +22,6 @@ const ReviewForm = ({ placeId, restaurantName, restaurantAddress }) => {
         setImage('');
       });
   };
-
-  // const handleSubmit = async (evt) => {
-  //   evt.preventDefault();
-  
-  //   // Create a FormData object to include the file
-  //   const formData = new FormData();
-  //   formData.append('placeId', placeId);
-  //   formData.append('name', restaurantName);
-  //   formData.append('address', restaurantAddress);
-  //   formData.append('body', body);
-  
-  //   if (file) {
-  //     formData.append('picture', file);
-  //   }
-  
-  //   dispatch(addReviewAsync(formData))
-  //     .then(() => {
-  //       setModalIsOpen(true);
-  //       setBody('');
-  //       setFile(null);
-  //     });
-  // };  
 
   const handleClick = (event) => {
     event.stopPropagation();
@@ -88,14 +63,6 @@ const ReviewForm = ({ placeId, restaurantName, restaurantAddress }) => {
             onChange={(e) => setImage(e.target.value)}
             required 
           />
-          {/* <label htmlFor="picture">Upload a picture:</label>
-          <input
-            type="file"
-            id="picture"
-            name="picture"
-            accept="image/*" // Only accept image files
-            onChange={(e) => setFile(e.target.files[0])}
-          /> */}
           <br />
           <button type="submit">Submit</button>
         </form>
@@ -104,7 +71,6 @@ const ReviewForm = ({ placeId, restaurantName, restaurantAddress }) => {
         overlayClassName="weOutside-modal-overlay"
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        // shouldCloseOnOverlayClick={false}
         contentLabel="Take me to crAPP"
       >
         <p>Review posted!</p>
