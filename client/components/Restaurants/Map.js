@@ -1,59 +1,131 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { getGeolocation } from '../../redux/actions/restaurantActions';
 
-let map;
-const NYC_BOUNDS = {
-  north: 40.917577,
-  south: 40.477399,
-  west: -74.25909,
-  east: -73.700181,
-};
-const DEFAULT_CENTER = { lat: 40.712776, lng: -74.005974 };
+const Map = ({ selectedRestaurantLocation }) => {
+  const mapRef = useRef(null);
+  const [map, setMap] = useState(null);
+  const [directionsRenderer, setDirectionsRenderer] = useState(null);
+  const [userMarker, setUserMarker] = useState(null);
 
-const Map = () => {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const defaultCenter = { lat: 40.7128, lng: -74.0060 };
 
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyB8WHeAkLekUORmNa6_J30MwviZqj6qMM8&callback=initMap`;
-    document.head.appendChild(script);
-    script.onload = () => setIsLoaded(true);
-
-    return () => {
-      document.head.removeChild(script);
+    const loadMap = async () => {
+      await loadGoogleMaps();
+      initMap();
     };
+
+    loadMap();
   }, []);
 
   useEffect(() => {
-    const createMapInstance = (center) => {
-      const options = {
-        center,
-        restriction: {
-          latLngBounds: NYC_BOUNDS,
-          strictBounds: true,
-        },
-        zoom: 14,
-      };
-      map = new window.google.maps.Map(document.getElementById('map'), options);
-    };
-
-    if (isLoaded) {
+    if (selectedRestaurantLocation && map) {
       getGeolocation()
         .then(({ latitude, longitude }) => {
-          const center = { lat: latitude, lng: longitude };
-          createMapInstance(center);
+          const userLocation = { lat: latitude, lng: longitude };
+          updateUserMarker(userLocation);
+          calculateAndDisplayRoute(userLocation, selectedRestaurantLocation);
         })
-        .catch(error => {
-          console.error(error);
-          createMapInstance(DEFAULT_CENTER);
+        .catch(() => {
+          updateUserMarker(defaultCenter);
+          calculateAndDisplayRoute(defaultCenter, selectedRestaurantLocation);
         });
     }
-  }, [isLoaded]);
+  }, [selectedRestaurantLocation, map]);
+
+  useEffect(() => {
+    if (map) {
+      getGeolocation()
+        .then(({ latitude, longitude }) => {
+          const userLocation = { lat: latitude, lng: longitude };
+          if (userLocation) {
+            updateUserMarker(userLocation);
+          } else {
+            updateUserMarker(defaultCenter);
+          }
+        })
+        .catch(() => {
+          updateUserMarker(defaultCenter);
+        });
+    }
+  }, [map]);
+
+  const loadGoogleMaps = async () => {
+    if (window.google && window.google.maps) {
+      return;
+    }
+
+    await new Promise((resolve) => {
+      window.initMap = resolve;
+      const script = document.createElement("script");
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyB8WHeAkLekUORmNa6_J30MwviZqj6qMM8&libraries=places&callback=initMap`;
+      script.async = true;
+      script.defer = true;
+      document.body.appendChild(script);
+    });
+  };
+
+  const initMap = async () => {
+    const nycBounds = {
+      south: 40.477399,
+      west: -74.259090,
+      north: 40.917577,
+      east: -73.700272
+    };
+
+    try {
+      const { latitude, longitude } = await getGeolocation();
+      const userLocation = { lat: latitude, lng: longitude };
+
+      const mapInstance = new window.google.maps.Map(mapRef.current, {
+        center: userLocation,
+        zoom: 16,
+        restriction: {
+          latLngBounds: nycBounds,
+          strictBounds: true
+        }
+      });
+
+      const directionsRendererInstance = new google.maps.DirectionsRenderer();
+      directionsRendererInstance.setMap(mapInstance);
+      setDirectionsRenderer(directionsRendererInstance);
+
+      setMap(mapInstance);
+    } catch (error) {
+      console.error('Error getting user location:', error);
+    }
+  };
+
+  const updateUserMarker = (userLocation) => {
+    if (userMarker) {
+      userMarker.setPosition(userLocation);
+    } else {
+      const newUserMarker = new window.google.maps.Marker({
+        position: userLocation,
+        map,
+        animation: google.maps.Animation.DROP,
+        title: 'Your Location'
+      });
+      setUserMarker(newUserMarker);
+    }
+  };
+
+  const calculateAndDisplayRoute = (userLocation, destination) => {
+    const directionsService = new google.maps.DirectionsService();
+
+    directionsService
+      .route({
+        origin: userLocation,
+        destination: destination,
+        travelMode: google.maps.TravelMode.WALKING,
+      })
+      .then((response) => {
+        directionsRenderer.setDirections(response);
+      });
+  };
 
   return (
-    <div>
-      <div id="map" style={{ height: '300px', width: '100%' }} />
-    </div>
+    <div ref={mapRef} className='map-container'></div>
   );
 };
 

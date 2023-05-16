@@ -4,7 +4,7 @@ import RestaurantDetails from './RestaurantDetails';
 import { fetchRestaurants } from '../../redux/actions/restaurantActions';
 import '../../../public/styles/weOutside.css';
 
-const AllRestaurants = ({ restaurants }) => {
+const AllRestaurants = ({ restaurants, setSelectedRestaurantLocation }) => {
   const status = useSelector(state => state.restaurant.status);
   const error = useSelector(state => state.restaurant.error);
   const nextPageToken = useSelector(state => state.restaurant.nextPageToken);
@@ -13,8 +13,14 @@ const AllRestaurants = ({ restaurants }) => {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   const handleRestaurantClick = (placeId) => {
-    setExpandedPlaceId(prevPlaceId => (prevPlaceId === placeId ? null : placeId));
-  };
+    const selectedRestaurant = restaurants.find(
+      (restaurant) => restaurant.placeId === placeId
+    );
+    setSelectedRestaurantLocation(selectedRestaurant.location);
+    setExpandedPlaceId((prevPlaceId) =>
+      prevPlaceId === placeId ? null : placeId
+    );
+  };  
 
   const handleLoadMore = () => {
     if (nextPageToken && !isLoadingMore) {
