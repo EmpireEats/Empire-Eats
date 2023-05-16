@@ -27,14 +27,6 @@ const User = db.define('user', {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  // latitude: {
-  //   type: Sequelize.FLOAT,
-  //   allowNull: true,
-  // },
-  // longitude: {
-  //   type: Sequelize.FLOAT,
-  //   allowNull: true,
-  // },
   isAdmin: {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
