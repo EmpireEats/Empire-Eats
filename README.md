@@ -1,43 +1,56 @@
-# React Boilerplate with Bcrypt Authentication
+# Empire Eats
 
-This boilerplate provides a simple and secure foundation for building a full-stack React application with user authentication using Bcrypt. The project includes a back-end server using Express and a front-end application built with React. The boilerplate includes user login and signup features, as well as middleware to protect routes and user data.
+## Description
+
+Empire Eats is a unique culinary social platform that allows users to share and discover dishes from various eateries and meet fellow foodies . Users can post their favorite dishes along with pictures and descriptions, engage in real-time chat to plan out meetups, and more. The application includes a "Yerrr" feature that shows the latest posts where users request an eating buddy, a "Review" feature where users can post their culinary finds and review them, and a "Chat" feature for real-time planning for meet ups.
 
 ## Features
 
-- React front-end application
-- Express back-end server
-- Sequelize ORM with PostgreSQL database
-- User authentication using Bcrypt
-- JSON Web Tokens (JWT) for user session management
-- Admin middleware to protect admin-specific routes
-- User middleware to protect user-specific data
-- Environment variables for sensitive information
+- User Authentication: Sign up, log in, and manage user sessions.
+- Restaurants & Reviews: Find a place to eat and share your favorite dishes with the community.
+- Yerrr: Discover the latest posts from all users and initiate a meetup.
+- Chat: Engage in real-time chat with other food enthusiasts.
+- Leaderboard: A live ranking of foodies with the most visited restaurants.
+- Instructions: Helpful guide on how to use the platform's features.
 
-## Get Started
+## How to Use
 
-- Fork & clone the repository to your local machine:
-  `git clone https://github.com/your-username/bcrypt-boilerplate.git`
-  `cd bcrypt-boilerplate`
+- Sign Up / Log In: First-time users need to create an account. Returning users can log in with their credentials.
 
-- Create a PostgreSQL database:
-  `createdb bcrypt-boilerplate`
+- Yerrr: Click on the "Yerrr" tab to view the latest Yerrr posts from all users, create a Yerrr post, and communicate with your new foodie buddie through the private chat.
 
-- Create a .env file in the root directory and add the following variables:
-  `JWT_SECRET=your_jwt_secret`
-  `ADMIN_PASSPHRASE=your_admin_passphrase`
-  Replace your_jwt_secret and your_admin_passphrase with your own secret values.
+- Restaurants & Review: If you have a great dish to share, click on the Restaurant in the map tab and leave a review. Fill out the form with details about the dish and upload a photo.
 
-- Install the required dependencies:
-  `npm install`
-- Seed the database:
-  `npm run seed`
-- Start the development server:
-  `npm run start-dev`
+- Leaderboard: See where you rank against other New Yorkers! Eat at more restaurants and leave reviews to bump yourself up through the ranks.
 
-The application will now be running on http://localhost:3000.
+- Instructions: If you're unsure about how to use any feature, click on the 'i' button at the bottom of the page to open the Instructions modal.
 
-## Customization
+## Installation
 
-To adapt this boilerplate for your own project, you can start by customizing the front-end components and adding new features as needed. You may also update the back-end routes and models to handle additional data or requirements specific to your application.
+1. Fork and clone the repository to your local machine.
+2. Run npm install to install the necessary dependencies.
+3. Run npm run start to start the local server.
+4. Visit http://localhost:3000 in your web browser to access the application.
 
-Happy coding!
+Please note that you will need to have Node.js and npm installed on your machine.
+
+## Technologies Used
+
+- React.js
+- Redux
+- Express.js for server-side functions
+- PostgreSQL
+- Material-UI
+- Google Maps API for map and restaurant data
+- Socket I.O for live communication and feed
+
+## Contributing
+
+We welcome contributions from fellow developers. Here's how to contribute:
+
+1. Fork this repository.
+2. Create a new branch on your forked repository.
+3. Commit your changes to your new branch.
+4. Submit a pull request from your repository back to our original repository.
+
+Thank you for considering to contribute to Empire Eats.
