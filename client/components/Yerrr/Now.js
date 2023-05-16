@@ -9,6 +9,8 @@ import {
 } from '../../redux/actions/postActions';
 import { useSocket } from '../../contexts/SocketContext';
 import EditYerrr from './EditYerrr';
+import Modal from 'react-modal';
+import NeedToLogIn from './NeedToLogIn';
 
 const Now = ({ onChatEnabledChange }) => {
   const reduxPosts = useSelector((state) => state.post.allPosts);
@@ -24,6 +26,7 @@ const Now = ({ onChatEnabledChange }) => {
   const [selectedOption, setSelectedOption] = useState('all');
   const [isEditMode, setIsEditMode] = useState(false);
   const [editablePost, setEditablePost] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -110,6 +113,13 @@ const Now = ({ onChatEnabledChange }) => {
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
@@ -129,7 +139,7 @@ const Now = ({ onChatEnabledChange }) => {
         });
       }
     } else {
-      alert('You need to be logged in');
+      setIsModalOpen(true);
     }
   };
 
@@ -233,6 +243,14 @@ const Now = ({ onChatEnabledChange }) => {
               Next
             </button>
           </div>
+          <Modal
+            className='weOutside-modal'
+            overlayClassName='weOutside-modal-overlay'
+            isOpen={isModalOpen}
+            onRequestClose={closeModal}
+            contentLabel='Need to Log In'>
+            <NeedToLogIn />
+          </Modal>
         </>
       )}
     </div>
