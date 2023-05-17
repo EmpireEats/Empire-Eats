@@ -7,12 +7,15 @@ import { useNavigate } from 'react-router';
 const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
   const [adminPassphrase, setAdminPassphrase] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); 
+
   Modal.setAppElement('#root');
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -20,12 +23,23 @@ const SignUp = () => {
   const handleSignUp = (e) => {
     e.preventDefault();
 
-    const form = e.target;
+  const form = e.target;
     if (form.checkValidity()) {
       if (!firstName.trim() && !lastName.trim() && !email.trim() && !username.trim() && !password.trim()) {
       alert('Please fill in all the required fields.');
       return;
     }
+
+    if (password !== confirmPassword) {
+      alert('Passwords do not match. Please re-enter your password.');
+      return;
+    }
+
+    const passwordRegex = /^(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
+      if (!passwordRegex.test(password)) {
+        alert('Password should be at least 8 characters long and contain at least one special character.');
+        return;
+      }
 
     dispatch(
       signup({
@@ -41,15 +55,16 @@ const SignUp = () => {
         {
           setEmail('');
           setPassword('');
+          setConfirmPassword('');
           setFirstName('');
           setLastName('');
           setUsername('');
-          setPassword('');
+          setAdminPassphrase('');
           navigate('/leaderboard');
         } else if (result.meta.requestStatus === 'rejected') {
           const error = result.error;
           if (error?.message) {
-            alert('An error occurred during signup. Please try again.')
+            alert('An error occurred during signup. Please try again.');
           }
         }
       });
@@ -60,6 +75,10 @@ const SignUp = () => {
 
   const handleModalToggle = () => {
     setIsModalOpen(!isModalOpen);
+  };
+
+  const handlePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -94,57 +113,77 @@ const SignUp = () => {
 
       <form onSubmit={handleSignUp}>
         <div>
-          <label>First Name:  </label>
           <input
-            type="text"
+            type='text'
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            placeholder="First Name"
+            placeholder='First Name'
             required
           />
         </div>
         <div>
-          <label>Last Name:  </label>
           <input
-            type="text"
+            type='text'
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
-            placeholder="Last Name"
+            placeholder='Last Name'
             required
           />
         </div>
         <div>
-          <label>Email:  </label>
           <input
-            type="email"
+            type='email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
+            placeholder='Email'
             required
           />
         </div>
         <div>
-          <label>Username:  </label>
           <input
-            type="text"
+            type='text'
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            placeholder="Username"
+            placeholder='Username'
             required
           />
         </div>
         <div>
-          <label>Password:  </label>
           <input
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             value={password}
+            minLength='8'
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
             required
           />
         </div>
-
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <input
+            type={showPassword ? 'text' : 'password'}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="Confirm Password"
+            required
+          />
+          <button
+            type="button"
+            onClick={handlePasswordVisibility}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              right: '5px',
+              transform: 'translateY(-50%)',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              outline: 'none',
+            }}
+          >
+            {showPassword ? <i className="fas fa-eye-slash"></i> : <i className="fas fa-eye"></i>}
+          </button>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', marginTop: '5px' }}>
           <label style={{ marginRight: '10px' }}>
             Admin
             <input
@@ -162,14 +201,14 @@ const SignUp = () => {
             />
           </label>
         </div>
-
         <button type="submit">Sign Up</button>
       </form>
-      <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '2px' }}>
-     <button onClick={handleModalToggle} style={{ width: '30px' }}>i</button>
+      <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '3px' }}>
+     <button onClick={handleModalToggle}>i</button>
      </div>
     </div>
   );
 };
+
 
 export default SignUp;

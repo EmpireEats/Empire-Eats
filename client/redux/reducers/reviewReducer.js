@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addReviewAsync } from '../actions/reviewActions';
+import { addReviewAsync, fetchReviewsByPlaceAsync, fetchReviewsAsync } from '../actions/reviewActions';
 
 const initialState = {
   allReviews: [],
-  singleReview: {}
+  singleReview: {},
+  status: 'idle',
+  error: null,
 };
 
 const reviewSlice = createSlice({
@@ -12,10 +14,29 @@ const reviewSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(addReviewAsync.fulfilled, (state, action) => {
-        state.allReviews.push(action.payload)
+      .addCase(addReviewAsync.pending, (state) => {
+        state.status = 'loading';
       })
-  }
+      .addCase(addReviewAsync.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.allReviews.push(action.payload);
+      })
+      .addCase(addReviewAsync.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+      .addCase(fetchReviewsByPlaceAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchReviewsByPlaceAsync.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.allReviews = action.payload;
+      })
+      .addCase(fetchReviewsByPlaceAsync.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      });
+  }  
 });
 
 export default reviewSlice.reducer;

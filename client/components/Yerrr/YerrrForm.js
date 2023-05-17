@@ -53,7 +53,7 @@ const YerrrForm = ({ onChatEnabledChange }) => {
   };
 
   return (
-    <div>
+    <div className='yerrrForm'>
       <form onSubmit={postData} method='POST'>
         <div>
           <label htmlFor='message'>

@@ -1,6 +1,4 @@
-/* .weOutside-modal-content {
-  text-align: center;
-} */
+
 
 .weOutside-modal {
   width: 400px;
@@ -43,11 +41,37 @@
 
 .restaurant-item {
   margin-bottom: 16px;
+  text-align: center; 
+  
 }
 
 .map-container {
   width: 100%;
   height: 30vh;
+}
+
+.review-image-container {
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  height: 600px; /* Adjust the height as per your preference */
+  justify-content: center;
+}
+
+.restaurant-review {
+  width: 400px; /* Adjust the size as per your preference */
+  height: 400px; /* Adjust the size as per your preference */
+  margin: 10px; /* Adjust the spacing between squares */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.review-image {
+  width: 100%;
+  /* height: 100%; */ /* looks cleaner, cuts off image */
+  object-fit: cover;
 }
 
 /* .load-more-button {
@@ -57,3 +81,4 @@
 .loading-more-message {
 
 } */
+

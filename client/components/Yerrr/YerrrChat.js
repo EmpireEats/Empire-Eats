@@ -65,9 +65,13 @@ const YerrrChat = ({ postId }) => {
     <div className='chat-container'>
       <div className='chat-window'>
         {messages.map((message, index) => (
+          // <div
+          //   key={`${message.sender}-${index}`}
+          //   className={`message ${message.sender}`}>
           <div
-            key={`${message.sender}-${index}`}
-            className={`message ${message.sender}`}>
+  key={`${message.sender}-${index}`}
+  className={`message ${message.sender === username ? "isSender" : "isReceiver"}`}>
+
             <div className='message-info'>
               <span className='sender-name'>{message.sender}</span>
               <span className='message-time'>
@@ -90,7 +94,7 @@ const YerrrChat = ({ postId }) => {
         </button>
       </form>
       {!isChatOpen && <div>Chat is closed.</div>}
-      <button onClick={removeUserInteraction}>Nvm..</button>
+      <button id="nvm" onClick={removeUserInteraction}>Nvm..</button>
     </div>
   );
 };

@@ -15,6 +15,7 @@ import UserProfile from "./User/UserProfile";
 import EditProfile from "./User/EditProfile";
 import WeOutside from "./Restaurants/WeOutside";
 import Feed from "./Leaderboard/Feed";
+import ReviewPicsForPlace from "./Reviews/ReviewPicsForPlace";
 import { getLoggedInUserData } from "../redux/actions/authActions";
 
 const App = () => {
@@ -61,7 +62,6 @@ const App = () => {
   return (
     <div className="app-container">
       <NavBar />
-      <p>Empire Eats</p>
       <Routes>
         <Route path="/" element={<Leaderboard />} />
         <Route path="/login" element={<Login />} />
@@ -74,6 +74,7 @@ const App = () => {
         <Route path="/feed" element={<Feed />} />
         <Route path="/home/leaderboard" element={<Leaderboard />} />
         <Route path="/home/feed" element={<Feed />} />
+        <Route path="reviews/:placeId" element={<ReviewPicsForPlace />} />
       </Routes>
     </div>
   );

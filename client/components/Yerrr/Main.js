@@ -14,8 +14,11 @@ const Main = () => {
   const user = auth.user;
   const dispatch = useDispatch();
   const [chatEnabled, setChatEnabled] = useState(false);
+  const [currentPostId, setCurrentPostId] = useState(null);
   const location = useLocation();
   const postId = location.state?.postId;
+  const isActive = (path) => {
+    return location.pathname === path};
   Modal.setAppElement('#root');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -26,6 +29,13 @@ const Main = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+ 
+  useEffect(() => {
+    const postIdFromLocation = location.state?.postId;
+    if (postIdFromLocation) {
+      setCurrentPostId(postIdFromLocation);
+    }
+  }, [location]);
 
   useEffect(() => {
     dispatch(getLoggedInUserData());
@@ -76,10 +86,11 @@ const Main = () => {
             />
           )}
           {chatEnabled && user && (
-            <Route path='chat' element={<YerrrChat postId={postId} />} />
+            // <Route path='chat' element={<YerrrChat postId={postId} />} />
+            <Route path='chat' element={<YerrrChat postId={currentPostId} />} />
           )}
         </Routes>
-        <button onClick={openModal}>i</button>
+        <button id="modal" onClick={openModal}>i</button>
         <Modal
           className='weOutside-modal'
           overlayClassName='weOutside-modal-overlay'
