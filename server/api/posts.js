@@ -18,31 +18,6 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// router.get('/:id', requireAuth, async (req, res, next) => {
-//   try {
-//     const user = await User.findByPk(req.user.id);
-//     const getUsersPosts = await Post.findAll({ where: { userId: user.id } });
-//     res.send(getUsersPosts);
-//   } catch (error) {
-//     console.error('error fetching users yerrr posts', error);
-//     next(error);
-//   }
-// });
-
-router.put('/:id', requireAuth, async (req, res, next) => {
-  try {
-    const postData = req.body;
-    const postToUpdate = await Post.findByPk(req.params.id);
-    const updatedPost = await postToUpdate.update(postData);
-    console.log('updated post in server: ', updatedPost);
-    updatedPost.save();
-    res.send(updatedPost);
-  } catch (error) {
-    console.error('error updating post', error);
-    next(error);
-  }
-});
-
 router.get(
   '/hidden/:id',
   requireAuth,
