@@ -72,29 +72,32 @@ const Map = ({ selectedRestaurantLocation }) => {
       north: 40.917577,
       east: -73.700272
     };
-
+  
+    let userLocation;
+  
     try {
       const { latitude, longitude } = await getGeolocation();
-      const userLocation = { lat: latitude, lng: longitude };
-
-      const mapInstance = new window.google.maps.Map(mapRef.current, {
-        center: userLocation,
-        zoom: 16,
-        restriction: {
-          latLngBounds: nycBounds,
-          strictBounds: true
-        }
-      });
-
-      const directionsRendererInstance = new google.maps.DirectionsRenderer();
-      directionsRendererInstance.setMap(mapInstance);
-      setDirectionsRenderer(directionsRendererInstance);
-
-      setMap(mapInstance);
+      userLocation = { lat: latitude, lng: longitude };
     } catch (error) {
       console.error('Error getting user location:', error);
+      userLocation = defaultCenter;
     }
-  };
+  
+    const mapInstance = new window.google.maps.Map(mapRef.current, {
+      center: userLocation,
+      zoom: 16,
+      restriction: {
+        latLngBounds: nycBounds,
+        strictBounds: true
+      }
+    });
+  
+    const directionsRendererInstance = new google.maps.DirectionsRenderer();
+    directionsRendererInstance.setMap(mapInstance);
+    setDirectionsRenderer(directionsRendererInstance);
+  
+    setMap(mapInstance);
+  };  
 
   const updateUserMarker = (userLocation) => {
     if (userMarker) {

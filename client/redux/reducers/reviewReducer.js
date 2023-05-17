@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addReviewAsync, fetchReviewsByPlaceAsync, fetchReviewsAsync } from '../actions/reviewActions';
+import { addReviewAsync, fetchReviewsByPlaceAsync } from '../actions/reviewActions';
 
 const initialState = {
   allReviews: [],
   singleReview: {},
+  totalCount: 0,
   status: 'idle',
   error: null,
 };
@@ -30,7 +31,8 @@ const reviewSlice = createSlice({
       })
       .addCase(fetchReviewsByPlaceAsync.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.allReviews = action.payload;
+        state.allReviews = action.payload.reviews;
+        state.totalCount = action.payload.count;
       })
       .addCase(fetchReviewsByPlaceAsync.rejected, (state, action) => {
         state.status = 'failed';

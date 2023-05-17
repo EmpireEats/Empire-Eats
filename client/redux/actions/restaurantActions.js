@@ -10,9 +10,42 @@ export const getGeolocation = async () => {
   });
 };
 
+const roundTo = (number, decimalPlaces) => {
+  const factor = Math.pow(10, decimalPlaces);
+  return Math.round(number * factor) / factor;
+};
+
+// // USE THIS FUNCTION AFTER DEMO DAY, THIS ONE WILL ONLY RETRIEVE RESTAURANTS BASED ON FOUND COORINDATES
+// export const fetchRestaurants = createAsyncThunk('Restaurants/fetchRestaurants', async (_, { getState }) => {
+//   try {
+//     const { latitude, longitude } = await getGeolocation();
+//     const { nextPageToken } = getState().restaurant;
+//     const url = `/api/restaurants?latitude=${latitude}&longitude=${longitude}&pageToken=${nextPageToken || ''}`;
+//     const { data } = await axios.get(url);
+//     return data;
+//   } catch (error) {
+//     throw error;
+//   }
+// });
+
+
+// REMOVE THIS FUNCTION AFTER DEMO DAY, THIS IS GIVING DEFAULT COORDINATES TO USERS WHOS LOCATION CANT BE FOUND
 export const fetchRestaurants = createAsyncThunk('Restaurants/fetchRestaurants', async (_, { getState }) => {
   try {
-    const { latitude, longitude } = await getGeolocation();
+    let latitude;
+    let longitude;
+
+    try {
+      const { latitude: userLatitude, longitude: userLongitude } = await getGeolocation();
+      // Round the latitude and longitude values
+      latitude = roundTo(userLatitude, 4);
+      longitude = roundTo(userLongitude, 4);
+    } catch (error) {
+      // Default coordinates to the center of NYC
+      latitude = 40.7128;
+      longitude = -74.0060;
+    }
+
     const { nextPageToken } = getState().restaurant;
     const url = `/api/restaurants?latitude=${latitude}&longitude=${longitude}&pageToken=${nextPageToken || ''}`;
     const { data } = await axios.get(url);
