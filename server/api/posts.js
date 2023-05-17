@@ -20,7 +20,10 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id/chat', requireAuth, async (req, res, next) => {
   try {
-    const post = await Post.findByPk(req.params.id, { include: [User] });
+    const post = await Post.findOne(
+      { where: { id: req.params.id } },
+      { include: [User] }
+    );
     if (!post) res.status(404).send('post not found');
     console.log('finding post in server, post: ', post);
     res.send(post);

@@ -37,7 +37,6 @@ const YerrrForm = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
         socket.once('newPost', (post) => {
           if (post) {
             onChatEnabledChange(true);
-            nowEnabled(false);
             yerrrEnabled(false);
             console.log('1. post id inside of socket:', post.id);
             navigate('/yerrr/chat', { state: { postId: post.id } });
