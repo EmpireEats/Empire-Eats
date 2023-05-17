@@ -147,9 +147,13 @@ const Now = ({ onChatEnabledChange }) => {
   };
 
   const handleHidePost = async (postId) => {
-    await dispatch(hidePostAsync({ postId, userId: loggedInUserId }));
-    if (loggedInUserId) dispatch(fetchHiddenPosts(loggedInUserId));
-    setPosts(posts.filter((post) => post.id !== postId));
+    if (loggedInUserId) {
+      await dispatch(hidePostAsync({ postId, userId: loggedInUserId }));
+      await dispatch(fetchHiddenPosts(loggedInUserId));
+      setPosts(posts.filter((post) => post.id !== postId));
+    } else {
+      setIsModalOpen(true);
+    }
   };
 
   if (loading) return <p>Loading...</p>;
