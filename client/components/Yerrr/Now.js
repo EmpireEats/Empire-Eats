@@ -159,6 +159,8 @@ const Now = ({ onChatEnabledChange }) => {
     <div className='user-post-list'>
       {filteredPosts && (
         <>
+        <Filter selectedOption={selectedOption} handleSort={handleSort} />
+         
           <div>
             {currentPosts.map((post) => (
               <Post
@@ -175,8 +177,7 @@ const Now = ({ onChatEnabledChange }) => {
               />
             ))}
           </div>
-          <Filter selectedOption={selectedOption} handleSort={handleSort} />
-          <Pagination
+           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
             handlePageChange={handlePageChange}

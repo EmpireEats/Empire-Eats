@@ -54,26 +54,28 @@ const Login = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <div style={{ marginBottom: '10px', textAlign: 'left' }}>
-        <h4 style={{ margin: 0 }}>Log In</h4>
+    <div className="login-container">
+      <div className="login-heading">
+        <h4>Log In</h4>
       </div>
-      <form onSubmit={handleLogin} style={{ display: 'flex' }}>
+      <form className="login-form" onSubmit={handleLogin}>
         <input
           type="email"
           name="email"
+          className="form-input"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <div style={{ position: 'relative', marginRight: '3px' }}>
-          <input
-            type={showPassword ? 'text' : 'password'}
-            name="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+
+        <input
+          type={showPassword ? 'text' : 'password'}
+          name="password"
+          className="form-input"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
           <button
             type="button"
             onClick={handlePasswordVisibility}
@@ -94,16 +96,13 @@ const Login = () => {
               <i className="fas fa-eye"></i>
             )}
           </button>
-        </div>
-        <button type="submit">Sign in</button>
+       <button type="submit" className="form-button">Sign in</button>
       </form>
-      <div style={{ marginTop: '10px', textAlign: 'right' }}>
-        <Link to="/signup" style={{ textDecoration: 'none' }}>
-          Sign Up
-        </Link>
+      <div className="signup-link">
+        <Link to="/signup" style={{ textDecoration: 'none' }}>Sign Up</Link>
       </div>
     </div>
   );
-};
-
+  
+  }
 export default Login;
