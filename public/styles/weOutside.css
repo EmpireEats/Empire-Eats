@@ -1,6 +1,4 @@
-/* .weOutside-modal-content {
-  text-align: center;
-} */
+
 
 .weOutside-modal {
   width: 400px;
@@ -43,6 +41,8 @@
 
 .restaurant-item {
   margin-bottom: 16px;
+  text-align: center; 
+  
 }
 
 .map-container {
@@ -81,3 +81,4 @@
 .loading-more-message {
 
 } */
+

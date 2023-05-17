@@ -41,7 +41,7 @@ const Post = ({
                 <button onClick={() => handleDeletePost(post.id)}>❌</button>
               </span>
               <span>
-                <button onClick={() => handleEditPost(post.id)}>📝</button>
+                <button id="edit" onClick={() => handleEditPost(post.id)}>📝</button>
               </span>
               <span>
                 <button>💬</button>

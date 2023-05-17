@@ -23,26 +23,29 @@ const Feed = () => {
 
   return (
     <div>
+      <div className="leader">
       <Link to="/home/leaderboard">
-        <button>Leaderboard</button>
+        <button>LEADERBOARD</button>
       </Link>
       <Link to="/home/feed">
-        <button>Feed</button> 
+        <button>FEED</button> 
       </Link>
-      {/* delete this */}
-      <h1>Feed</h1>
+      </div>
+      <div className="feed">
       <ul>
         {feed.map((review, index) => (
           <li key={index}>
             {/* <img src={review.userPhotoUrl} alt={review.username} /> */}
-            <img src={review.pictureUrl} alt={review.username} />
+            <img id="feed-pic" src={review.pictureUrl} alt={review.username} />
+            <div className="feed-item">
             <div>{review.username}</div>
             <div>{review.previewText}</div>
             <div>Restaurant: {review.restaurantName}</div>
+            </div>
           </li>
         ))}
       </ul>
-    </div>
+    </div></div>
   );
 };
 
