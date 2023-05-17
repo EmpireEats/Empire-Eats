@@ -57,9 +57,12 @@ io.on('connection', (socket) => {
           isActive: true,
           userId: post.userId,
         });
-
-        console.log('Created new post in database:', newPost);
-        io.emit('newPost', newPost);
+        const createdPostWithUser = await Post.findOne({
+          where: { id: newPost.id },
+          include: [User],
+        });
+        console.log('Created new post in database:', createdPostWithUser);
+        io.emit('newPost', createdPostWithUser);
       }
     } catch (error) {
       console.error('error adding post', error);
