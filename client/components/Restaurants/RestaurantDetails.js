@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSingleRestaurant } from '../../redux/actions/restaurantActions';
 import ReviewForm from '../Reviews/ReviewForm';
 import Modal from 'react-modal';
 import { Link } from 'react-router-dom';
 import '../../../public/styles/weOutside.css';
+import { fetchReviewsByPlaceAsync } from '../../redux/actions/reviewActions';
 
 Modal.setAppElement('#root');
 
@@ -14,6 +15,7 @@ const RestaurantDetails = ({ restaurant, expanded, onRestaurantClick }) => {
   const loggedInUser = useSelector(state => state.auth.user);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const reviews = useSelector(state => state.review.allReviews);
 
   const handleClick = () => {
     onRestaurantClick(restaurant.placeId);
@@ -21,6 +23,13 @@ const RestaurantDetails = ({ restaurant, expanded, onRestaurantClick }) => {
       dispatch(fetchSingleRestaurant(restaurant.placeId));
     }
   };
+
+  useEffect(() => {
+    if (expanded) {
+      dispatch(fetchReviewsByPlaceAsync({ placeId: restaurant.placeId, page: 1 }));
+    }
+  }, [expanded, dispatch, restaurant.placeId]);
+  
 
   const handleReviewButtonClick = (event) => {
     event.stopPropagation();
@@ -56,9 +65,13 @@ const RestaurantDetails = ({ restaurant, expanded, onRestaurantClick }) => {
             <p>Website: <a href={singleRestaurant.website} target="_blank" rel="noreferrer">{singleRestaurant.website}</a></p>
           )}
           {expanded && (
-            <Link to={`/reviews/${restaurant.placeId}`}>
-              View Reviews
-            </Link>
+            reviews.length > 0 ? (
+              <Link to={`/reviews/${restaurant.placeId}`}>
+                View Reviews
+              </Link>
+            ) : (
+              <p>No reviews on this restaurant yet.</p>
+            )
           )}
           <br/>
           <br/>
@@ -78,9 +91,7 @@ const RestaurantDetails = ({ restaurant, expanded, onRestaurantClick }) => {
         <div className='weOutside-modal-content'>
           <h2>Join the race to be NYC's #1 foodie!</h2>
           <p>If you want to leave a review, you need to <Link to="/login">Login</Link> or <Link to="/signup">Signup</Link>.</p>
-          {/* <button onClick={closeModal}>Close</button> */}
         </div>
-        
       </Modal>
     </div>
   );
