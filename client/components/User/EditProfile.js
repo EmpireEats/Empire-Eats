@@ -12,9 +12,7 @@ const EditProfile = () => {
     const [formData, setFormData] = useState({
       firstName: '',
       lastName: '',
-      email: '',
       username: '',
-      password: '',
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -27,9 +25,7 @@ const EditProfile = () => {
             setFormData({
               firstName: updatedUser.firstName,
               lastName: updatedUser.lastName,
-              email: updatedUser.email,
               username: updatedUser.username,
-              password: updatedUser.password,
             });
           }
         });
@@ -41,7 +37,6 @@ const EditProfile = () => {
             ...prevFormData,
             firstName: user.firstName,
             lastName: user.lastName,
-            email: user.email,
             username: user.username,
           }));
         }
@@ -121,32 +116,12 @@ const EditProfile = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor='email'>Email:</label>
-                    <input
-                        type='email'
-                        id='email'
-                        name='email'
-                        value={formData.email}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div>
                     <label htmlFor='username'>User Name:</label>
                     <input
                         type='text'
                         id='username'
                         name='username'
                         value={formData.username}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor='password'>Password:</label>
-                    <input
-                        type='password'
-                        id='password'
-                        name='password'
-                        value={formData.password}
                         onChange={handleChange}
                     />
                 </div>
