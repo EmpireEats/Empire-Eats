@@ -110,6 +110,7 @@ io.on('connection', (socket) => {
       console.error('Error deleting post:', error);
     }
   });
+
   socket.on(
     'createUserInteraction',
     async ({ postId, postAuthorId, loggedInUserId }) => {

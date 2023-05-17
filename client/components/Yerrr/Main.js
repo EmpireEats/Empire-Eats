@@ -14,11 +14,15 @@ const Main = () => {
   const user = auth.user;
   const dispatch = useDispatch();
   const [chatEnabled, setChatEnabled] = useState(false);
+  const [nowEnabled, setNowEnabled] = useState(true);
+  const [yerrrEnabled, setYerrrEnabled] = useState(true);
   const [currentPostId, setCurrentPostId] = useState(null);
   const location = useLocation();
   const postId = location.state?.postId;
+  console.log('postId inside main component: ', postId);
   const isActive = (path) => {
-    return location.pathname === path};
+    return location.pathname === path;
+  };
   Modal.setAppElement('#root');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -29,9 +33,10 @@ const Main = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
- 
+
   useEffect(() => {
     const postIdFromLocation = location.state?.postId;
+    console.log('post id from location:', postIdFromLocation);
     if (postIdFromLocation) {
       setCurrentPostId(postIdFromLocation);
     }
@@ -60,10 +65,12 @@ const Main = () => {
     <div className='yerrr-tab-container'>
       <div>
         <nav className='yerrr-tab-nav'>
-          <Link className='yerrr-tab-link' to='/yerrr/now'>
-            Now
-          </Link>
-          {user && (
+          {nowEnabled && (
+            <Link className='yerrr-tab-link' to='/yerrr/now'>
+              Now
+            </Link>
+          )}
+          {yerrrEnabled && user && (
             <Link className='yerrr-tab-link' to='/yerrr/postYerrr'>
               Yerrr
             </Link>
@@ -77,20 +84,44 @@ const Main = () => {
         <Routes>
           <Route
             path='now'
-            element={<Now onChatEnabledChange={setChatEnabled} />}
+            element={
+              <Now
+                nowEnabled={setNowEnabled}
+                yerrrEnabled={setYerrrEnabled}
+                onChatEnabledChange={setChatEnabled}
+              />
+            }
           />
           {user && (
             <Route
               path='postYerrr'
-              element={<YerrrForm onChatEnabledChange={setChatEnabled} />}
+              element={
+                <YerrrForm
+                  nowEnabled={setNowEnabled}
+                  yerrrEnabled={setYerrrEnabled}
+                  onChatEnabledChange={setChatEnabled}
+                />
+              }
             />
           )}
           {chatEnabled && user && (
             // <Route path='chat' element={<YerrrChat postId={postId} />} />
-            <Route path='chat' element={<YerrrChat postId={currentPostId} />} />
+            <Route
+              path='chat'
+              element={
+                <YerrrChat
+                  chatEnabled={setChatEnabled}
+                  postId={currentPostId}
+                  nowEnabled={setNowEnabled}
+                  yerrrEnabled={setYerrrEnabled}
+                />
+              }
+            />
           )}
         </Routes>
-        <button id="modal" onClick={openModal}>i</button>
+        <button id='modal' onClick={openModal}>
+          i
+        </button>
         <Modal
           className='weOutside-modal'
           overlayClassName='weOutside-modal-overlay'

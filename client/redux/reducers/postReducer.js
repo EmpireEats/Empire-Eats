@@ -3,6 +3,7 @@ import {
   fetchAllPostsAsync,
   hidePostAsync,
   fetchHiddenPosts,
+  fetchPostForChat,
 } from '../actions/postActions';
 
 export const postSlice = createSlice({
@@ -11,6 +12,7 @@ export const postSlice = createSlice({
     allPosts: [],
     hiddenPosts: [],
     loading: false,
+    activePostForChat: null,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -41,6 +43,14 @@ export const postSlice = createSlice({
       .addCase(fetchHiddenPosts.rejected, (state, action) => {
         state.loading = false;
         console.error('Error fetching hidden posts', action.error);
+      })
+      .addCase(fetchPostForChat.fulfilled, (state, action) => {
+        console.log('inside reducer: ', action.payload);
+        state.loading = false;
+        state.activePostForChat = action.payload;
+      })
+      .addCase(fetchPostForChat.pending, (state) => {
+        state.loading = true;
       });
   },
 });
