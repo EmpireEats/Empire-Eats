@@ -1,6 +1,9 @@
 const express = require('express');
 const axios = require('axios');
+const NodeCache = require('node-cache');
 const router = express.Router();
+
+const myCache = new NodeCache();
 
 const nycBounds = {
   north: 40.917577,
@@ -16,6 +19,7 @@ async function fetchRestaurants(latitude, longitude, pagetoken) {
   return data;
 }
 
+//is caching implemented correctly?
 router.get('/', async (req, res) => {
   try {
     const { latitude, longitude, pageToken } = req.query;
@@ -29,45 +33,103 @@ router.get('/', async (req, res) => {
       throw new Error('Coordinates are out of bounds.');
     }
 
-    if (
-      latitude >= nycBounds.south &&
-      latitude <= nycBounds.north &&
-      longitude >= nycBounds.west &&
-      longitude <= nycBounds.east
-    ) {
-      const response = await fetchRestaurants(latitude, longitude, pageToken);
-      const allRestaurants = response.results;
+    const cacheKey = `${latitude},${longitude},${pageToken || ''}`;
+    const cachedData = myCache.get(cacheKey);
 
-      const restaurants = allRestaurants
-        .filter(result =>
-          result.geometry &&
-          result.geometry.location &&
-          result.geometry.location.lat >= nycBounds.south &&
-          result.geometry.location.lat <= nycBounds.north &&
-          result.geometry.location.lng >= nycBounds.west &&
-          result.geometry.location.lng <= nycBounds.east &&
-          result.types &&
-          result.types.includes('restaurant')
-        )
-        .map(result => ({
-          name: result.name,
-          address: result.vicinity,
-          location: {
-            lat: result.geometry.location.lat,
-            lng: result.geometry.location.lng
-          },
-          placeId: result.place_id
-        }));
-
-      res.json({
-        restaurants: restaurants,
-        nextPageToken: response.next_page_token
-      });
+    let response;
+    if (cachedData) {
+      response = cachedData;
+    } else {
+      response = await fetchRestaurants(latitude, longitude, pageToken);
+      myCache.set(cacheKey, response, 86400); // cache the response for 1 day (86400 seconds)
     }
+
+    const allRestaurants = response.results;
+
+    const restaurants = allRestaurants
+      .filter(result =>
+        result.geometry &&
+        result.geometry.location &&
+        result.geometry.location.lat >= nycBounds.south &&
+        result.geometry.location.lat <= nycBounds.north &&
+        result.geometry.location.lng >= nycBounds.west &&
+        result.geometry.location.lng <= nycBounds.east &&
+        result.types &&
+        result.types.includes('restaurant')
+      )
+      .map(result => ({
+        name: result.name,
+        address: result.vicinity,
+        location: {
+          lat: result.geometry.location.lat,
+          lng: result.geometry.location.lng
+        },
+        placeId: result.place_id
+      }));
+
+    res.json({
+      restaurants: restaurants,
+      nextPageToken: response.next_page_token
+    });
+
   } catch (error) {
     res.status(400).send(error.message);
   }
 });
+
+// // without caching
+// router.get('/', async (req, res) => {
+//   try {
+//     const { latitude, longitude, pageToken } = req.query;
+
+//     if (
+//       latitude < nycBounds.south ||
+//       latitude > nycBounds.north ||
+//       longitude < nycBounds.west ||
+//       longitude > nycBounds.east
+//     ) {
+//       throw new Error('Coordinates are out of bounds.');
+//     }
+
+//     if (
+//       latitude >= nycBounds.south &&
+//       latitude <= nycBounds.north &&
+//       longitude >= nycBounds.west &&
+//       longitude <= nycBounds.east
+//     ) {
+//       const response = await fetchRestaurants(latitude, longitude, pageToken);
+//       const allRestaurants = response.results;
+
+//       const restaurants = allRestaurants
+//         .filter(result =>
+//           result.geometry &&
+//           result.geometry.location &&
+//           result.geometry.location.lat >= nycBounds.south &&
+//           result.geometry.location.lat <= nycBounds.north &&
+//           result.geometry.location.lng >= nycBounds.west &&
+//           result.geometry.location.lng <= nycBounds.east &&
+//           result.types &&
+//           result.types.includes('restaurant')
+//         )
+//         .map(result => ({
+//           name: result.name,
+//           address: result.vicinity,
+//           location: {
+//             lat: result.geometry.location.lat,
+//             lng: result.geometry.location.lng
+//           },
+//           placeId: result.place_id
+//         }));
+
+//       res.json({
+//         restaurants: restaurants,
+//         nextPageToken: response.next_page_token
+//       });
+//     }
+//   } catch (error) {
+//     res.status(400).send(error.message);
+//   }
+// });
 
 router.get('/:placeId', async (req, res) => {
   try {
