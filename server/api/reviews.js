@@ -12,18 +12,6 @@ cloudinary.config({
 
 const upload = multer({ dest: 'uploads/' });
 
-// // this route works without cloudinary & implementing image url
-// router.post('/', requireAuth, async (req, res, next) => {
-//   const { placeId, name, address, body, image } = req.body;
-//   const userId = req.user.id;
-//   try {
-//     const newReview = await Review.create({ userId, placeId, name, address, body, image });
-//     res.status(201).json({ message: 'Review created successfully', review: newReview });
-//   } catch (error) {
-//     res.status(400).json({ error: 'Failed to create review' });
-//   }
-// });
-
 // test route, get all reviews
 router.get('/', async (req, res, next) => {
   try {
@@ -34,18 +22,24 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// get all pics for a specific restaurant
 router.get('/:placeId', requireAuth, async (req, res, next) => {
   const { placeId } = req.params;
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 20;
+  const offset = (page - 1) * limit;
+
   try {
-    const reviews = await Review.findAll({ where: { placeId } });
-    res.status(200).json({ reviews });
+    const reviews = await Review.findAndCountAll({ 
+      where: { placeId },
+      limit,
+      offset
+    });
+    res.status(200).json({ reviews: reviews.rows, count: reviews.count });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch reviews' });
   }
 });
 
-//testing with cloudinary
 router.post('/', requireAuth, upload.single('image'), async (req, res, next) => {
   const { placeId, name, address, body } = req.body;
   const userId = req.user.id;
