@@ -35,9 +35,9 @@ const Now = ({ onChatEnabledChange }) => {
   const postsPerPage = 2;
 
   useEffect(() => {
-    dispatch(fetchAllPostsAsync());
     if (loggedInUserId) dispatch(fetchHiddenPosts(loggedInUserId));
-  }, [dispatch]);
+    dispatch(fetchAllPostsAsync());
+  }, [dispatch, loggedInUserId]);
 
   useEffect(() => {
     const visiblePosts = reduxPosts.filter(
@@ -146,8 +146,9 @@ const Now = ({ onChatEnabledChange }) => {
     setIsEditMode(true);
   };
 
-  const handleHidePost = (postId) => {
-    dispatch(hidePostAsync({ postId, userId: loggedInUserId }));
+  const handleHidePost = async (postId) => {
+    await dispatch(hidePostAsync({ postId, userId: loggedInUserId }));
+    if (loggedInUserId) dispatch(fetchHiddenPosts(loggedInUserId));
     setPosts(posts.filter((post) => post.id !== postId));
   };
 
@@ -157,8 +158,8 @@ const Now = ({ onChatEnabledChange }) => {
     <div className='user-post-list'>
       {filteredPosts && (
         <>
-        <Filter selectedOption={selectedOption} handleSort={handleSort} />
-         
+          <Filter selectedOption={selectedOption} handleSort={handleSort} />
+
           <div>
             {currentPosts.map((post) => (
               <Post
@@ -175,7 +176,7 @@ const Now = ({ onChatEnabledChange }) => {
               />
             ))}
           </div>
-           <Pagination
+          <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
             handlePageChange={handlePageChange}

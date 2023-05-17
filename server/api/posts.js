@@ -52,6 +52,7 @@ router.get(
       const getHiddenPosts = await HiddenPost.findAll({
         where: { userId: req.params.id },
       });
+      console.log('hidden posts: ', getHiddenPosts);
       res.send(getHiddenPosts);
     } catch (error) {
       console.error('error fetching users hidden posts', error);

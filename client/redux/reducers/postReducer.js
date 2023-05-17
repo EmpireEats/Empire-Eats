@@ -51,7 +51,8 @@ export const postSlice = createSlice({
       })
       .addCase(hidePostAsync.fulfilled, (state, action) => {
         state.loading = false;
-        const postId = action.payload.postId;
+        console.log('reducer hide post:', action.payload.id);
+        const postId = action.payload.id;
         state.hiddenPosts.push(postId);
       })
       .addCase(fetchHiddenPosts.pending, (state) => {
