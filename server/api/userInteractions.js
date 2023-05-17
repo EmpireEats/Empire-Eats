@@ -5,17 +5,7 @@ const {
   requireUserMatch,
 } = require('./authentication/authMiddleware');
 
-router.get('/', async (req, res, next) => {
-  try {
-    const allUserInteractions = await UserInteraction.findAll();
-    res.send(allUserInteractions);
-  } catch (error) {
-    console.error('error fetching all userInteractions', error);
-    next(error);
-  }
-});
-
-router.post('/add', requireAuth, async (req, res, next) => {
+router.post('/add', requireAuth, requireUserMatch, async (req, res, next) => {
   try {
     const { postId, postAuthorId, loggedInUserId } = req.body;
     const addUserInteraction = await UserInteraction.create({

@@ -54,7 +54,7 @@ const YerrrChat = ({ postId }) => {
   };
 
   const removeUserInteraction = () => {
-    console.log('inside remove interaction- postId:', postId);
+    console.log('remove interaction - postId: ', postId);
     if (socket) {
       socket.emit('removeUserInteraction', { postId, userId });
     }
