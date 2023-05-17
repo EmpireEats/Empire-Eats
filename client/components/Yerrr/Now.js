@@ -24,7 +24,6 @@ const Now = ({ onChatEnabledChange }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [posts, setPosts] = useState(reduxPosts);
-  const [hasActiveInteraction, setHasActiveInteraction] = useState(false);
   const [selectedOption, setSelectedOption] = useState('all');
   const [isEditMode, setIsEditMode] = useState(false);
   const [editablePost, setEditablePost] = useState(null);
@@ -36,9 +35,9 @@ const Now = ({ onChatEnabledChange }) => {
   const postsPerPage = 2;
 
   useEffect(() => {
-    dispatch(fetchAllPostsAsync());
     if (loggedInUserId) dispatch(fetchHiddenPosts(loggedInUserId));
-  }, [dispatch]);
+    dispatch(fetchAllPostsAsync());
+  }, [dispatch, loggedInUserId]);
 
   useEffect(() => {
     const visiblePosts = reduxPosts.filter(
@@ -60,6 +59,7 @@ const Now = ({ onChatEnabledChange }) => {
         setPosts((prevPosts) =>
           prevPosts.filter((post) => post.id !== deletedPostId)
         );
+        onChatEnabledChange(false);
       });
       socket.on('updatePost', (updatedPost) => {
         setPosts((prevPosts) =>
@@ -67,6 +67,7 @@ const Now = ({ onChatEnabledChange }) => {
             post.id === updatedPost.id ? { ...post, ...updatedPost } : post
           )
         );
+        onChatEnabledChange(true);
       });
 
       socket.on('postError', (error) => {
@@ -74,17 +75,14 @@ const Now = ({ onChatEnabledChange }) => {
       });
       socket.on('userInteractionError', (error) => {
         onChatEnabledChange(false);
-        setHasActiveInteraction(false);
         alert(error);
       });
       socket.on('userInteractionDeleted', () => {
         onChatEnabledChange(false);
-        setHasActiveInteraction(false);
       });
       socket.on('userInteractionCreated', (newUi) => {
         const postId = newUi.postId;
         onChatEnabledChange(true);
-        setHasActiveInteraction(true);
         navigate('/yerrr/chat', { state: { postId } });
       });
 
@@ -148,9 +146,14 @@ const Now = ({ onChatEnabledChange }) => {
     setIsEditMode(true);
   };
 
-  const handleHidePost = (id) => {
-    dispatch(hidePostAsync({ id, userId: loggedInUserId }));
-    setPosts(posts.filter((post) => post.id !== id));
+  const handleHidePost = async (postId) => {
+    if (loggedInUserId) {
+      await dispatch(hidePostAsync({ postId, userId: loggedInUserId }));
+      await dispatch(fetchHiddenPosts(loggedInUserId));
+      setPosts(posts.filter((post) => post.id !== postId));
+    } else {
+      setIsModalOpen(true);
+    }
   };
 
   if (loading) return <p>Loading...</p>;
@@ -159,8 +162,8 @@ const Now = ({ onChatEnabledChange }) => {
     <div className='user-post-list'>
       {filteredPosts && (
         <>
-        <Filter selectedOption={selectedOption} handleSort={handleSort} />
-         
+          <Filter selectedOption={selectedOption} handleSort={handleSort} />
+
           <div>
             {currentPosts.map((post) => (
               <Post
@@ -177,7 +180,7 @@ const Now = ({ onChatEnabledChange }) => {
               />
             ))}
           </div>
-           <Pagination
+          <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
             handlePageChange={handlePageChange}

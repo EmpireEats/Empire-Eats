@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveMessage } from '../../redux/actions/yerrrChatActions';
 import { useSocket } from '../../contexts/SocketContext';
 import { useNavigate } from 'react-router';
+import { fetchPostForChat } from '../../redux/actions/postActions';
 
-const YerrrChat = ({ postId }) => {
+const YerrrChat = ({ postId, nowEnabled, yerrrEnabled, chatEnabled }) => {
+  console.log('2. inside chat -> post id: ', postId);
   const messages = useSelector((state) =>
     state.yerrrChat.messages.filter((message) => message.postId === postId)
   );
@@ -16,14 +18,45 @@ const YerrrChat = ({ postId }) => {
   const userId = auth.user.id;
   const navigate = useNavigate();
   const [isChatOpen, setIsChatOpen] = useState(true);
+  const loading = useSelector((state) => state.post.loading);
+  const post = useSelector((state) => state.post.activePostForChat);
+  console.log('post inside of chat: ', post);
 
   useEffect(() => {
+    dispatch(fetchPostForChat({ postId }));
     const timer = setTimeout(() => {
       setIsChatOpen(false);
     }, 600000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [dispatch, postId]);
+
+  const handleDeletePostRef = useRef();
+
+  useEffect(() => {
+    if (socket) {
+      handleDeletePostRef.current = (deletedPostId) => {
+        if (deletedPostId === postId) {
+          nowEnabled(true);
+          yerrrEnabled(true);
+          chatEnabled(false);
+          navigate('/yerrr/now');
+        }
+      };
+
+      socket.on('deletePost', handleDeletePostRef.current);
+
+      return () => {
+        socket.off('deletePost', handleDeletePostRef.current);
+      };
+    }
+  }, [socket, postId, nowEnabled, yerrrEnabled, chatEnabled, navigate]);
+
+  const closePosting = () => {
+    if (socket) {
+      socket.emit('deletePost', postId);
+    }
+  };
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp || Date.now());
@@ -54,12 +87,14 @@ const YerrrChat = ({ postId }) => {
   };
 
   const removeUserInteraction = () => {
-    console.log('inside remove interaction- postId:', postId);
+    console.log('remove interaction - postId: ', postId);
     if (socket) {
       socket.emit('removeUserInteraction', { postId, userId });
     }
     navigate('/yerrr/now');
   };
+
+  if (loading || !post || !postId) return <p>Loading...</p>;
 
   return (
     <div className='chat-container'>
@@ -69,9 +104,10 @@ const YerrrChat = ({ postId }) => {
           //   key={`${message.sender}-${index}`}
           //   className={`message ${message.sender}`}>
           <div
-  key={`${message.sender}-${index}`}
-  className={`message ${message.sender === username ? "isSender" : "isReceiver"}`}>
-
+            key={`${message.sender}-${index}`}
+            className={`message ${
+              message.sender === username ? 'isSender' : 'isReceiver'
+            }`}>
             <div className='message-info'>
               <span className='sender-name'>{message.sender}</span>
               <span className='message-time'>
@@ -94,7 +130,15 @@ const YerrrChat = ({ postId }) => {
         </button>
       </form>
       {!isChatOpen && <div>Chat is closed.</div>}
-      <button id="nvm" onClick={removeUserInteraction}>Nvm..</button>
+      {post.userId === userId ? (
+        <button id='nvm' onClick={closePosting}>
+          Close Post
+        </button>
+      ) : (
+        <button id='nvm' onClick={removeUserInteraction}>
+          Nvm..
+        </button>
+      )}
     </div>
   );
 };

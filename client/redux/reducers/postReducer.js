@@ -1,10 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
   fetchAllPostsAsync,
-  addPostAsync,
-  deletePostAsync,
   hidePostAsync,
   fetchHiddenPosts,
+  fetchPostForChat,
 } from '../actions/postActions';
 
 export const postSlice = createSlice({
@@ -13,6 +12,7 @@ export const postSlice = createSlice({
     allPosts: [],
     hiddenPosts: [],
     loading: false,
+    activePostForChat: null,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -24,34 +24,13 @@ export const postSlice = createSlice({
         state.loading = false;
         state.allPosts = action.payload;
       })
-      .addCase(addPostAsync.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(addPostAsync.fulfilled, (state, action) => {
-        state.loading = false;
-        state.allPosts.push(action.payload);
-      })
-      .addCase(deletePostAsync.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(deletePostAsync.fulfilled, (state, action) => {
-        state.loading = false;
-        const postId = action.payload.id;
-        const findPostIndex = state.allPosts.findIndex(
-          (post) => post.id === postId
-        );
-        state.allPosts.splice(findPostIndex, 1);
-      })
-      .addCase(addPostAsync.rejected, (state, action) => {
-        state.loading = false;
-        console.error('error adding post', action.error);
-      })
       .addCase(hidePostAsync.pending, (state) => {
         state.loading = true;
       })
       .addCase(hidePostAsync.fulfilled, (state, action) => {
         state.loading = false;
-        const postId = action.payload.postId;
+        console.log('reducer hide post:', action.payload.id);
+        const postId = action.payload.id;
         state.hiddenPosts.push(postId);
       })
       .addCase(fetchHiddenPosts.pending, (state) => {
@@ -64,6 +43,14 @@ export const postSlice = createSlice({
       .addCase(fetchHiddenPosts.rejected, (state, action) => {
         state.loading = false;
         console.error('Error fetching hidden posts', action.error);
+      })
+      .addCase(fetchPostForChat.fulfilled, (state, action) => {
+        console.log('inside reducer: ', action.payload);
+        state.loading = false;
+        state.activePostForChat = action.payload;
+      })
+      .addCase(fetchPostForChat.pending, (state) => {
+        state.loading = true;
       });
   },
 });
