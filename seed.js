@@ -217,9 +217,6 @@ const seed = async () => {
   try {
     await db.sync({ force: true });
     await Promise.all(users.map((user) => User.create(user)));
-    await Promise.all(
-      restaurants.map((restaurant) => Restaurant.create(restaurant))
-    );
     await Promise.all(reviews.map((review) => Review.create(review)));
     await Promise.all(posts.map((post) => Post.create(post)));
     console.log('seeding was successful');
