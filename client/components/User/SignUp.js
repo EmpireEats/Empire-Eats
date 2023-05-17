@@ -56,86 +56,95 @@ const SignUp = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <div style={{ marginBottom: '10px', textAlign: 'left' }}>
-        <h4 style={{ margin: 0 }}>Sign Up</h4>
+  <div className="signup-container">
+    <form className="signup-form" onSubmit={handleSignUp}>
+      <div className="form-group">
+        <label htmlFor="firstName">First Name:</label>
+        <input
+          type="text"
+          id="firstName"
+          className="form-input"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          placeholder="First Name"
+          required
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="lastName">Last Name:</label>
+        <input
+          type="text"
+          id="lastName"
+          className="form-input"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          placeholder="Last Name"
+          required
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          className="form-input"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+          required
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="username">Username:</label>
+        <input
+          type="text"
+          id="username"
+          className="form-input"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Username"
+          required
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          className="form-input"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          required
+        />
       </div>
 
-      <form onSubmit={handleSignUp}>
-        <div>
-          <label>First Name:  </label>
+      <div className="form-group-admin">
+        <label>
+          Admin
           <input
-            type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            placeholder="First Name"
-            required
+            type="checkbox"
+            checked={isAdmin}
+            onChange={(e) => setIsAdmin(e.target.checked)}
           />
-        </div>
-        <div>
-          <label>Last Name:  </label>
-          <input
-            type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            placeholder="Last Name"
-            required
-          />
-        </div>
-        <div>
-          <label>Email:  </label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
-            required
-          />
-        </div>
-        <div>
-          <label>Username:  </label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Username"
-            required
-          />
-        </div>
-        <div>
-          <label>Password:  </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            required
-          />
-        </div>
+        </label>
+      </div>
 
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <label style={{ marginRight: '10px' }}>
-            Admin
-            <input
-              type="checkbox"
-              checked={isAdmin}
-              onChange={(e) => setIsAdmin(e.target.checked)}
-            />
-          </label>
-          <label>
-            Admin Passphrase  
-            <input
-              type="text"
-              value={adminPassphrase}
-              onChange={(e) => setAdminPassphrase(e.target.value)}
-            />
-          </label>
-        </div>
+      <div className="form-group">
+        <label htmlFor="adminPassphrase">Admin Passphrase:</label>
+        <input
+          type="text"
+          id="adminPassphrase"
+          className="form-input"
+          value={adminPassphrase}
+          onChange={(e) => setAdminPassphrase(e.target.value)}
+        />
+      </div>
 
-        <button type="submit">Sign Up</button>
-      </form>
-    </div>
-  );
-};
+      <button type="submit" className="form-button">Sign Up</button>
+    </form>
+  </div>
+);
+}
 
 export default SignUp;

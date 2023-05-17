@@ -23,14 +23,15 @@ const Leaderboard = () => {
 
   return (
     <div>
+    <div className="leader">
       <Link to="/home/leaderboard">
-        <button>Leaderboard</button>
+        <button>LEADERBOARD</button>
       </Link>
       <Link to="/home/feed">
-        <button>Feed</button>
+        <button>FEED</button>
       </Link>
-      {/* delete this */}
-      <h1>Leaderboard</h1>
+      </div>
+      <div className="leaderboard">
       <table>
         <thead>
           <tr>
@@ -42,13 +43,14 @@ const Leaderboard = () => {
         <tbody>
           {leaderboard.map((user, index) => (
             <tr key={index}>
-              <td>{index + 1}</td>
+              <td>#{index + 1}</td>
               <td>{user.name}</td>
               <td>{user.restaurantVisitCount}</td>
             </tr>
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   );
 };

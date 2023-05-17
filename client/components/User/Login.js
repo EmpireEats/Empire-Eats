@@ -49,14 +49,15 @@ const Login = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <div style={{ marginBottom: '10px', textAlign: 'left' }}>
-        <h4 style={{ margin: 0 }}>Log In</h4>
+    <div className="login-container">
+      <div className="login-heading">
+        <h4>Log In</h4>
       </div>
-      <form onSubmit={handleLogin}>
+      <form className="login-form" onSubmit={handleLogin}>
         <input
           type="email"
           name="email"
+          className="form-input"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -64,17 +65,18 @@ const Login = () => {
         <input
           type="password"
           name="password"
+          className="form-input"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Sign in</button>
+        <button type="submit" className="form-button">Sign in</button>
       </form>
-      <div style={{ marginTop: '10px', textAlign: 'right' }}>
+      <div className="signup-link">
         <Link to="/signup" style={{ textDecoration: 'none' }}>Sign Up</Link>
       </div>
     </div>
   );
-};
-
+  
+  }
 export default Login;
