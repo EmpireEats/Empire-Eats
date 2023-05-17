@@ -104,7 +104,7 @@ const reviews = [
     name: 'Tasty Tacos',
     rating: 3,
     body: 'Amazing tacos! Loved the atmosphere and service was great.',
-    picture: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/001_Tacos_de_carnitas%2C_carne_asada_y_al_pastor.jpg/1200px-001_Tacos_de_carnitas%2C_carne_asada_y_al_pastor.jpg',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/001_Tacos_de_carnitas%2C_carne_asada_y_al_pastor.jpg/1200px-001_Tacos_de_carnitas%2C_carne_asada_y_al_pastor.jpg',
   },
   {
     userId: 2,
@@ -112,7 +112,7 @@ const reviews = [
     name: 'Hearty Healthy',
     rating: 2,
     body: 'Good food but the service was slow.',
-    picture: 'https://www.chelseasmessyapron.com/wp-content/uploads/2018/10/ACAIBOWLF8-500x500.jpg',
+    image: 'https://www.chelseasmessyapron.com/wp-content/uploads/2018/10/ACAIBOWLF8-500x500.jpg',
   },
   {
     userId: 3,
@@ -120,7 +120,7 @@ const reviews = [
     name: 'Delicious Diner',
     rating: 3,
     body: "The best breakfast I've ever had! Highly recommend!",
-    picture: 'https://simply-delicious-food.com/wp-content/uploads/2022/09/Breakfast-board28.jpg',
+    image: 'https://simply-delicious-food.com/wp-content/uploads/2022/09/Breakfast-board28.jpg',
   },
   {
     userId: 4,
@@ -128,7 +128,7 @@ const reviews = [
     name: 'Vibrant Vegan',
     rating: 1,
     body: "I'm not a fan of their vegan options.",
-    picture: 'https://hips.hearstapps.com/hmg-prod/images/tofu-1650647553.jpg?crop=0.998xw:0.335xh;0.00160xw,0.359xh&resize=1200:*',
+    image: 'https://hips.hearstapps.com/hmg-prod/images/tofu-1650647553.jpg?crop=0.998xw:0.335xh;0.00160xw,0.359xh&resize=1200:*',
   },
   {
     userId: 5,
@@ -136,7 +136,7 @@ const reviews = [
     name: 'Scrumptious Seafood',
     rating: 3,
     body: 'The seafood was fresh and delicious! Will definitely come back.',
-    picture: 'https://www.marthastewart.com/thmb/uMWKSx5ZqI_toVzyBeXYHGcxh4Y=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/seafood-in-fennel-broth-0519-a0cda0a6_0-2731d6940b89422aa76a26bf099bb1e5.jpg',
+    image: 'https://www.marthastewart.com/thmb/uMWKSx5ZqI_toVzyBeXYHGcxh4Y=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/seafood-in-fennel-broth-0519-a0cda0a6_0-2731d6940b89422aa76a26bf099bb1e5.jpg',
   },
   {
     userId: 1,
@@ -144,7 +144,7 @@ const reviews = [
     name: 'Perfect Pizza',
     rating: 3,
     body: 'The pizza was absolutely fantastic! Loved it!',
-    picture: 'https://secretnyc.co/wp-content/uploads/2020/01/best-pizza-in-nyc_fumo_harlem-1-1.jpg',
+    image: 'https://secretnyc.co/wp-content/uploads/2020/01/best-pizza-in-nyc_fumo_harlem-1-1.jpg',
   },
   {
     userId: 2,
@@ -152,7 +152,7 @@ const reviews = [
     name: 'Sizzling Sushi',
     rating: 2,
     body: "The sushi was just okay. I've had better.",
-    picture: 'https://images.getbento.com/accounts/c21c527d2227d1c4b30f2cb3a397c71e/media/images/44163Super_Jones_Large_Catering_with_Hands.jpg?w=1200&fit=max&auto=compress,format',
+    image: 'https://images.getbento.com/accounts/c21c527d2227d1c4b30f2cb3a397c71e/media/images/44163Super_Jones_Large_Catering_with_Hands.jpg?w=1200&fit=max&auto=compress,format',
   },
   {
     userId: 3,
@@ -160,7 +160,7 @@ const reviews = [
     name: 'Cozy Café',
     rating: 3,
     body: 'A cozy spot with great coffee and pastries.',
-    picture: 'https://media2.metrotimes.com/metrotimes/imager/u/magnum/30660103/promenade.jpg?cb=1659016997',
+    image: 'https://media2.metrotimes.com/metrotimes/imager/u/magnum/30660103/promenade.jpg?cb=1659016997',
   },
   {
     userId: 4,
@@ -168,7 +168,7 @@ const reviews = [
     name: 'Delightful Donuts',
     rating: 1,
     body: 'The donuts were too sweet for my taste.',
-    picture: 'https://assets3.thrillist.com/v1/image/2948648/792x528',
+    image: 'https://assets3.thrillist.com/v1/image/2948648/792x528',
   },
   {
     userId: 5,
@@ -176,7 +176,7 @@ const reviews = [
     name: 'Burgers & More', 
     rating: 3,
     body: 'Burgers were juicy and flavorful. A great spot for lunch!',
-    picture: 'https://www.seriouseats.com/thmb/e16lLOoVEix_JZTv7iNyAuWkPn8=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/__opt__aboutcom__coeus__resources__content_migration__serious_eats__seriouseats.com__recipes__images__2014__09__20140918-jamie-olivers-comfort-food-insanity-burger-david-loftus-f7d9042bdc2a468fbbd50b10d467dafd.jpg',
+    image: 'https://insanelygoodrecipes.com/wp-content/uploads/2020/02/Burger-and-Fries.jpg',
   },
 ];
 
