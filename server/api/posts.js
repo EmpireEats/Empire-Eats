@@ -18,16 +18,16 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/:id', requireAuth, async (req, res, next) => {
-  try {
-    const user = await User.findByPk(req.user.id);
-    const getUsersPosts = await Post.findAll({ where: { userId: user.id } });
-    res.send(getUsersPosts);
-  } catch (error) {
-    console.error('error fetching users yerrr posts', error);
-    next(error);
-  }
-});
+// router.get('/:id', requireAuth, async (req, res, next) => {
+//   try {
+//     const user = await User.findByPk(req.user.id);
+//     const getUsersPosts = await Post.findAll({ where: { userId: user.id } });
+//     res.send(getUsersPosts);
+//   } catch (error) {
+//     console.error('error fetching users yerrr posts', error);
+//     next(error);
+//   }
+// });
 
 router.put('/:id', requireAuth, async (req, res, next) => {
   try {
