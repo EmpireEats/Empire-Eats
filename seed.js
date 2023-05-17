@@ -3,7 +3,6 @@ const {
   User,
   Review,
   Post,
-  Restaurant,
   HiddenPost,
 } = require('./server/db/index');
 
@@ -15,10 +14,6 @@ const users = [
     username: 'admin',
     password: 'admin',
     isAdmin: true,
-    // latitude: 40.760423,
-    // longitude: -73.829546
-    latitude: 40.760423,
-    longitude: -73.829546,
   },
   {
     firstName: 'John',
@@ -27,10 +22,6 @@ const users = [
     username: 'johndoe',
     password: 'password1',
     isAdmin: false,
-    // latitude: 40.759013,
-    // longitude: -73.831967
-    latitude: 40.759013,
-    longitude: -73.831967,
   },
   {
     firstName: 'Jane',
@@ -39,10 +30,6 @@ const users = [
     username: 'janesmith',
     password: 'password2',
     isAdmin: false,
-    // latitude: 40.755234,
-    // longitude: -73.827604
-    latitude: 40.755234,
-    longitude: -73.827604,
   },
   {
     firstName: 'Michael',
@@ -51,10 +38,6 @@ const users = [
     username: 'mjohnson',
     password: 'password3',
     isAdmin: false,
-    // latitude: 40.752476,
-    // longitude: -73.829408
-    latitude: 40.752476,
-    longitude: -73.829408,
   },
   {
     firstName: 'Emily',
@@ -63,10 +46,6 @@ const users = [
     username: 'emilyw',
     password: 'password4',
     isAdmin: false,
-    // latitude: 40.750059,
-    // longitude: -73.838952
-    latitude: 40.750059,
-    longitude: -73.838952,
   },
   {
     firstName: 'David',
@@ -75,10 +54,6 @@ const users = [
     username: 'davidb',
     password: 'password5',
     isAdmin: false,
-    // latitude: 40.750710,
-    // longitude: -73.838543
-    latitude: 40.75071,
-    longitude: -73.838543,
   },
   {
     firstName: 'Sophia',
@@ -87,10 +62,6 @@ const users = [
     username: 'sophiat',
     password: 'password6',
     isAdmin: false,
-    // latitude: 40.752860,
-    // longitude: -73.840511
-    latitude: 40.75286,
-    longitude: -73.840511,
   },
   {
     firstName: 'Daniel',
@@ -99,10 +70,6 @@ const users = [
     username: 'daniela',
     password: 'password7',
     isAdmin: false,
-    // latitude: 40.754686,
-    // longitude: -73.838244
-    latitude: 40.754686,
-    longitude: -73.838244,
   },
   {
     firstName: 'Olivia',
@@ -111,10 +78,6 @@ const users = [
     username: 'oliviat',
     password: 'password8',
     isAdmin: false,
-    // latitude: 40.758797,
-    // longitude: -73.828764
-    latitude: 40.758797,
-    longitude: -73.828764,
   },
   {
     firstName: 'Lucas',
@@ -123,10 +86,6 @@ const users = [
     username: 'lucasj',
     password: 'password9',
     isAdmin: false,
-    // latitude: 40.758186,
-    // longitude: -73.830291
-    latitude: 40.758186,
-    longitude: -73.830291,
   },
   {
     firstName: 'Ava',
@@ -135,83 +94,6 @@ const users = [
     username: 'avaw',
     password: 'password10',
     isAdmin: false,
-    // latitude: 40.756068,
-    // longitude: -73.830317
-    latitude: 40.756068,
-    longitude: -73.830317,
-  },
-];
-
-const restaurants = [
-  {
-    name: 'Delicious Diner',
-    address: '123 Main St, New York, NY 10001',
-    hours: 'Mon-Fri: 7AM-10PM, Sat-Sun: 8AM-9PM',
-    number: '(555) 123-4567',
-    avgRating: 2.5,
-  },
-  {
-    name: 'Burgers & More',
-    address: '456 Market St, New York, NY 10002',
-    hours: 'Mon-Sun: 11AM-10PM',
-    number: '(555) 234-5678',
-    avgRating: 2.0,
-  },
-  {
-    name: 'Tasty Tacos',
-    address: '789 Park Ave, New York, NY 10003',
-    hours: 'Mon-Sun: 10AM-9PM',
-    number: '(555) 345-6789',
-    avgRating: 2.2,
-  },
-  {
-    name: 'Perfect Pizza',
-    address: '101 Central St, New York, NY 10004',
-    hours: 'Mon-Sun: 11AM-11PM',
-    number: '(555) 456-7890',
-    avgRating: 1.7,
-  },
-  {
-    name: 'Sizzling Sushi',
-    address: '112 Wall St, New York, NY 10005',
-    hours: 'Mon-Fri: 11AM-10PM, Sat-Sun: 12PM-9PM',
-    number: '(555) 567-8901',
-    avgRating: 2.9,
-  },
-  {
-    name: 'Hearty Healthy',
-    address: '123 Broadway St, New York, NY 10006',
-    hours: 'Mon-Fri: 7AM-8PM, Sat: 8AM-6PM, Sun: Closed',
-    number: '(555) 678-9012',
-    avgRating: 2.3,
-  },
-  {
-    name: 'Vibrant Vegan',
-    address: '456 Union St, New York, NY 10007',
-    hours: 'Mon-Sun: 9AM-9PM',
-    number: '(555) 789-0123',
-    avgRating: 3.0,
-  },
-  {
-    name: 'Cozy Café',
-    address: '789 Madison Ave, New York, NY 10008',
-    hours: 'Mon-Fri: 7AM-7PM, Sat-Sun: 8AM-6PM',
-    number: '(555) 890-1234',
-    avgRating: 2.4,
-  },
-  {
-    name: 'Delightful Donuts',
-    address: '101 Lexington Ave, New York, NY 10009',
-    hours: 'Mon-Fri: 6AM-7PM, Sat-Sun: 7AM-5PM',
-    number: '(555) 901-2345',
-    avgRating: 1.9,
-  },
-  {
-    name: 'Scrumptious Seafood',
-    address: '112 Greenwich St, New York, NY 10010',
-    hours: 'Mon-Sun: 11AM-11PM',
-    number: '(555) 012-1010',
-    avgRating: 2.3,
   },
 ];
 
@@ -335,9 +217,6 @@ const seed = async () => {
   try {
     await db.sync({ force: true });
     await Promise.all(users.map((user) => User.create(user)));
-    await Promise.all(
-      restaurants.map((restaurant) => Restaurant.create(restaurant))
-    );
     await Promise.all(reviews.map((review) => Review.create(review)));
     await Promise.all(posts.map((post) => Post.create(post)));
     console.log('seeding was successful');

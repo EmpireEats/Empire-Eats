@@ -18,18 +18,19 @@ const Review = db.define('review', {
     type: Sequelize.TEXT,
     allowNull: false,
     validate: {
-      len: [0, 300], // Set the maximum length of the body field to 300 characters
+      len: [0, 300],
     }
   },
-  picture: {
-    type: Sequelize.BLOB,
+  image: {
+    type: Sequelize.STRING,
+    allowNull: true, //must be changed to false when we're ready to roll out
   },
   title: {
     type: DataTypes.VIRTUAL,
     get() {
-      const maxLength = 50; // Maximum number of characters for the title
+      const maxLength = 50;
       return this.getDataValue('body').length > maxLength
-        ? this.getDataValue('body').substring(0, maxLength) + '...' // Truncate body to the maximum length and add ellipsis
+        ? this.getDataValue('body').substring(0, maxLength) + '...'
         : this.getDataValue('body');
     },
   },

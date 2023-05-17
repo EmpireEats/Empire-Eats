@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
@@ -48,6 +49,10 @@ const Login = () => {
     }
   };
 
+  const handlePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="login-container">
       <div className="login-heading">
@@ -62,15 +67,36 @@ const Login = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+
         <input
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           name="password"
           className="form-input"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit" className="form-button">Sign in</button>
+          <button
+            type="button"
+            onClick={handlePasswordVisibility}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              right: '2px',
+              transform: 'translateY(-50%)',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              outline: 'none',
+            }}
+          >
+            {showPassword ? (
+              <i className="fas fa-eye-slash"></i>
+            ) : (
+              <i className="fas fa-eye"></i>
+            )}
+          </button>
+       <button type="submit" className="form-button">Sign in</button>
       </form>
       <div className="signup-link">
         <Link to="/signup" style={{ textDecoration: 'none' }}>Sign Up</Link>

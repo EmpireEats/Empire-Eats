@@ -55,6 +55,13 @@ const RestaurantDetails = ({ restaurant, expanded, onRestaurantClick }) => {
           {singleRestaurant.website && (
             <p>Website: <a href={singleRestaurant.website} target="_blank" rel="noreferrer">{singleRestaurant.website}</a></p>
           )}
+          {expanded && (
+            <Link to={`/reviews/${restaurant.placeId}`}>
+              View Reviews
+            </Link>
+          )}
+          <br/>
+          <br/>
           <button onClick={handleReviewButtonClick}>Review</button>
           {showReviewForm && (
             <ReviewForm placeId={restaurant.placeId} restaurantName={restaurant.name} restaurantAddress={restaurant.address} />

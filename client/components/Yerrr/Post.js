@@ -23,34 +23,43 @@ const Post = ({
       ) : (
         <>
           {post.user && post.user.firstName ? (
-            <p>User: {post.user.firstName}</p>
+            <div>
+              <p>
+                <span>*pfp*</span>
+                {post.user.firstName}
+              </p>
+            </div>
           ) : (
             <p>No name</p>
           )}
-          <p>{post.message}</p>
+          <p>"{post.message}"</p>
           <p>Preference: {post.preference}</p>
           {post.isActive ? <p>Active</p> : <p>No Longer Active</p>}
-          <button
-            onClick={() =>
-              handleUserInteraction({
-                postId: post?.id,
-                postAuthorId: post?.user?.id,
-              })
-            }>
-            👍🏽
-          </button>
-          <span>
-            <button onClick={() => handleHidePost(post.id)}>👎🏽</button>
-          </span>
-          {post.userId === loggedInUserId && (
+          {post.userId === loggedInUserId ? (
             <>
               <span>
                 <button onClick={() => handleDeletePost(post.id)}>❌</button>
               </span>
               <span>
-                <button id="edit" onClick={() => handleEditPost(post.id)}>
-                  Edit Yerrr
-                </button>
+                <button id="edit" onClick={() => handleEditPost(post.id)}>📝</button>
+              </span>
+              <span>
+                <button>💬</button>
+              </span>
+            </>
+          ) : (
+            <>
+              <button
+                onClick={() =>
+                  handleUserInteraction({
+                    postId: post?.id,
+                    postAuthorId: post?.user?.id,
+                  })
+                }>
+                👍🏽
+              </button>
+              <span>
+                <button onClick={() => handleHidePost(post.id)}>👎🏽</button>
               </span>
             </>
           )}
