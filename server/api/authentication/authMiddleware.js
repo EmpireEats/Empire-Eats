@@ -20,7 +20,10 @@ const requireAuth = (req, res, next) => {
 };
 
 const requireUserMatch = (req, res, next) => {
-  if (req.user.id === parseInt(req.params.id) || req.user.isAdmin) {
+  if(req.user.isAdmin) {
+    next();
+  }
+  else if (req.user.id === parseInt(req.params.id)) {
     next();
   } else {
     res.status(403).send('Unauthorized to view this page');
