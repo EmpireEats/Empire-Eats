@@ -53,8 +53,11 @@ const UserProfile = () => {
       <div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <img
-            src="https://ih1.redbubble.net/image.1046392278.3346/mp,840x830,matte,f8f8f8,t-pad,1000x1000,f8f8f8.jpg"
+            src={user.image}
             width={100}
+            style={{
+              borderRadius: "50%",
+              objectFit: "cover",}}
           />
           <div style={{ marginLeft: '10px', display: 'flex', flexDirection: 'column' }}>
             <h4 style={{ margin: '0', alignSelf: 'flex-start' }}>@{username}</h4>
