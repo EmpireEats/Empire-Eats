@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Clicker+Script&family=Source+Sans+Pro:ital,wght@0,200;0,400;0,700;1,200&display=swap');
 
+/* height commented out -kim */
 body {
   font-family: 'Source Sans Pro', sans-serif;
-  height: 100vh;
+  /* height: 100vh; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -145,14 +146,77 @@ body {
   color: white;
 }
 
-.feed {
+/* .feed {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
   overflow-y: auto; 
   max-height: calc(100vh - 120px); 
+} */
+
+/* added by kim */
+.feed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  overflow-y: auto;
+ }
+
+ .feed-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: 30px; 
+  width: 100%;
 }
+
+.feed-container li {
+  margin: 70px; 
+}
+
+.feed-container img {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+}
+
+.feed-container .load-more-button {
+      margin-top: 20px; 
+  }
+
+.feed-container .loading-more-message {
+      margin-top: 20px; 
+  }
+
+.feed-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+ 
+.feed-list h2 {
+      text-align: left;
+      margin-bottom: 2px;
+    }
+
+.feed-list h4 {
+      text-align: left;
+      margin-bottom: 10px;}
+
+  
+.feed-list h3 {
+      margin-bottom: 20px;
+      text-align: center;
+      font-style: italic;
+      font-size: 20px;
+    }
+
+/* end of kim */
+ 
 
 .feed-item {
   display: flex;
