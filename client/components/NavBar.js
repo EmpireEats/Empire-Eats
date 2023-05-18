@@ -65,7 +65,6 @@ const NavBar = () => {
         navigate('/restaurants');
       }
     } catch (error) {
-      console.error('Error:', error);
       navigate('/restaurants');
     }
   }; 

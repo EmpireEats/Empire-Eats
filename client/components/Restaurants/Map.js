@@ -79,7 +79,6 @@ const Map = ({ selectedRestaurantLocation }) => {
       const { latitude, longitude } = await getGeolocation();
       userLocation = { lat: latitude, lng: longitude };
     } catch (error) {
-      console.error('Error getting user location:', error);
       userLocation = defaultCenter;
     }
   

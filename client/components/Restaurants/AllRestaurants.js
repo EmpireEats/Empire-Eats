@@ -33,7 +33,12 @@ const AllRestaurants = ({ restaurants, setSelectedRestaurantLocation }) => {
   };
 
   if (status === 'loading' && restaurants.length === 0) {
-    return <div className="loading-message">We're finding restaurants near you...</div>;
+    return (
+      <div className="loading-message">
+        We're finding restaurants near you...
+        <div className="spinner"></div>
+      </div>
+    );
   }
 
   if (error) {

@@ -22,6 +22,7 @@ async function fetchRestaurants(latitude, longitude, pagetoken) {
 router.get('/', async (req, res) => {
   try {
     const { latitude, longitude, pageToken } = req.query;
+    console.log('Coordinates received:', latitude, longitude);
 
     if (
       latitude < nycBounds.south ||
@@ -68,69 +69,18 @@ router.get('/', async (req, res) => {
         placeId: result.place_id
       }));
 
+      console.log('Retrieved restaurants:', restaurants);
+
     res.json({
       restaurants: restaurants,
       nextPageToken: response.next_page_token
     });
 
   } catch (error) {
+    console.log('Error:', error.message);
     res.status(400).send(error.message);
   }
 });
-
-// // without caching
-// router.get('/', async (req, res) => {
-//   try {
-//     const { latitude, longitude, pageToken } = req.query;
-
-//     if (
-//       latitude < nycBounds.south ||
-//       latitude > nycBounds.north ||
-//       longitude < nycBounds.west ||
-//       longitude > nycBounds.east
-//     ) {
-//       throw new Error('Coordinates are out of bounds.');
-//     }
-
-//     if (
-//       latitude >= nycBounds.south &&
-//       latitude <= nycBounds.north &&
-//       longitude >= nycBounds.west &&
-//       longitude <= nycBounds.east
-//     ) {
-//       const response = await fetchRestaurants(latitude, longitude, pageToken);
-//       const allRestaurants = response.results;
-
-//       const restaurants = allRestaurants
-//         .filter(result =>
-//           result.geometry &&
-//           result.geometry.location &&
-//           result.geometry.location.lat >= nycBounds.south &&
-//           result.geometry.location.lat <= nycBounds.north &&
-//           result.geometry.location.lng >= nycBounds.west &&
-//           result.geometry.location.lng <= nycBounds.east &&
-//           result.types &&
-//           result.types.includes('restaurant')
-//         )
-//         .map(result => ({
-//           name: result.name,
-//           address: result.vicinity,
-//           location: {
-//             lat: result.geometry.location.lat,
-//             lng: result.geometry.location.lng
-//           },
-//           placeId: result.place_id
-//         }));
-
-//       res.json({
-//         restaurants: restaurants,
-//         nextPageToken: response.next_page_token
-//       });
-//     }
-//   } catch (error) {
-//     res.status(400).send(error.message);
-//   }
-// });
 
 router.get('/:placeId', async (req, res) => {
   try {
