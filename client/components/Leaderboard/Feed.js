@@ -33,7 +33,7 @@ const Feed = () => {
       <ul>
         {feed.map((review, index) => (
           <li key={index}>
-            <img src={review.pictureUrl} alt={review.username} />
+            <img src={review.image} alt={`Review ${index}`} />
             <div>{review.name}</div>
             <div> {review.address}</div>
             <div>{review.previewText}-</div>
