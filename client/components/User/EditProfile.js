@@ -88,9 +88,12 @@ const EditProfile = () => {
       </div>
       <div>
         <img
-          src='https://ih1.redbubble.net/image.1046392278.3346/mp,840x830,matte,f8f8f8,t-pad,1000x1000,f8f8f8.jpg'
-          width={100}
-          alt='Profile'
+            src={user.image}
+            width={100}
+            style={{
+              borderRadius: "50%",
+              objectFit: "cover",}}
+            alt='Profile'
         />
         <p>{formData.firstName} {formData.lastName}</p>
         {error && <p>{error}</p>}

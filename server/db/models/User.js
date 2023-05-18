@@ -28,6 +28,10 @@ const User = db.define('user', {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  image: {
+        type: Sequelize.STRING,
+        defaultValue: 'https://t3.ftcdn.net/jpg/01/18/01/98/360_F_118019822_6CKXP6rXmVhDOzbXZlLqEM2ya4HhYzSV.jpg',
+    },
   isAdmin: {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
