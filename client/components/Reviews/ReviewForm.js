@@ -12,9 +12,10 @@ const ReviewForm = ({ placeId, restaurantName, restaurantAddress }) => {
   const [body, setBody] = useState('');
   const [image, setImage] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [remainingChars, setRemainingChars] = useState(300);
 
-  const handleSubmit = async (evt) => {
-    evt.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     dispatch(addReviewAsync({ placeId: placeId, name: restaurantName, address: restaurantAddress, body, image }))
       .then(() => {
         setModalIsOpen(true);
@@ -23,8 +24,8 @@ const ReviewForm = ({ placeId, restaurantName, restaurantAddress }) => {
       });
   };
 
-  const handleClick = (event) => {
-    event.stopPropagation();
+  const handleClick = (e) => {
+    e.stopPropagation();
   };
 
   const closeModal = () => {
@@ -32,31 +33,35 @@ const ReviewForm = ({ placeId, restaurantName, restaurantAddress }) => {
   };
 
   const openLink = () => {
-    window.open('https://example.com', '_blank');
+    window.open('https://crapp.onrender.com/', '_blank');
   };
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
   };
 
+  const handleBodyChange = (e) => {
+    setBody(e.target.value);
+    setRemainingChars(300 - e.target.value.length);
+  };
+
   return (
     <div onClick={handleClick}>
-      <h2>Add a review</h2>
-      <form onSubmit={handleSubmit}>
+      <h2>Tell us about your food:</h2>
+      <form className="review-form" onSubmit={handleSubmit}>
         <input type="hidden" name="placeId" value={placeId} />
-        <br />
         <input type="hidden" name="restaurantName" value={restaurantName} />
-        <br />
         <input type="hidden" name="restaurantAddress" value={restaurantAddress} />
-        <br />
-        <label htmlFor="body">Review:</label>
+        <label htmlFor="body"></label>
         <textarea
           id="body"
+          className="review-textarea"
           value={body}
-          onChange={(e) => setBody(e.target.value)}
-          required
+          onChange={handleBodyChange}
+          maxLength={300}
         />
-        <br />
+        <p className="remaining-chars">{remainingChars} characters remaining</p>
+        <br/>
         <label htmlFor="image">Image:</label>
         <input 
           type="file" 
@@ -78,7 +83,7 @@ const ReviewForm = ({ placeId, restaurantName, restaurantAddress }) => {
       >
         <p>Review posted!</p>
         <p>In need of a post-meal porcelain sanctuary? Look no further! Click the link for a spotless haven to answer nature's call. Trust us, it's a potty paradise!</p>
-        <a href="https://example.com" 
+        <a href="https://crapp.onrender.com/" 
           onClick={openLink} 
           target="_blank" 
           rel="noopener noreferrer">

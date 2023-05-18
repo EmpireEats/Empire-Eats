@@ -45,7 +45,8 @@ export const fetchRestaurants = createAsyncThunk('Restaurants/fetchRestaurants',
       latitude = 40.7128;
       longitude = -74.0060;
     }
-
+    console.log('Coordinates sent:', latitude, longitude);
+    
     const { nextPageToken } = getState().restaurant;
     const url = `/api/restaurants?latitude=${latitude}&longitude=${longitude}&pageToken=${nextPageToken || ''}`;
     const { data } = await axios.get(url);
