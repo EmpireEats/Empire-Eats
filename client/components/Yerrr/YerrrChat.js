@@ -24,7 +24,8 @@ const YerrrChat = ({ postId, nowEnabled, yerrrEnabled, chatEnabled }) => {
   const loading = useSelector((state) => state.post.loading);
   const post = useSelector((state) => state.post.activePostForChat);
   console.log('post inside of chat: ', post);
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  // const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isChatModalOpen, setIsChatModalOpen] = useState(true);
 
   useEffect(() => {
     dispatch(fetchPostForChat({ postId }));
@@ -112,75 +113,87 @@ const YerrrChat = ({ postId, nowEnabled, yerrrEnabled, chatEnabled }) => {
     navigate('/restaurants');
   };
 
-  if (loading || !post || !postId) return <p>Loading...</p>;
+  const handleCloseChat = () => {
+    setIsChatModalOpen(false);
+    if (post.userId !== userId) {
+      removeUserInteraction();
+    }
+    navigate('/yerrr/now');
+  };
+
+  if (loading || !post || !postId) return <div className='spinner'></div>;
 
   return (
-    <div className='chat-container'>
-      <div className='chat-window'>
-        {messages.map((message, index) => (
-          // <div
-          //   key={`${message.sender}-${index}`}
-          //   className={`message ${message.sender}`}>
-          <div
-            key={`${message.sender}-${index}`}
-            className={`message ${
-              message.sender === username ? 'isSender' : 'isReceiver'
-            }`}>
-            <div className='message-info'>
-              <span className='sender-name'>{message.sender}</span>
-              <span className='message-time'>
-                {formatDate(message.timestamp)}
-              </span>
+    <Modal
+      isOpen={isChatModalOpen}
+      onRequestClose={handleCloseChat}
+      className='chat-modal'
+      overlayClassName='chat-modal-overlay'
+      contentLabel='Chat Modal'>
+      <div className='chat-container'>
+        <div className='chat-window'>
+          {messages.map((message, index) => (
+            <div
+              key={`${message.sender}-${index}`}
+              className={`message ${
+                message.sender === username ? 'isSender' : 'isReceiver'
+              }`}>
+              <div className='message-info'>
+                <span className='sender-name'>{message.sender}</span>
+                <span className='message-time'>
+                  {formatDate(message.timestamp)}
+                </span>
+              </div>
+              <span>{message.text}</span>
             </div>
-            <span>{message.text}</span>
-          </div>
-        ))}
-      </div>
-      <form onSubmit={handleSendMessage} className='message-form'>
-        <input
-          type='text'
-          value={currentMessage}
-          onChange={(e) => setCurrentMessage(e.target.value)}
-          placeholder='Type your message...'
-        />
-        <button type='submit' disabled={!isChatOpen}>
-          Send
+          ))}
+        </div>
+        <form onSubmit={handleSendMessage} className='message-form'>
+          <input
+            type='text'
+            value={currentMessage}
+            onChange={(e) => setCurrentMessage(e.target.value)}
+            placeholder='Type your message...'
+          />
+          <button type='submit' disabled={!isChatOpen}>
+            Send
+          </button>
+        </form>
+        {!isChatOpen && <div>Chat is closed.</div>}
+        {post.userId === userId ? (
+          <>
+            <button id='nvm' onClick={closePosting}>
+              Close Post
+            </button>
+            {/* <Modal
+              className='weOutside-modal'
+              overlayClassName='weOutside-modal-overlay'
+              isOpen={isModalOpen}
+              onRequestClose={closeModal}
+              contentLabel='Chat Instructions-Author'>
+              <ChatAuthorInstructions />
+            </Modal> */}
+          </>
+        ) : (
+          <>
+            <button id='nvm' onClick={removeUserInteraction}>
+              Nvm..
+            </button>
+            {/* <Modal
+              className='weOutside-modal'
+              overlayClassName='weOutside-modal-overlay'
+              isOpen={isModalOpen}
+              onRequestClose={closeModal}
+              contentLabel='Chat Instructions-Interactor'>
+              <ChatInteractorInstructions />
+            </Modal> */}
+          </>
+        )}
+        <button id='nvm' onClick={handleAccept}>
+          Lets Eat!
         </button>
-      </form>
-      {!isChatOpen && <div>Chat is closed.</div>}
-      {post.userId === userId ? (
-        <>
-          <button id='nvm' onClick={closePosting}>
-            Close Post
-          </button>
-          <Modal
-            className='weOutside-modal'
-            overlayClassName='weOutside-modal-overlay'
-            isOpen={isModalOpen}
-            onRequestClose={closeModal}
-            contentLabel='Chat Instructions-Author'>
-            <ChatAuthorInstructions />
-          </Modal>
-        </>
-      ) : (
-        <>
-          <button id='nvm' onClick={removeUserInteraction}>
-            Nvm..
-          </button>
-          <Modal
-            className='weOutside-modal'
-            overlayClassName='weOutside-modal-overlay'
-            isOpen={isModalOpen}
-            onRequestClose={closeModal}
-            contentLabel='Chat Instructions-Interactor'>
-            <ChatInteractorInstructions />
-          </Modal>
-        </>
-      )}
-      <button id='nvm' onClick={handleAccept}>
-        Lets Eat!
-      </button>
-    </div>
+      </div>
+    </Modal>
   );
 };
 

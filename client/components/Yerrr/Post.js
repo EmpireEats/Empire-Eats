@@ -1,5 +1,6 @@
 import React from 'react';
 import EditYerrr from './EditYerrr';
+import { useNavigate } from 'react-router';
 
 const Post = ({
   post,
@@ -11,7 +12,15 @@ const Post = ({
   editablePost,
   loggedInUserId,
   setIsEditMode,
+  onChatEnabledChange,
 }) => {
+  const navigate = useNavigate();
+
+  const backToChat = (postId) => {
+    onChatEnabledChange(true);
+    navigate('/yerrr/chat', { state: { postId: postId } });
+  };
+
   return (
     <div key={`${post.id}`} className='user-post'>
       {isEditMode && editablePost?.id === post.id ? (
@@ -45,6 +54,7 @@ const Post = ({
                   📝
                 </button>
               </span>
+              <button onClick={() => backToChat(post.id)}>💬</button>
             </>
           ) : (
             <>

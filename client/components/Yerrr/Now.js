@@ -160,7 +160,7 @@ const Now = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <div className='spinner'></div>;
 
   return (
     <div className='user-post-list'>
@@ -181,6 +181,7 @@ const Now = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
                 editablePost={editablePost}
                 loggedInUserId={loggedInUserId}
                 setIsEditMode={setIsEditMode}
+                onChatEnabledChange={onChatEnabledChange}
               />
             ))}
           </div>
