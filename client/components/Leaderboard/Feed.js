@@ -24,8 +24,9 @@ const Feed = () => {
 
   return (
     <div>
+      <div className="leader">
       <Link to="/home/leaderboard">
-        <button>Leaderboard</button>
+        <button>LEADERBOARD</button>
       </Link>
       <Link to="/home/feed">
         <button>Feed</button>
@@ -43,7 +44,7 @@ const Feed = () => {
           </li>
         ))}
       </ul>
-    </div>
+    </div></div>
   );
 };
 

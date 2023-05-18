@@ -6,12 +6,13 @@ const initialState = {
   singleRestaurant: {},
   status: 'idle',
   error: null,
-  nycBounds: {
-    north: 40.917577,
-    south: 40.477399,
-    east: -73.700272,
-    west: -74.259090,
-  },
+  //dont think im using this, will delete later
+  // nycBounds: {
+  //   north: 40.917577,
+  //   south: 40.477399,
+  //   east: -73.700272,
+  //   west: -74.259090,
+  // },
   nextPageToken: null,
 };
 

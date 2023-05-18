@@ -18,56 +18,57 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/:id', requireAuth, async (req, res, next) => {
+router.get('/:id/chat', requireAuth, async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.user.id);
-    const getUsersPosts = await Post.findAll({ where: { userId: user.id } });
-    res.send(getUsersPosts);
+    const post = await Post.findOne(
+      { where: { id: req.params.id } },
+      { include: [User] }
+    );
+    if (!post) res.status(404).send('post not found');
+    console.log('finding post in server, post: ', post);
+    res.send(post);
   } catch (error) {
-    console.error('error fetching users yerrr posts', error);
+    console.error('error finding single post', error);
     next(error);
   }
 });
 
-router.put('/:id', requireAuth, async (req, res, next) => {
-  try {
-    const postData = req.body;
-    const postToUpdate = await Post.findByPk(req.params.id);
-    const updatedPost = await postToUpdate.update(postData);
-    console.log('updated post in server: ', updatedPost);
-    updatedPost.save();
-    res.send(updatedPost);
-  } catch (error) {
-    console.error('error updating post', error);
-    next(error);
+router.get(
+  '/hidden/:id',
+  requireAuth,
+  requireUserMatch,
+  async (req, res, next) => {
+    try {
+      const getHiddenPosts = await HiddenPost.findAll({
+        where: { userId: req.params.id },
+      });
+      console.log('hidden posts: ', getHiddenPosts);
+      res.send(getHiddenPosts);
+    } catch (error) {
+      console.error('error fetching users hidden posts', error);
+      next(error);
+    }
   }
-});
+);
 
-router.get('/hidden/:userId', requireAuth, async (req, res, next) => {
-  try {
-    const getHiddenPosts = await HiddenPost.findAll({
-      where: { userId: req.params.userId },
-    });
-    res.send(getHiddenPosts);
-  } catch (error) {
-    console.error('error fetching users hidden posts', error);
-    next(error);
+router.put(
+  '/:id/hide/:postId',
+  requireAuth,
+  requireUserMatch,
+  async (req, res, next) => {
+    try {
+      const userId = req.params.id;
+      const postToHide = req.params.postId;
+      const hiddenPost = await HiddenPost.create({
+        postId: postToHide,
+        userId: userId,
+      });
+      res.send(hiddenPost);
+    } catch (error) {
+      console.error('error hiding post', error);
+      next(error);
+    }
   }
-});
-
-router.put('/:id/hide', requireAuth, async (req, res, next) => {
-  try {
-    const userId = req.user.id;
-    const postToHide = req.params.id;
-    const hiddenPost = await HiddenPost.create({
-      postId: postToHide,
-      userId: userId,
-    });
-    res.send(hiddenPost);
-  } catch (error) {
-    console.error('error hiding post', error);
-    next(error);
-  }
-});
+);
 
 module.exports = router;

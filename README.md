@@ -1,5 +1,7 @@
 # Empire Eats
 
+## An App for NY'ers, made by NY'ers
+
 ## Description
 
 Empire Eats is a unique culinary social platform that allows users to share and discover dishes from various eateries and meet fellow foodies . Users can post their favorite dishes along with pictures and descriptions, engage in real-time chat to plan out meetups, and more. The application includes a "Yerrr" feature that shows the latest posts where users request an eating buddy, a "Review" feature where users can post their culinary finds and review them, and a "Chat" feature for real-time planning for meet ups.

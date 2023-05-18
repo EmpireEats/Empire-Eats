@@ -16,7 +16,7 @@ const WeOutside = () => {
 
   return (
     <div>
-      <h1>We Outside</h1>
+      <h1>wussup baby, take me out to dinner...</h1>
       <Map selectedRestaurantLocation={selectedRestaurantLocation} />
       <AllRestaurants
         restaurants={allRestaurants}
