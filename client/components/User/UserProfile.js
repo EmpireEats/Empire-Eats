@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchSingleUser } from '../../redux/actions/authActions';
@@ -12,8 +12,8 @@ const UserProfile = () => {
   const leaderboard = useSelector((state) => state.leaderboard.leaderboard);
 
   useEffect(() => {
-    if(id){
-    dispatch(fetchSingleUser(id));
+    if (id) {
+      dispatch(fetchSingleUser(id));
     }
     dispatch(fetchLeaderboard());
   }, [dispatch, id]);
@@ -23,13 +23,25 @@ const UserProfile = () => {
   const rank = leaderboard.findIndex((user) => user.name === username) + 1;
   const restaurantVisits = leaderboard.find((user) => user.name === username)?.restaurantVisitCount;
 
-  if(!user) {
+  const [selectedReview, setSelectedReview] = useState(null);
+  const [isGridLayout, setIsGridLayout] = useState(false);
+
+  if (!user) {
     return (
       <div>
         <p>Please Log In or Sign Up to access. </p>
-        <Link to='/signup'>Sign Up</Link></div>
-    )
+        <Link to="/signup">Sign Up</Link>
+      </div>
+    );
   }
+
+  const toggleLayout = () => {
+    setIsGridLayout(!isGridLayout);
+  };
+
+  const handleReviewClick = (review) => {
+    setSelectedReview(selectedReview === review ? null : review);
+  };
 
   return (
     <>
@@ -40,7 +52,10 @@ const UserProfile = () => {
       </div>
       <div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <img src='https://ih1.redbubble.net/image.1046392278.3346/mp,840x830,matte,f8f8f8,t-pad,1000x1000,f8f8f8.jpg' width={100} />
+          <img
+            src="https://ih1.redbubble.net/image.1046392278.3346/mp,840x830,matte,f8f8f8,t-pad,1000x1000,f8f8f8.jpg"
+            width={100}
+          />
           <div style={{ marginLeft: '10px', display: 'flex', flexDirection: 'column' }}>
             <h4 style={{ margin: '0', alignSelf: 'flex-start' }}>@{username}</h4>
             <h5 style={{ margin: '0', alignSelf: 'flex-start' }}>{firstName} {lastName}</h5>
@@ -51,14 +66,60 @@ const UserProfile = () => {
           <p>Leaderboard Rank: {rank}</p>
           <p>Number of Restaurants Visited: {restaurantVisits}</p>
         </div>
-        <div style= {{ height: '40vh', overflowY: 'auto', marginBottom: '16px', padding: '8px' }}>
-          {/* Will be revised to display images of food reviews like IG, where a user can expand by clicking on the picture*/}
-          <p>Reviews:</p>
-          {reviews && reviews.map((review) => (
-            <div key={review.id}>
-              <ul>{review.name} : {review.body}</ul>
-            </div>
-          ))}
+        <div>
+          <div>
+            <p>Reviews:</p>
+            <button onClick={toggleLayout}>
+              {isGridLayout ? 'Grid' : 'Solo'}
+            </button>
+          </div>
+          <div style={{ display: isGridLayout ? 'grid' : 'block', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', overflowY: 'auto', maxHeight: '40vh', padding: '8px' }}>
+            {reviews && reviews.map((review) => (
+              <div key={review.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div
+                  style={{
+                    width: '100%',
+                    height: '200px',
+                    position: 'relative',
+                    cursor: 'pointer',
+                    overflow: 'hidden',
+                  }}
+                  onClick={() => handleReviewClick(review)}
+                >
+                  <img
+                    src={review.image}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                  {selectedReview === review && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                      }}
+                    >
+                      <p style={{ color: 'white', fontSize: '24px', fontWeight: 'bold' }}>
+                        {review.name}
+                      </p>
+                      <p style={{ color: 'white', fontSize: '18px', textAlign: 'center' }}>
+                        {review.body}
+                      </p>
+                    </div>
+                  )}
+                </div>
+                {/* {isGridLayout && (
+                  <p>{review.name}: {review.body}</p>
+                )} */}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </>
