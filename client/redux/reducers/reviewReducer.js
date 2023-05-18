@@ -15,7 +15,7 @@ const reviewSlice = createSlice({
   reducers: {
     clearReviews: (state) => {
       state.allReviews = [];
-    },
+    },    
   },
   extraReducers: (builder) => {
     builder
@@ -37,7 +37,7 @@ const reviewSlice = createSlice({
         state.status = 'succeeded';
         state.allReviews = action.payload.reviews;
         state.totalCount = action.payload.count;
-      })
+      }) 
       .addCase(fetchReviewsByPlaceAsync.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
