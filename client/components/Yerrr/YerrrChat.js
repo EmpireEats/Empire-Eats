@@ -4,6 +4,9 @@ import { receiveMessage } from '../../redux/actions/yerrrChatActions';
 import { useSocket } from '../../contexts/SocketContext';
 import { useNavigate } from 'react-router';
 import { fetchPostForChat } from '../../redux/actions/postActions';
+import Modal from 'react-modal';
+import ChatAuthorInstructions from './ChatAuthorInstructions';
+import ChatInteractorInstructions from './ChatInteractorInstructions';
 
 const YerrrChat = ({ postId, nowEnabled, yerrrEnabled, chatEnabled }) => {
   console.log('2. inside chat -> post id: ', postId);
@@ -21,6 +24,7 @@ const YerrrChat = ({ postId, nowEnabled, yerrrEnabled, chatEnabled }) => {
   const loading = useSelector((state) => state.post.loading);
   const post = useSelector((state) => state.post.activePostForChat);
   console.log('post inside of chat: ', post);
+  const [isModalOpen, setIsModalOpen] = useState(true);
 
   useEffect(() => {
     dispatch(fetchPostForChat({ postId }));
@@ -58,6 +62,10 @@ const YerrrChat = ({ postId, nowEnabled, yerrrEnabled, chatEnabled }) => {
     }
   };
 
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const formatDate = (timestamp) => {
     const date = new Date(timestamp || Date.now());
     return `${date.getHours().toString().padStart(2, '0')}:${date
@@ -92,6 +100,16 @@ const YerrrChat = ({ postId, nowEnabled, yerrrEnabled, chatEnabled }) => {
       socket.emit('removeUserInteraction', { postId, userId });
     }
     navigate('/yerrr/now');
+  };
+
+  const handleAccept = () => {
+    console.log('accepting foodie buddie...');
+    if (post.userId === userId) {
+      closePosting();
+    } else {
+      removeUserInteraction();
+    }
+    navigate('/restaurants');
   };
 
   if (loading || !post || !postId) return <p>Loading...</p>;
@@ -131,14 +149,37 @@ const YerrrChat = ({ postId, nowEnabled, yerrrEnabled, chatEnabled }) => {
       </form>
       {!isChatOpen && <div>Chat is closed.</div>}
       {post.userId === userId ? (
-        <button id='nvm' onClick={closePosting}>
-          Close Post
-        </button>
+        <>
+          <button id='nvm' onClick={closePosting}>
+            Close Post
+          </button>
+          <Modal
+            className='weOutside-modal'
+            overlayClassName='weOutside-modal-overlay'
+            isOpen={isModalOpen}
+            onRequestClose={closeModal}
+            contentLabel='Chat Instructions-Author'>
+            <ChatAuthorInstructions />
+          </Modal>
+        </>
       ) : (
-        <button id='nvm' onClick={removeUserInteraction}>
-          Nvm..
-        </button>
+        <>
+          <button id='nvm' onClick={removeUserInteraction}>
+            Nvm..
+          </button>
+          <Modal
+            className='weOutside-modal'
+            overlayClassName='weOutside-modal-overlay'
+            isOpen={isModalOpen}
+            onRequestClose={closeModal}
+            contentLabel='Chat Instructions-Interactor'>
+            <ChatInteractorInstructions />
+          </Modal>
+        </>
       )}
+      <button id='nvm' onClick={handleAccept}>
+        Lets Eat!
+      </button>
     </div>
   );
 };
