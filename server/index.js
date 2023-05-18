@@ -127,10 +127,12 @@ io.on('connection', (socket) => {
           }));
 
         if (interactionExists && post.preference === 'one on one') {
-          return io.emit(
-            'userInteractionError',
-            'user interaction already active for this post'
-          );
+          return io
+            .to(socket.id)
+            .emit(
+              'userInteractionError',
+              'user interaction already active for this post'
+            );
         }
 
         const interactionData = {

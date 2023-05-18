@@ -10,7 +10,6 @@ import Instructions from './Instructions';
 
 const Main = () => {
   const auth = useSelector((state) => state.auth);
-  const messages = useSelector((state) => state.yerrrChat.messages);
   const user = auth.user;
   const dispatch = useDispatch();
   const [chatEnabled, setChatEnabled] = useState(false);
@@ -20,9 +19,7 @@ const Main = () => {
   const location = useLocation();
   const postId = location.state?.postId;
   console.log('postId inside main component: ', postId);
-  const isActive = (path) => {
-    return location.pathname === path;
-  };
+
   Modal.setAppElement('#root');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
