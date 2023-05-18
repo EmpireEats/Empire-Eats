@@ -3,22 +3,21 @@ const db = require("../db");
 const User = require("./User");
 const Review = require("./Review");
 
+
 const getFeed = async () => {
-  const feed = await Review.findAll({
+  const feed = await Review.findAll({  
     attributes: [
       "userId",
-      "picture",
-      [Sequelize.literal("substring(\"body\" from 1 for 100)"), "previewText"], //* temp keep this
-      // [Sequelize.literal('"restaurant"."name"'), "restaurantName"], //! will change this once we get rid of the restaurant table
-      // [Sequelize.literal('"Review"."title"'), "title"],
-      //convert photos from binary to url
-      // [Sequelize.literal("encode(\"picture\", 'url')"), "picture"],
-      ["picture", "pictureUrl"],
+      "image",
+      [Sequelize.literal("substring(\"body\" from 1 for 50)"), "previewText"],
+      [Sequelize.col("review.createdAt"), "createdAt"], 
+      "name",
+      "address",
     ],
     where: {
       userId: { [Sequelize.Op.not]: null },
       body: { [Sequelize.Op.not]: null },
-      picture: { [Sequelize.Op.not]: null },
+      image: { [Sequelize.Op.not]: null },
     },
     include: [
       {
@@ -26,11 +25,17 @@ const getFeed = async () => {
         attributes: ["username"],
       },
     ],
-    order: [["createdAt", "DESC"]],
+    order: [[Sequelize.col("review.createdAt"), "DESC"]], 
     raw: true,
   });
 
-  return feed;
+  // Format dates
+  const formattedFeed = feed.map(item => ({
+    ...item,
+    createdAt: new Intl.DateTimeFormat('en-US').format(new Date(item.createdAt)),
+  }));
+
+  return formattedFeed;
 };
 
 module.exports = {

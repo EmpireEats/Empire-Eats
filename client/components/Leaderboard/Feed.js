@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchFeed } from "../../redux/actions/feedActions";
 import { Link } from "react-router-dom";
@@ -8,6 +8,7 @@ const Feed = () => {
   const feed = useSelector((state) => state.feed.feed);
   const loading = useSelector((state) => state.feed.loading);
   const error = useSelector((state) => state.feed.error);
+
 
   useEffect(() => {
     dispatch(fetchFeed());
@@ -28,20 +29,18 @@ const Feed = () => {
         <button>LEADERBOARD</button>
       </Link>
       <Link to="/home/feed">
-        <button>FEED</button> 
+        <button>Feed</button>
       </Link>
-      </div>
-      <div className="feed">
       <ul>
         {feed.map((review, index) => (
           <li key={index}>
-            {/* <img src={review.userPhotoUrl} alt={review.username} /> */}
-            <img id="feed-pic" src={review.pictureUrl} alt={review.username} />
-            <div className="feed-item">
-            <div>{review.username}</div>
-            <div>{review.previewText}</div>
-            <div>Restaurant: {review.restaurantName}</div>
-            </div>
+            <img src={review.image} alt={`Review ${index}`} />
+            <div>{review.name}</div>
+            <div> {review.address}</div>
+            <div>{review.previewText}-</div>
+            {/* <div>Reviewed by: {review.username}</div> */}
+            <div>Reviewed by: <Link to={`/users/${review.username}`}>{review.username}</Link></div>
+            <div>Posted on: {review.createdAt}</div>
           </li>
         ))}
       </ul>
@@ -50,3 +49,4 @@ const Feed = () => {
 };
 
 export default Feed;
+
