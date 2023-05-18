@@ -14,7 +14,7 @@ import Post from './Post';
 import Filter from './Filter';
 import Pagination from './Pagination';
 
-const Now = ({ onChatEnabledChange }) => {
+const Now = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
   const reduxPosts = useSelector((state) => state.post.allPosts);
   const hiddenPosts = useSelector((state) => state.post.hiddenPosts);
   const loading = useSelector((state) => state.post.loading);
@@ -79,9 +79,13 @@ const Now = ({ onChatEnabledChange }) => {
       });
       socket.on('userInteractionDeleted', () => {
         onChatEnabledChange(false);
+        yerrrEnabled(true);
+        nowEnabled(true);
       });
       socket.on('userInteractionCreated', (newUi) => {
         const postId = newUi.postId;
+        nowEnabled(false);
+        yerrrEnabled(false);
         onChatEnabledChange(true);
         navigate('/yerrr/chat', { state: { postId } });
       });

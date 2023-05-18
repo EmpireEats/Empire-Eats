@@ -6,8 +6,9 @@ import {
   getLoggedInUserData,
   fetchAllUsers,
   fetchSingleUser,
-  editUser
+  editUser,
 } from '../actions/authActions';
+import { findActiveUserInteraction } from '../actions/userInteractionActions';
 
 const initialState = {
   token: null,
@@ -15,6 +16,7 @@ const initialState = {
   user: null,
   error: null,
   allUsers: [],
+  activeUserInteraction: null,
 };
 
 export const authSlice = createSlice({
@@ -74,6 +76,9 @@ export const authSlice = createSlice({
       })
       .addCase(editUser.fulfilled, (state, action) => {
         state.user = action.payload;
+      })
+      .addCase(findActiveUserInteraction.fulfilled, (state, action) => {
+        state.activeUserInteraction = action.payload;
       });
   },
 });

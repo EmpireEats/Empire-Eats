@@ -25,7 +25,7 @@ const Post = ({
           {post.user && post.user.firstName ? (
             <div>
               <p>
-                <span>*pfp*</span>
+                <span>(img) </span>
                 {post.user.firstName}
               </p>
             </div>
@@ -33,7 +33,7 @@ const Post = ({
             <p>No name</p>
           )}
           <p>"{post.message}"</p>
-          <p>Preference: {post.preference}</p>
+          <p>Party Size: {post.preference}</p>
           {post.isActive ? <p>Active</p> : <p>No Longer Active</p>}
           {post.userId === loggedInUserId ? (
             <>
