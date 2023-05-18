@@ -39,7 +39,7 @@ const Feed = () => {
           Leaderboard
         </button>
       </Link>
-      <Link to="/home/feed">
+      {/* <Link to="/home/feed">
         <button
           style={{
             backgroundColor: activeButton === "Feed" ? "gray" : "white",
@@ -49,7 +49,7 @@ const Feed = () => {
         >
           Feed
         </button>
-      </Link>
+      </Link> */}
 
       <ul className="feed-list">
         {feed.slice(0, visibleReviews).map((review, index) => (
