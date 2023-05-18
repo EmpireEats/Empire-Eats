@@ -210,30 +210,36 @@
   height: 40vh;
 }
 
-.review-image-container {
-  overflow-y: auto;
+.review-component {
   display: flex;
-  flex-wrap: wrap;
-  height: 600px;
-  justify-content: center;
-}
-
-.restaurant-review {
-  width: 400px;
-  height: 400px;
-  margin: 10px;
-  display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  overflow: hidden;
+  justify-content: center;
+  width: 100%;
 }
 
-.review-image {
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-gap: 10px;
+  justify-content: center;
+  width: 90%;
+  max-height: 600px;
+  overflow-y: auto;
+  margin: 0 auto;
+}
+
+.review-grid div {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.review-grid img {
   width: 100%;
-  height: 100%; 
+  height: 100%;
   object-fit: cover;
 }
-
-/* .error-message {
-  all restaurants component
-} */
