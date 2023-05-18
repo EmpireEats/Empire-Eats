@@ -2,14 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchFeed } from "../../redux/actions/feedActions";
 import { Link } from "react-router-dom";
+import "../../../public/styles/feed.css";
+import "../../../public/styles/index.css";
 
 const Feed = () => {
   const dispatch = useDispatch();
   const feed = useSelector((state) => state.feed.feed);
   const loading = useSelector((state) => state.feed.loading);
   const error = useSelector((state) => state.feed.error);
-  const [visibleReviews, setVisibleReviews] = useState(7); //! CHANGE THIS TO 10 WHEN DONE TESTING
-  const [reviewsToLoad, setReviewsToLoad] = useState(7);
+  const [visibleReviews, setVisibleReviews] = useState(20); 
+  const [reviewsToLoad, setReviewsToLoad] = useState(20);
   const [activeButton, setActiveButton] = useState(null); // State to track the active button
 
   useEffect(() => {
@@ -78,7 +80,9 @@ const Feed = () => {
         ))}
       </ul>
 
-      <div style={{ display: "flex", justifyContent: "flex-start" }}>
+            {/* UNCOMMENT THIS CODE AFTER DEMO */}
+
+      {/* <div style={{ display: "flex", justifyContent: "flex-start" }}>
         <button
           style={{
             marginRight: "10px",
@@ -109,7 +113,7 @@ const Feed = () => {
             Load More Reviews
           </button>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
