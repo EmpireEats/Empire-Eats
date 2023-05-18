@@ -39,6 +39,28 @@ router.get('/:id', requireAuth, requireUserMatch, async (req, res, next) => {
   }
 });
 
+router.get('/username/:username', requireAuth, async (req, res, next) => {
+  try {
+    const { username } = req.params;
+    const user = await User.findOne({
+      where: { username },
+      include: [Review],
+      attributes: {
+        exclude: ['id', 'firstName', 'lastName', 'email', 'password', 'isAdmin', 'createdAt', 'updatedAt']
+      }
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error('Error getting user data', error);
+    next(error);
+  }
+});
+
 router.put('/:id', requireAuth, async (req, res, next) => {
   try {
     const { id } = req.params;
