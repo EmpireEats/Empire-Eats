@@ -6,6 +6,7 @@ import Modal from 'react-modal';
 import { Link } from 'react-router-dom';
 import '../../../public/styles/weOutside.css';
 import { fetchReviewsByPlaceAsync } from '../../redux/actions/reviewActions';
+import { clearReviews } from '../../redux/reducers/reviewReducer';
 
 Modal.setAppElement('#root');
 
@@ -27,9 +28,10 @@ const RestaurantDetails = ({ restaurant, expanded, onRestaurantClick }) => {
   useEffect(() => {
     if (expanded) {
       dispatch(fetchReviewsByPlaceAsync({ placeId: restaurant.placeId, page: 1 }));
+    } else {
+      dispatch(clearReviews());
     }
   }, [expanded, dispatch, restaurant.placeId]);
-  
 
   const handleReviewButtonClick = (event) => {
     event.stopPropagation();
@@ -47,35 +49,33 @@ const RestaurantDetails = ({ restaurant, expanded, onRestaurantClick }) => {
   return (
     <div onClick={handleClick} className="restaurant-item">
       <h3>{restaurant.name}</h3>
-      <p>{restaurant.address}</p>
+      <p style={{ fontWeight: 'bold' }}>{restaurant.address}</p>
       {expanded && singleRestaurant && (
         <div>
           {singleRestaurant.formattedPhoneNumber && (
-            <p>Phone: {singleRestaurant.formattedPhoneNumber}</p>
+            <p><span style={{ fontWeight: 'bold' }}>Phone:</span> {singleRestaurant.formattedPhoneNumber}</p>
           )}
           {singleRestaurant.openingHours && (
-            <div>
-              <p>Opening Hours:</p>
+            <div className='ooo'>
+              <h4>Opening Hours:</h4>
               {singleRestaurant.openingHours.weekday_text.map((day, index) => (
                 <p key={index}>{day}</p>
               ))}
             </div>
           )}
           {singleRestaurant.website && (
-            <p>Website: <a href={singleRestaurant.website} target="_blank" rel="noreferrer">{singleRestaurant.website}</a></p>
+            <p><span style={{ fontWeight: 'bold' }}>Website:</span> <a href={singleRestaurant.website} target="_blank" rel="noreferrer">{singleRestaurant.website}</a></p>
           )}
           {expanded && (
             reviews.length > 0 ? (
-              <Link to={`/reviews/${restaurant.placeId}`}>
-                View Reviews
+              <Link to={`/reviews/${restaurant.placeId}`} className="view-photos-link">
+                View Photos
               </Link>
             ) : (
-              <p>No reviews on this restaurant yet.</p>
+              <p className="no-reviews-text">No reviews on this restaurant yet.</p>
             )
           )}
-          <br/>
-          <br/>
-          <button onClick={handleReviewButtonClick}>Review</button>
+          <button onClick={handleReviewButtonClick}>Leave a review</button>
           {showReviewForm && (
             <ReviewForm placeId={restaurant.placeId} restaurantName={restaurant.name} restaurantAddress={restaurant.address} />
           )}
