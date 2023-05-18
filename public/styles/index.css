@@ -13,6 +13,21 @@ body {
   position: relative;
 }
 
+#top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #9C94B1;
+  color: white;
+  text-align: left;
+  padding: 10px;
+  margin: 0;
+  box-sizing: border-box;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+}
+
+
 .nav-container {
   display: flex;
   justify-content: space-around;
@@ -22,19 +37,21 @@ body {
   right: 0;
   padding-top: 20px;
   padding-bottom: 8px;
+  background-color: #9C94B1;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
 }
 
 .nav-container a {
-  color: black; 
+  color: white; 
   text-decoration: none;
 }
 
 .nav-container a:hover {
-  color: blue;
+  color: rgb(89, 89, 226);
 }
 
 .nav-container .active {
-  color: blue;
+  color: rgb(71, 71, 230);
 }
 
 .dropdown-container {
@@ -87,12 +104,13 @@ body {
   display: flex;
   justify-content: space-around;
   position: fixed;
-  top: 0;
+  top: 60px; 
   left: 0;
   right: 0;
   padding: 10px;
   z-index: 999;
 }
+
 .leader button {
   color: black;
   font-size: bold 15px;
