@@ -6,6 +6,15 @@ const {
   requireUserMatch,
 } = require('./authentication/authMiddleware');
 const adminAuth = require('./authentication/adminAuth');
+const multer = require('multer');const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const upload = multer({ dest: 'uploads/' });
 
 router.get('/all', adminAuth, async (req, res, next) => {
   try {
@@ -82,6 +91,34 @@ router.put('/:id', requireAuth, async (req, res, next) => {
   } catch (error) {
     console.error('Error updating user data', error);
     next(error);
+  }
+});
+
+router.post('/:id', requireAuth, async (req, res, next) => {('image'), async (req, res, next) => {
+  const userId = req.user.id;
+
+  if (!req.file) {
+    return res.status(400).json({ error: 'Image is required' });
+  }
+
+  let imageUrl = null;
+  if (req.file) {
+    try {
+      const result = await cloudinary.uploader.upload(req.file.path);
+      imageUrl = result.secure_url;
+    } catch (error) {
+      return res.status(500).json({ error: 'Failed to upload image' });
+    }
+  }
+
+    try {
+      const newPicture = await Review.create({
+        image: imageUrl,
+      });
+      res.status(201).json({ message: 'Photo created successfully', review: newReview });
+    } catch (error) {
+      res.status(400).json({ error: 'Failed to upload photo' });
+    }
   }
 });
 
