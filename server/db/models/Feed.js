@@ -9,7 +9,7 @@ const getFeed = async () => {
     attributes: [
       "userId",
       "image",
-      [Sequelize.literal("substring(\"body\" from 1 for 50)"), "previewText"],
+      [Sequelize.literal("substring(\"body\" from 1 for 150)"), "previewText"],
       [Sequelize.col("review.createdAt"), "createdAt"], 
       "name",
       "address",
