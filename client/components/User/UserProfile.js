@@ -30,7 +30,7 @@ const UserProfile = () => {
     return (
       <div>
         <p>Please Log In or Sign Up to access. </p>
-        <Link to="/signup">Sign Up</Link>
+        <Link to='/login'>Log In</Link> or <Link to='/signup'>Sign Up</Link>
       </div>
     );
   }
@@ -117,9 +117,6 @@ const UserProfile = () => {
                     </div>
                   )}
                 </div>
-                {/* {isGridLayout && (
-                  <p>{review.name}: {review.body}</p>
-                )} */}
               </div>
             ))}
           </div>
