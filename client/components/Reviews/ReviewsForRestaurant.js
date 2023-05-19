@@ -34,6 +34,7 @@ const ReviewsForRestaurant = ({ placeId }) => {
   return (
     <div className="reviews-container">
       <h2 id='review'>Reviews:</h2>
+      <div className="reviews-row">
       {status === 'loading' ? (
         <div className="loading-message">Loading reviews...
           <div className="spinner"></div>
@@ -55,6 +56,7 @@ const ReviewsForRestaurant = ({ placeId }) => {
       ) : (
         <div className='error-message'>You need to be logged in to see reviews.</div>
       )}
+          </div>
       {loggedInUser && reviews.length < totalReviewsCount && status !== 'loading' && (
         <button className="load-more-button" onClick={handleLoadMore}>
           Load More
