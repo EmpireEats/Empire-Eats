@@ -2,6 +2,16 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const router = require('express').Router();
 const { User, Post, Review, UserInteraction } = require('../../db/index');
+const multer = require('multer');
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const upload = multer({ dest: 'uploads/' });
 
 router.post('/login', async (req, res, next) => {
   try {
@@ -30,29 +40,35 @@ router.post('/login', async (req, res, next) => {
   }
 });
 
-router.post('/signup', async (req, res, next) => {
-  try {
+router.post('/signup', upload.single('image'), async (req, res, next) => {
     const {
       firstName,
       lastName,
       email,
       username,
       password,
-      isAdmin,
-      adminPassphrase,
     } = req.body;
 
-    if (isAdmin && adminPassphrase !== process.env.ADMIN_PASSPHRASE) {
-      return res.status(403).json({ error: 'Invalid admin passphrase' });
+    let imageUrl = null;
+
+    if (req.file) {
+      try {
+        const result = await cloudinary.uploader.upload(req.file.path);
+        console.log(result);
+        imageUrl = result.secure_url;
+      } catch (error) {
+        return res.status(500).json({ error: 'Failed to upload image' });
+      }
     }
 
+    try {
     const user = await User.create({
-      email,
-      password,
-      firstName,
+      firstName, 
       lastName,
+      email,
       username,
-      isAdmin: isAdmin && adminPassphrase === process.env.ADMIN_PASSPHRASE,
+      password,
+      image: imageUrl,
     });
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
