@@ -168,7 +168,6 @@ const Now = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
       {filteredPosts && (
         <>
           <Filter selectedOption={selectedOption} handleSort={handleSort} />
-
           <div>
             {currentPosts.map((post) => (
               <Post

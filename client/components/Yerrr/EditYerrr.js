@@ -20,19 +20,32 @@ const EditYerrr = ({ post, onSave, onCancel }) => {
 
   return (
     <div>
-      <input
-        placeholder='message'
-        value={updatedPost.message}
-        onChange={(e) =>
-          setUpdatedPost({ ...updatedPost, message: e.target.value })
-        }
-      />
-
-      <select value={updatedPost.preference} onChange={handleUpdatePreference}>
-        <option value='one on one'>1 on 1</option>
-        <option value='group'>Group</option>
-        <option value='no preference'>No preference</option>
-      </select>
+      <div>
+        <p>
+          <span>(img) </span>
+          {updatedPost.user.firstName}
+        </p>
+      </div>
+      <div>
+        <span>Message: </span>
+        <input
+          placeholder='message'
+          value={updatedPost.message}
+          onChange={(e) =>
+            setUpdatedPost({ ...updatedPost, message: e.target.value })
+          }
+        />
+      </div>
+      <div>
+        <span>Preference: </span>
+        <select
+          value={updatedPost.preference}
+          onChange={handleUpdatePreference}>
+          <option value='one on one'>1 on 1</option>
+          <option value='group'>Group</option>
+          <option value='no preference'>No preference</option>
+        </select>
+      </div>
       <button onClick={handleSave}>Save</button>
       <button onClick={onCancel}>Cancel</button>
     </div>
