@@ -3,11 +3,11 @@
 .yerrr-tab-nav {
   display: flex;
   justify-content: space-around;
-  position: fixed; /* Change position to fixed */
+  position: fixed; 
   top: 0;
   left: 0;
   right: 0;
-  z-index: 10; /* Set a higher z-index to ensure it appears above other elements */
+  z-index: 10; 
   padding-top: 20px;
   padding-bottom: 8px;
   font-size: 18px;
@@ -27,11 +27,11 @@
 }
 
 .yerrr-tab-link:hover {
-  color: rgb(73, 73, 226); /* Blue color when hovered */
+  color: rgb(73, 73, 226); 
 }
 
 .yerrr-tab-link.active {
-  color: rgb(75, 75, 239); /* Blue color for the active tab */
+  color: rgb(75, 75, 239); 
 }
 
 .user-post-list {
@@ -224,6 +224,10 @@
   opacity: 1;
 }
 
+#words{
+  margin-top:40px;
+  text-align: center;
+}
 
 
 /* Media Queries */
@@ -269,7 +273,8 @@
 }
 
 .filter {
-  margin-top: 12vh;
+  margin-top: 5vh;
+  text-align: center;
 }
 
 .filter select {

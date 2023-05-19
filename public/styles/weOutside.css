@@ -324,6 +324,11 @@
   margin-top: 40px;
 }
 
+#review {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
 .review {
   position: relative;
   display: inline-block;
@@ -367,6 +372,9 @@
 .review-date {
   font-size: 12px;
 }
+
+
+
 
 .review-button {
   display: block;
