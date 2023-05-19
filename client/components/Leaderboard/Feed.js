@@ -87,7 +87,7 @@ const Feed = () => {
         ))}
       </ul>
 
-            {/* UNCOMMENT THIS CODE AFTER DEMO */}
+            {/* stretch goal - do not delete*/}
 
       {/* <div style={{ display: "flex", justifyContent: "flex-start" }}>
         <button
