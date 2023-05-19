@@ -46,10 +46,10 @@ const Leaderboard = () => {
             {limitedLeaderboard.map((user, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
-                {/* <td>{user.name}</td> */}
-                <td>
+                <td>{user.name}</td>
+                {/* <td>
                   <Link to={`/users/${user.username}`}>{user.name}</Link>
-                </td>
+                </td> */}
                 <td>{user.restaurantVisitCount}</td>
               </tr>
             ))}

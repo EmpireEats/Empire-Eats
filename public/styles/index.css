@@ -3,7 +3,7 @@
 /* height commented out -kim */
 body {
   font-family: 'Source Sans Pro', sans-serif;
-  height: 100vh;
+  min-height: 100vh; /* instead of height: 100vh; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -171,6 +171,7 @@ body {
 }
 
 
+
 /* feed */
 .feed-container {
   display: flex;
@@ -253,10 +254,6 @@ body {
 }
 
 
-
-
-
-
 /* signup */
 .form-group {
   margin-bottom: 10px;
@@ -320,13 +317,4 @@ label {
   margin-bottom: 10px;
   text-align: left;
 }
-
-
-
-
-
-
-
-
-
 

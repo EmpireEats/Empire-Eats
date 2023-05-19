@@ -15,8 +15,9 @@ import UserProfile from "./User/UserProfile";
 import EditProfile from "./User/EditProfile";
 import WeOutside from "./Restaurants/WeOutside";
 import Feed from "./Leaderboard/Feed";
-import ReviewPicsForPlace from "./Reviews/ReviewPicsForPlace";
+import ReviewsForRestaurant from "./Reviews/ReviewsForRestaurant";
 import { getLoggedInUserData } from "../redux/actions/authActions";
+import RestaurantProfile from "./Restaurants/RestaurantProfile";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -74,7 +75,8 @@ const App = () => {
         <Route path="/feed" element={<Feed />} />
         <Route path="/home/leaderboard" element={<Leaderboard />} />
         <Route path="/home/feed" element={<Feed />} />
-        <Route path="reviews/:placeId" element={<ReviewPicsForPlace />} />
+        <Route path="/reviews/:placeId" element={<ReviewsForRestaurant />} />
+        <Route path="/restaurants/:placeId" element={<RestaurantProfile />} />
       </Routes>
     </div>
   );

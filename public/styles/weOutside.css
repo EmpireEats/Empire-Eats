@@ -11,7 +11,7 @@
 
 .weOutside-component-container h1 {
   text-align: center;
-  margin-top: 0;
+  /* margin-top: 0; */
   /* width: 100%; */
 }
 
@@ -94,6 +94,26 @@
   }
 }
 
+.loading-more-message {
+  width: 200px;
+  height: 20px;
+  background-color: #f0f0f0;
+  overflow: hidden;
+}
+
+.loading-more-bar {
+  width: 0;
+  height: 100%;
+  background-color: #717882;
+  animation: loadingAnimation 2s infinite;
+}
+
+@keyframes loadingAnimation {
+  0% { width: 0; }
+  50% { width: 50%; }
+  100% { width: 100%; }
+}
+
 .error-message {
   display: flex;
   justify-content: center;
@@ -145,7 +165,7 @@
   transition: background-color 0.3s;
 }
 
-.view-photos-link {
+.view-restaurant-link {
   display: inline-block;
   margin: 5px 0;
   padding: 8px 16px;
@@ -157,11 +177,7 @@
   transition: background-color 0.3s;
 }
 
-/* .view-photos-link:hover {
-  background-color: #1f2a2a;
-} */
-
-.no-reviews-text {
+.reviews-text {
   color: #474444;
   font-style: italic;
 }
@@ -171,7 +187,7 @@
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 20px;
-  padding: 20px;
+  padding: 15px;
   border: none;
   border-radius: 5px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
@@ -183,10 +199,57 @@
   transition: background-color 0.3s;
 }
 
+@keyframes dotPulse {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+.loading-more-message {
+  animation: dotPulse 1s infinite ease-in-out;
+  animation-delay: calc(.1s * var(--dot-number));
+  height: 5px;
+  width: 5px;
+  background-color: #000;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 4px;
+}
+
+.review-form-component {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.review-form button {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: rgb(146, 145, 145);
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
 .review-form {
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
 }
 
 .review-textarea {
@@ -210,30 +273,114 @@
   height: 40vh;
 }
 
-.review-image-container {
-  overflow-y: auto;
+.restaurant-profile {
+  margin-top: 60px;
+  margin-bottom: 60px;
   display: flex;
-  flex-wrap: wrap;
-  height: 600px;
-  justify-content: center;
-}
-
-.restaurant-review {
-  width: 400px;
-  height: 400px;
-  margin: 10px;
-  display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  overflow: hidden;
+  text-align: center;
 }
 
-.review-image {
+.restaurant-name {
+  padding-top: 10px;
+  text-align: center;
+}
+
+.restaurant-details {
+  display: flex;
+  justify-content: space-between;
+}
+
+.restaurant-info,
+.restaurant-hours,
+.profile-review-form {
+  flex-basis: 33.33%;
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .restaurant-details {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .restaurant-info,
+  .restaurant-hours {
+    flex-basis: 100%;
+  }
+}
+
+.restaurant-hours h3,
+.restaurant-info h3 {
+  margin-bottom: 10px;
+}
+
+.restaurant-hours p {
+  margin: 0.5px;
+}
+
+.reviews-container {
+  margin-top: 40px;
+}
+
+.review {
+  position: relative;
+  display: inline-block;
+  width: calc(33.333% - 10px);
+  margin-right: 10px;
+  margin-bottom: 20px;
+  vertical-align: top;
+}
+
+.review img {
   width: 100%;
-  height: 100%; 
-  object-fit: cover;
+  height: auto;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
 }
 
-/* .error-message {
-  all restaurants component
-} */
+.review:hover img {
+  opacity: 0.8;
+}
+
+.review-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.review:hover .review-content {
+  opacity: 1;
+}
+
+.review-body {
+  margin-bottom: 5px;
+}
+
+.review-date {
+  font-size: 12px;
+}
+
+.review-button {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: rgb(146, 145, 145);
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}

@@ -24,11 +24,10 @@ const YerrrChat = ({ postId, nowEnabled, yerrrEnabled, chatEnabled }) => {
   const loading = useSelector((state) => state.post.loading);
   const post = useSelector((state) => state.post.activePostForChat);
   console.log('post inside of chat: ', post);
-  // const [isModalOpen, setIsModalOpen] = useState(true);
   const [isChatModalOpen, setIsChatModalOpen] = useState(true);
 
   useEffect(() => {
-    dispatch(fetchPostForChat({ postId }));
+    dispatch(fetchPostForChat(postId));
     const timer = setTimeout(() => {
       setIsChatOpen(false);
     }, 600000);

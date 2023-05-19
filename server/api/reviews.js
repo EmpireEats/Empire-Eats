@@ -12,17 +12,7 @@ cloudinary.config({
 
 const upload = multer({ dest: 'uploads/' });
 
-// test route, get all reviews
-router.get('/', async (req, res, next) => {
-  try {
-    const reviews = await Review.findAll();
-    res.status(200).json({ reviews });
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch reviews' });
-  }
-});
-
-router.get('/:placeId', requireAuth, async (req, res, next) => {
+router.get('/:placeId', async (req, res, next) => {
   const { placeId } = req.params;
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 20;

@@ -10,7 +10,6 @@ const WeOutside = () => {
   const { allRestaurants } = useSelector(state => state.restaurant);
   const [selectedRestaurantLocation, setSelectedRestaurantLocation] = useState(null);
 
-
   useEffect(() => {
     dispatch(fetchRestaurants());
   }, [dispatch]);

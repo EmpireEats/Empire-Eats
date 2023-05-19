@@ -151,7 +151,10 @@ io.on('connection', (socket) => {
         io.to(socket.id).emit('userInteractionCreated', interactionData);
       } catch (error) {
         console.error('Error creating user interaction:', error);
-        socket.emit('userInteractionError', 'Error creating user interaction');
+        io.to(socket.id).emit(
+          'userInteractionError',
+          'Error creating user interaction'
+        );
       }
     }
   );
@@ -170,7 +173,10 @@ io.on('connection', (socket) => {
       }
     } catch (error) {
       console.error("Error deleting user's interaction with post:", error);
-      socket.emit('userInteractionError', 'Error deleting user interaction');
+      io.to(socket.id).emit(
+        'userInteractionError',
+        'Error deleting user interaction'
+      );
     }
   });
 

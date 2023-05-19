@@ -164,6 +164,7 @@ const Now = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
 
   return (
     <div className='user-post-list'>
+      <div>Interact with a post or post your own Yerrr!</div>
       {filteredPosts && (
         <>
           <Filter selectedOption={selectedOption} handleSort={handleSort} />
