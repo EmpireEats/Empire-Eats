@@ -51,7 +51,7 @@ const AllRestaurants = ({ restaurants, setSelectedRestaurantLocation }) => {
 
   return (
     <div className="list-container">
-      {restaurants.map((restaurant, index) => (
+      {restaurants.map((restaurant) => (
         <ExpandedRestaurantDetails
           key={restaurant.placeId}
           restaurant={restaurant}
