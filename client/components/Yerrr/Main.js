@@ -64,12 +64,12 @@ const Main = () => {
         <nav className='yerrr-tab-nav'>
           {nowEnabled && (
             <Link className='yerrr-tab-link' to='/yerrr/now'>
-              Now
+              Feed
             </Link>
           )}
           {yerrrEnabled && user && (
             <Link className='yerrr-tab-link' to='/yerrr/postYerrr'>
-              Yerrr
+              Post
             </Link>
           )}
           {chatEnabled && user && (

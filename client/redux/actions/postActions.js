@@ -54,7 +54,7 @@ export const hidePostAsync = createAsyncThunk(
 
 export const fetchPostForChat = createAsyncThunk(
   'post/findForChat',
-  async ({ postId }) => {
+  async (postId) => {
     try {
       const token = window.localStorage.getItem('token');
       const response = await axios.get(`/api/posts/${postId}/chat`, {
