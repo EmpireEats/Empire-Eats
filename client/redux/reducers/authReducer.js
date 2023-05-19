@@ -14,6 +14,7 @@ const initialState = {
   token: null,
   status: 'idle',
   user: null,
+  location: null, // testing
   error: null,
   allUsers: [],
   activeUserInteraction: null,
@@ -29,6 +30,7 @@ export const authSlice = createSlice({
         state.token = action.payload.token;
         state.status = 'succeeded';
         state.user = action.payload.user;
+        state.location = action.payload.location; // testing
       })
       .addCase(login.rejected, (state, action) => {
         state.status = 'failed';
@@ -58,10 +60,12 @@ export const authSlice = createSlice({
           state.token = action.payload.token;
           state.status = 'succeeded';
           state.user = action.payload.user;
+          state.location = action.payload.location; //testing
         } else {
           state.token = null;
           state.status = 'idle';
           state.user = null;
+          state.location = null; //testing
         }
       })
       .addCase(getLoggedInUserData.rejected, (state, action) => {

@@ -322,6 +322,17 @@
 
 .reviews-container {
   margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.review {
+  position: relative;
+  flex: 1 0 calc(33.333% - 10px);
+  margin-right: 10px;
+  margin-bottom: 20px;
+  min-height: 150px;
 }
 
 #review {
@@ -329,18 +340,18 @@
   margin-bottom: 10px;
 }
 
-.review {
-  position: relative;
-  display: inline-block;
-  width: calc(33.333% - 10px);
-  margin-right: 10px;
-  margin-bottom: 20px;
-  vertical-align: top;
+.reviews-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  direction: ltr;
 }
+
 
 .review img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
   opacity: 1;
   transition: opacity 0.3s ease-in-out;
 }
@@ -372,8 +383,6 @@
 .review-date {
   font-size: 12px;
 }
-
-
 
 
 .review-button {

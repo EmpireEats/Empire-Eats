@@ -318,3 +318,19 @@ label {
   text-align: left;
 }
 
+#modal {
+  position: fixed;
+  top: 20px; 
+  right: 10px; 
+  background: transparent;
+  border: 2px solid black;
+  border-radius: 50%;
+  z-index: 10001; 
+}
+
+
+#modal:hover {
+  background-color: #7b748f;
+}
+
+

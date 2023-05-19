@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { getGeolocation } from './restaurantActions';
 
 // Auth Actions
 export const login = createAsyncThunk(
@@ -75,6 +76,26 @@ export const logout = createAsyncThunk('auth/logout', async () => {
   }
 });
 
+// export const getLoggedInUserData = createAsyncThunk(
+//   'auth/getLoggedInUserData',
+//   async () => {
+//     try {
+//       const storedToken = localStorage.getItem('token');
+//       const storedUser = JSON.parse(localStorage.getItem('user'));
+
+//       if (storedToken && storedUser) {
+//         return { token: storedToken, user: storedUser };
+//       } else {
+//         return null;
+//       }
+//     } catch (error) {
+//       console.error('Error getting logged-in user data', error);
+//       throw error;
+//     }
+//   }
+// );
+
+// TESTING RETRIEVING A LOGGED IN USERS DATA WITH COODINATES
 export const getLoggedInUserData = createAsyncThunk(
   'auth/getLoggedInUserData',
   async () => {
@@ -82,11 +103,38 @@ export const getLoggedInUserData = createAsyncThunk(
       const storedToken = localStorage.getItem('token');
       const storedUser = JSON.parse(localStorage.getItem('user'));
 
+      let location;
+
+      if (navigator.geolocation && storedToken && storedUser) {
+        try {
+          const position = await getGeolocation();
+          // Only use the serializable parts of the position object
+          location = {
+            latitude: position.latitude,
+            longitude: position.longitude
+          };
+        } catch (error) {
+          console.warn('Error getting user geolocation', error);
+          // Set default location if geolocation is not found
+          location = {
+            latitude: 40.7128,
+            longitude: -74.0060
+          };
+        }
+      } 
+
+      // Return user data with location (either retrieved or default)
       if (storedToken && storedUser) {
-        return { token: storedToken, user: storedUser };
-      } else {
-        return null;
+        return { 
+          token: storedToken, 
+          user: storedUser,
+          location
+        };
       }
+
+      // if no storedToken and storedUser, return null
+      return null;
+      
     } catch (error) {
       console.error('Error getting logged-in user data', error);
       throw error;
