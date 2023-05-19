@@ -13,6 +13,11 @@ const reviewSlice = createSlice({
   name: 'review',
   initialState,
   reducers: { 
+    clearReviews: (state) => {
+      state.allReviews = [];
+      state.status = 'idle';
+      state.error = null;
+    }, 
   },
   extraReducers: (builder) => {
     builder
@@ -45,5 +50,7 @@ const reviewSlice = createSlice({
       });
   }  
 });
+
+export const { clearReviews } = reviewSlice.actions;
 
 export default reviewSlice.reducer;

@@ -1,18 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchReviewsByPlaceAsync } from '../../redux/actions/reviewActions';
+import { clearReviews } from '../../redux/reducers/reviewReducer';
 import '../../../public/styles/weOutside.css'
 
 const ReviewsForRestaurant = ({ placeId }) => {
   const dispatch = useDispatch();
   const reviews = useSelector(state => state.review.allReviews);
   const totalReviewsCount = useSelector(state => state.review.totalReviewsCount);
+  const status = useSelector(state => state.review.status);
   const loggedInUser = useSelector(state => state.auth.user);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
     dispatch(fetchReviewsByPlaceAsync({ placeId, page }));
   }, [dispatch, placeId, page]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearReviews());
+    };
+  }, [dispatch]);
 
   const handleLoadMore = () => {
     setPage(prevPage => prevPage + 1);
@@ -26,7 +34,11 @@ const ReviewsForRestaurant = ({ placeId }) => {
   return (
     <div className="reviews-container">
       <h2>Reviews:</h2>
-      {loggedInUser ? (
+      {status === 'loading' ? (
+        <div className="loading-message">Loading reviews...
+          <div className="spinner"></div>
+        </div>
+      ) : loggedInUser ? (
         reviews.map((review, index) => (
           <div className="review" key={index}>
             {review.image && (
@@ -43,13 +55,13 @@ const ReviewsForRestaurant = ({ placeId }) => {
       ) : (
         <div className='error-message'>You need to be logged in to see reviews.</div>
       )}
-      {loggedInUser && reviews.length < totalReviewsCount && (
+      {loggedInUser && reviews.length < totalReviewsCount && status !== 'loading' && (
         <button className="load-more-button" onClick={handleLoadMore}>
           Load More
         </button>
       )}
     </div>
-  );  
+  );
 };
 
 export default ReviewsForRestaurant;
