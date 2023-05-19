@@ -4,18 +4,15 @@ import { addReviewAsync, fetchReviewsByPlaceAsync } from '../actions/reviewActio
 const initialState = {
   allReviews: [],
   singleReview: {},
-  totalCount: 0,
   status: 'idle',
   error: null,
+  totalReviewsCount: 0,
 };
 
 const reviewSlice = createSlice({
   name: 'review',
   initialState,
-  reducers: {
-    clearReviews: (state) => {
-      state.allReviews = [];
-    },    
+  reducers: { 
   },
   extraReducers: (builder) => {
     builder
@@ -35,16 +32,18 @@ const reviewSlice = createSlice({
       })
       .addCase(fetchReviewsByPlaceAsync.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.allReviews = action.payload.reviews;
-        state.totalCount = action.payload.count;
-      }) 
+        action.payload.reviews.forEach(review => {
+          if (!state.allReviews.find(r => r.id === review.id)) {
+            state.allReviews.push(review);
+          }
+        });
+        state.totalReviewsCount = action.payload.count;
+      })          
       .addCase(fetchReviewsByPlaceAsync.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       });
   }  
 });
-
-export const { clearReviews } = reviewSlice.actions;
 
 export default reviewSlice.reducer;

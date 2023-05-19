@@ -28,35 +28,13 @@ export const addReviewAsync = createAsyncThunk('reviews/addReview', async (revie
   }
 });
 
-// fetch all reviews testing
-export const fetchReviewsAsync = createAsyncThunk('reviews/fetchReviews', async (_, { rejectWithValue }) => {
-  try {
-    const { data } = await axios.get('/api/reviews');
-    return data.reviews;
-  } catch (err) {
-    return rejectWithValue(err.message);
-  }
-});
-
 export const fetchReviewsByPlaceAsync = createAsyncThunk(
-  'reviews/fetchReviewsByPlace',
-  async ({ placeId, page }, { getState, rejectWithValue }) => {
-    const token = window.localStorage.getItem('token');
+  'reviews/fetchByPlaceId',
+  async ({ placeId, page = 1, limit = 20 }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`/api/reviews/${placeId}`, {
-        params: {
-          page,
-          limit: 20,
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const currentReviews = getState().review.allReviews;
-      const updatedReviews = currentReviews.concat(data.reviews);
-
-      return { reviews: updatedReviews, count: data.count };
+      const response = await axios.get(`/api/reviews/${placeId}?page=${page}&limit=${limit}`);
+      const { reviews, count } = response.data;
+      return { reviews, count };
     } catch (err) {
       return rejectWithValue(err.message);
     }

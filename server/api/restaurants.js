@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const NodeCache = require('node-cache');
+const Review = require('../db/models/Review.js')
 const router = express.Router();
 
 const myCache = new NodeCache();
@@ -22,7 +23,6 @@ async function fetchRestaurants(latitude, longitude, pagetoken) {
 router.get('/', async (req, res) => {
   try {
     const { latitude, longitude, pageToken } = req.query;
-    console.log('Coordinates received:', latitude, longitude);
 
     if (
       latitude < nycBounds.south ||
@@ -69,15 +69,12 @@ router.get('/', async (req, res) => {
         placeId: result.place_id
       }));
 
-      console.log('Retrieved restaurants:', restaurants);
-
     res.json({
       restaurants: restaurants,
       nextPageToken: response.next_page_token
     });
 
   } catch (error) {
-    console.log('Error:', error.message);
     res.status(400).send(error.message);
   }
 });

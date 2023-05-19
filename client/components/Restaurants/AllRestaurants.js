@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import RestaurantDetails from './RestaurantDetails';
+import ExpandedRestaurantDetails from './ExpandedRestaurantDetails';
 import { fetchRestaurants } from '../../redux/actions/restaurantActions';
 import '../../../public/styles/weOutside.css';
 
@@ -52,7 +52,7 @@ const AllRestaurants = ({ restaurants, setSelectedRestaurantLocation }) => {
   return (
     <div className="list-container">
       {restaurants.map((restaurant, index) => (
-        <RestaurantDetails
+        <ExpandedRestaurantDetails
           key={restaurant.placeId}
           restaurant={restaurant}
           expanded={expandedPlaceId === restaurant.placeId}
@@ -65,7 +65,9 @@ const AllRestaurants = ({ restaurants, setSelectedRestaurantLocation }) => {
         </button>
       )}
       {isLoadingMore && (
-        <div className="loading-more-message">Loading more restaurants...</div>
+        <div className="loading-more-message">
+        <div className="loading-more-bar"></div>
+      </div>      
       )}
     </div>
   );
