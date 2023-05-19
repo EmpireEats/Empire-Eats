@@ -7,26 +7,31 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 999; /* Set a higher z-index to ensure it appears above other elements */
+  z-index: 10; /* Set a higher z-index to ensure it appears above other elements */
   padding-top: 20px;
   padding-bottom: 8px;
   font-size: 18px;
+  top:40px;
+  
 }
 
 .yerrr-tab-link {
-  color: #000;
+  color: white;
   text-decoration: none;
+  font-weight: bold;
   padding: 10px;
   margin-right: 5%;
   margin-left: 10%;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+
 }
 
 .yerrr-tab-link:hover {
-  color: #00f; /* Blue color when hovered */
+  color: rgb(73, 73, 226); /* Blue color when hovered */
 }
 
 .yerrr-tab-link.active {
-  color: #00f; /* Blue color for the active tab */
+  color: rgb(75, 75, 239); /* Blue color for the active tab */
 }
 
 .user-post-list {
@@ -70,6 +75,7 @@
   line-height: 1.4;
   width: 80%;
   max-width: 500px;
+  
 }
 
 .message-info {
@@ -195,7 +201,6 @@
 .yerrrForm input {
   height: 40px;
   outline: none;
-  color: white;
   margin-left: 5px;
 }
 
@@ -218,6 +223,8 @@
   color: white;
   opacity: 1;
 }
+
+
 
 /* Media Queries */
 
@@ -246,14 +253,19 @@
   padding: 10px;
   margin-bottom: 30px;
   text-align: center;
+  max-width: 500px;
+  height: 200px;
 }
 
 .user-post-list {
   border: none;
+  height: 75vh;
+  overflow-y: auto;
 }
 
 .user-post-list > div {
   margin-bottom: 10px;
+  max-width: 500px;
 }
 
 .filter {

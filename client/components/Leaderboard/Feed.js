@@ -11,6 +11,7 @@ const Feed = () => {
   const [visibleReviews, setVisibleReviews] = useState(7); //! CHANGE THIS TO 10 WHEN DONE TESTING
   const [reviewsToLoad, setReviewsToLoad] = useState(7);
   const [activeButton, setActiveButton] = useState(null); // State to track the active button
+  
 
   useEffect(() => {
     dispatch(fetchFeed());
@@ -24,30 +25,36 @@ const Feed = () => {
     return <div>Error: {error}</div>;
   }
 
+  const handleButtonMouseDown = (buttonName) => {
+    setActiveButton(buttonName);
+  };
+
+  const handleButtonMouseUp = () => {
+    setActiveButton(null);
+  };
+
   return (
     <div className="feed-container">
-      <Link to="/home/leaderboard">
-        <button
-          style={{
-            backgroundColor: activeButton === "Leaderboard" ? "gray" : "white",
-          }}
-          onMouseDown={() => setActiveButton("Leaderboard")}
-          onMouseUp={() => setActiveButton(null)}
-        >
-          Leaderboard
-        </button>
-      </Link>
-      <Link to="/home/feed">
-        <button
-          style={{
-            backgroundColor: activeButton === "Feed" ? "gray" : "white",
-          }}
-          onMouseDown={() => setActiveButton("Feed")}
-          onMouseUp={() => setActiveButton(null)}
-        >
-          Feed
-        </button>
-      </Link>
+      <div className="button-group">
+        <Link to="/home/leaderboard">
+          <button
+            className={`feed-btn ${activeButton === "Leaderboard" ? "active" : ""}`}
+            onMouseDown={() => handleButtonMouseDown("Leaderboard")}
+            onMouseUp={() => handleButtonMouseUp()}
+          >
+            LEADERBOARD
+          </button>
+        </Link>
+        <Link to="/home/feed">
+          <button
+            className={`feed-btn ${activeButton === "Feed" ? "active" : ""}`}
+            onMouseDown={() => handleButtonMouseDown("Feed")}
+            onMouseUp={() => handleButtonMouseUp()}
+          >
+            FEED
+          </button>
+        </Link>
+      </div>
 
       <ul className="feed-list">
         {feed.slice(0, visibleReviews).map((review, index) => (
@@ -55,7 +62,7 @@ const Feed = () => {
             <img
               src={review.image}
               alt={review.username}
-              style={{ width: "500px", height: "500px" }}
+              style={{ width: "600px", height: "400px" }}
             />
 
             <h2>
