@@ -33,7 +33,7 @@ const ReviewsForRestaurant = ({ placeId }) => {
 
   return (
     <div className="reviews-container">
-      <h2>Reviews:</h2>
+      <h2 id='review'>Reviews:</h2>
       {status === 'loading' ? (
         <div className="loading-message">Loading reviews...
           <div className="spinner"></div>

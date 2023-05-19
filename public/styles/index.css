@@ -3,7 +3,7 @@
 /* height commented out -kim */
 body {
   font-family: 'Source Sans Pro', sans-serif;
-  min-height: 100vh; /* instead of height: 100vh; */
+  min-height: 100vh; 
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -25,7 +25,7 @@ body {
   margin: 0;
   box-sizing: border-box;
   text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
-  z-index: 9999; /* Increase the z-index to ensure it appears above other elements */
+  z-index: 9999;
 }
 
 
