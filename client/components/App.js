@@ -1,4 +1,4 @@
-import React, { useEffect} from "react";
+import React, { useEffect,useState} from "react";
 import { useDispatch } from "react-redux";
 import io from "socket.io-client";
 import NavBar from "./NavBar";
@@ -18,10 +18,23 @@ import Feed from "./Leaderboard/Feed";
 import ReviewsForRestaurant from "./Reviews/ReviewsForRestaurant";
 import { getLoggedInUserData } from "../redux/actions/authActions";
 import RestaurantProfile from "./Restaurants/RestaurantProfile";
+import Modal from 'react-modal';
+import Instructions from './Yerrr/Instructions'
 
 const App = () => {
   const dispatch = useDispatch();
   const socketRef = React.useRef(null);
+
+  Modal.setAppElement('#root');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     dispatch(getLoggedInUserData());
@@ -40,7 +53,10 @@ const App = () => {
     const handleLatestMessages = (messages) => {
       console.log("Received latest messages:", messages);
       dispatch(updateChatMessages(messages));
+    
     };
+
+    
 
     if (socketRef.current) {
       socketRef.current.on("message", handleMessage);
@@ -61,6 +77,18 @@ const App = () => {
   }, [dispatch]);
 
   return (
+    <>
+      <button id='modal' onClick={openModal}>
+        i
+      </button>
+      <Modal
+        className='weOutside-modal'
+        overlayClassName='weOutside-modal-overlay'
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        contentLabel='Yerrr Tab Instructions'>
+        <Instructions closeModal={closeModal} />
+      </Modal>
     <div className="app-container">
       <NavBar />
       <Routes>
@@ -79,6 +107,7 @@ const App = () => {
         <Route path="/restaurants/:placeId" element={<RestaurantProfile />} />
       </Routes>
     </div>
+    </>
   );
 };
 
