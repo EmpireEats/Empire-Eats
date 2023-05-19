@@ -325,3 +325,16 @@
     margin-left: 5px;
   }
 }
+
+.instructions-container button {
+  background-color: #9C94B1;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.instructions-container button:hover {
+  background-color: #7b748f;
+}

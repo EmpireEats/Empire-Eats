@@ -5,8 +5,7 @@ import { getLoggedInUserData } from '../../redux/actions/authActions';
 import Now from './Now';
 import YerrrForm from './YerrrForm';
 import YerrrChat from './YerrrChat';
-import Modal from 'react-modal';
-import Instructions from './Instructions';
+
 
 const Main = () => {
   const auth = useSelector((state) => state.auth);
@@ -20,16 +19,6 @@ const Main = () => {
   const postId = location.state?.postId;
   console.log('postId inside main component: ', postId);
 
-  Modal.setAppElement('#root');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
 
   useEffect(() => {
     const postIdFromLocation = location.state?.postId;
@@ -59,7 +48,7 @@ const Main = () => {
   }, [chatEnabled, dispatch]);
 
   return (
-    <div className='yerrr-tab-container'>
+    <div className='yerrr-tab-container'> 
       <div>
         <nav className='yerrr-tab-nav'>
           {nowEnabled && (
@@ -116,17 +105,7 @@ const Main = () => {
             />
           )}
         </Routes>
-        <button id='modal' onClick={openModal}>
-          i
-        </button>
-        <Modal
-          className='weOutside-modal'
-          overlayClassName='weOutside-modal-overlay'
-          isOpen={isModalOpen}
-          onRequestClose={closeModal}
-          contentLabel='Yerrr Tab Instructions'>
-          <Instructions closeModal={closeModal} />
-        </Modal>
+      
       </div>
     </div>
   );
