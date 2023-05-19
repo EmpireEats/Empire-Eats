@@ -42,8 +42,8 @@ const Post = ({
             <p>No name</p>
           )}
           <p>"{post.message}"</p>
-          <p>Party Size: {post.preference}</p>
-          {post.isActive ? <p>Active</p> : <p>No Longer Active</p>}
+          {post.preference === 'one on one' && <p>Looking For: 👤 </p>}
+          {post.preference === 'group' && <p>Looking for: 👥 </p>}
           {post.userId === loggedInUserId ? (
             <>
               <span>
