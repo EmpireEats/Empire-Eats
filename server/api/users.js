@@ -48,7 +48,7 @@ router.get('/:id', requireAuth, requireUserMatch, async (req, res, next) => {
   }
 });
 
-router.get('/username/:username', requireAuth, async (req, res, next) => {
+router.get('/profile/:username', requireAuth, async (req, res, next) => {
   try {
     const { username } = req.params;
     const user = await User.findOne({
