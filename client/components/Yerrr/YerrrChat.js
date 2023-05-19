@@ -28,7 +28,7 @@ const YerrrChat = ({ postId, nowEnabled, yerrrEnabled, chatEnabled }) => {
   const [isChatModalOpen, setIsChatModalOpen] = useState(true);
 
   useEffect(() => {
-    // dispatch(fetchPostForChat({ postId }));
+    dispatch(fetchPostForChat(postId));
     const timer = setTimeout(() => {
       setIsChatOpen(false);
     }, 600000);
