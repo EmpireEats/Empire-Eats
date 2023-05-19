@@ -27,10 +27,10 @@ const Leaderboard = () => {
     <div>
       <div className="leader">
         <Link to="/home/leaderboard">
-          <button>LEADERBOARD</button>
+        <button className="leader-button">LEADERBOARD</button>
         </Link>
         <Link to="/home/feed">
-          <button>FEED</button>
+        <button className="leader-button">FEED</button>
         </Link>
       </div>
       <div className="leaderboard">
