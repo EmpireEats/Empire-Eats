@@ -93,7 +93,7 @@ const NavBar = () => {
       </Link>
       <Link to='/yerrr/now'>YERRR </Link>
       
-      {auth.token ? (
+      {auth.user ? (
         <div className='dropdown-container' onClick={handleDropdownClick}>
           <div className='dropdown-icon'>
             👤 <span className='dropdown-caret'></span>
