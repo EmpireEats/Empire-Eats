@@ -3,11 +3,14 @@ import { useDispatch } from 'react-redux';
 import { addReviewAsync } from '../../redux/actions/reviewActions';
 import Modal from 'react-modal';
 import '../../../public/styles/weOutside.css';
+import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
 Modal.setAppElement('#root');
 
 const ReviewForm = ({ placeId, restaurantName, restaurantAddress }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [body, setBody] = useState('');
   const [image, setImage] = useState(null);
@@ -30,6 +33,8 @@ const ReviewForm = ({ placeId, restaurantName, restaurantAddress }) => {
 
   const closeModal = () => {
     setModalIsOpen(false);
+    setErrorModalIsOpen(false);
+    navigate('/');
   };
 
   const openLink = () => {
@@ -46,7 +51,7 @@ const ReviewForm = ({ placeId, restaurantName, restaurantAddress }) => {
   };
 
   return (
-    <div onClick={handleClick}>
+    <div className='review-form-component' onClick={handleClick}>
       <h2>Tell us about your food:</h2>
       <form className="review-form" onSubmit={handleSubmit}>
         <input type="hidden" name="placeId" value={placeId} />
@@ -62,7 +67,7 @@ const ReviewForm = ({ placeId, restaurantName, restaurantAddress }) => {
         />
         <p className="remaining-chars">{remainingChars} characters remaining</p>
         <br/>
-        <label htmlFor="image">Image:</label>
+        <label htmlFor="image">Show off your food:</label>
         <input 
           type="file" 
           id="image" 

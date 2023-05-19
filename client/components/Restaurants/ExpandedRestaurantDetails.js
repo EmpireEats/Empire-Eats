@@ -6,17 +6,23 @@ import Modal from 'react-modal';
 import { Link } from 'react-router-dom';
 import '../../../public/styles/weOutside.css';
 import { fetchReviewsByPlaceAsync } from '../../redux/actions/reviewActions';
-import { clearReviews } from '../../redux/reducers/reviewReducer';
 
 Modal.setAppElement('#root');
 
-const RestaurantDetails = ({ restaurant, expanded, onRestaurantClick }) => {
-  const dispatch = useDispatch();
+const ExpandedRestaurantDetails = ({ restaurant, expanded, onRestaurantClick }) => {
   const singleRestaurant = useSelector(state => state.restaurant.singleRestaurant);
   const loggedInUser = useSelector(state => state.auth.user);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const reviews = useSelector(state => state.review.allReviews);
+  const totalReviewsCount = useSelector(state => state.review.totalReviewsCount);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (expanded) {
+      dispatch(fetchReviewsByPlaceAsync({ placeId: restaurant.placeId, page: 1 }));
+    }
+  }, [expanded, dispatch, restaurant.placeId]);
 
   const handleClick = () => {
     onRestaurantClick(restaurant.placeId);
@@ -24,14 +30,6 @@ const RestaurantDetails = ({ restaurant, expanded, onRestaurantClick }) => {
       dispatch(fetchSingleRestaurant(restaurant.placeId));
     }
   };
-
-  useEffect(() => {
-    if (expanded) {
-      dispatch(fetchReviewsByPlaceAsync({ placeId: restaurant.placeId, page: 1 }));
-    } else {
-      dispatch(clearReviews());
-    }
-  }, [expanded, dispatch, restaurant.placeId]);
 
   const handleReviewButtonClick = (event) => {
     event.stopPropagation();
@@ -63,17 +61,17 @@ const RestaurantDetails = ({ restaurant, expanded, onRestaurantClick }) => {
               ))}
             </div>
           )}
-          {singleRestaurant.website && (
-            <p><span style={{ fontWeight: 'bold' }}>Website:</span> <a href={singleRestaurant.website} target="_blank" rel="noreferrer">{singleRestaurant.website}</a></p>
-          )}
           {expanded && (
-            reviews.length > 0 ? (
-              <Link to={`/reviews/${restaurant.placeId}`} className="view-photos-link">
-                View Photos
+            <>
+              {totalReviewsCount > 0 ? (
+                <p className="reviews-text">This restaurant has {totalReviewsCount} reviews.</p>
+              ) : (
+                <p className="reviews-text">No reviews on this restaurant yet.</p>
+              )}
+              <Link to={`/restaurants/${restaurant.placeId}`} className="view-restaurant-link">
+                View Restaurant Profile
               </Link>
-            ) : (
-              <p className="no-reviews-text">No reviews on this restaurant yet.</p>
-            )
+            </>
           )}
           <button onClick={handleReviewButtonClick}>Leave a review</button>
           {showReviewForm && (
@@ -97,4 +95,4 @@ const RestaurantDetails = ({ restaurant, expanded, onRestaurantClick }) => {
   );
 };
 
-export default RestaurantDetails;
+export default ExpandedRestaurantDetails;
