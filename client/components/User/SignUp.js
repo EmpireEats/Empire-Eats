@@ -11,8 +11,7 @@ const SignUp = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [adminPassphrase, setAdminPassphrase] = useState('');
+  const [image, setImage] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false); 
 
@@ -38,7 +37,7 @@ const SignUp = () => {
     const passwordRegex = /^(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
       if (!passwordRegex.test(password)) {
         alert('Password should be at least 8 characters long and contain at least one special character.');
-        return;
+        return; 
       }
 
     dispatch(
@@ -48,8 +47,7 @@ const SignUp = () => {
         firstName,
         lastName,
         username,
-        isAdmin,
-        adminPassphrase,
+        image: image ? image[0]: null,
       })).then ((result) => {
         if (result.meta.requestStatus === 'fulfilled')
         {
@@ -59,7 +57,7 @@ const SignUp = () => {
           setFirstName('');
           setLastName('');
           setUsername('');
-          setAdminPassphrase('');
+          setImage(null);
           navigate('/leaderboard');
         } else if (result.meta.requestStatus === 'rejected') {
           const error = result.error;
@@ -79,6 +77,10 @@ const SignUp = () => {
 
   const handlePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
   };
 
   return (
@@ -149,6 +151,7 @@ const SignUp = () => {
           />
         </div>
         <div>
+          <label htmlFor='password'>Minimum 8 characters & 1 special symbol.</label>
           <input
             type={showPassword ? 'text' : 'password'}
             value={password}
@@ -183,25 +186,16 @@ const SignUp = () => {
             {showPassword ? <i className="fas fa-eye-slash"></i> : <i className="fas fa-eye"></i>}
           </button>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', marginTop: '5px' }}>
-          <label style={{ marginRight: '10px' }}>
-            Admin
-            <input
-              type="checkbox"
-              checked={isAdmin}
-              onChange={(e) => setIsAdmin(e.target.checked)}
-            />
-          </label>
-          <label>
-            Admin Passphrase  
-            <input
-              type="text"
-              value={adminPassphrase}
-              onChange={(e) => setAdminPassphrase(e.target.value)}
-            />
-          </label>
+        <div>
+          <label htmlFor="image">Upload Your Profile Picture:</label>
+          <input 
+          type="file" 
+          accept="image/*"
+          onChange={handleImageChange}
+          required 
+        />
         </div>
-        <button type="submit">Sign Up</button>
+          <button type="submit">Sign Up</button>
       </form>
       <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '3px' }}>
      <button onClick={handleModalToggle}>i</button>

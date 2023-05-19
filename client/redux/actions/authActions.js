@@ -37,20 +37,19 @@ export const signup = createAsyncThunk(
     email,
     username,
     password,
-    isAdmin,
-    adminPassphrase,
+    image,
   }) => {
     try {
-      const response = await axios.post('/api/authentication/auth/signup', {
-        firstName,
-        lastName,
-        email,
-        username,
-        password,
-        isAdmin,
-        adminPassphrase,
-      });
+      const formData = new FormData();
+      formData.append('firstName', firstName);
+      formData.append('lastName', lastName);
+      formData.append('email', email);
+      formData.append('username', username);
+      formData.append('password', password);
+      formData.append('image', image);
 
+      const response = await axios.post('/api/authentication/auth/signup', formData);
+    
       const { token, user } = response.data;
 
       localStorage.setItem('token', token);
