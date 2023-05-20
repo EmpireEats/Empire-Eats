@@ -33,8 +33,7 @@ const ReviewForm = ({ placeId, restaurantName, restaurantAddress }) => {
 
   const closeModal = () => {
     setModalIsOpen(false);
-    setErrorModalIsOpen(false);
-    navigate('/');
+    navigate('/leaderboard');
   };
 
   const openLink = () => {
