@@ -86,7 +86,7 @@ const ExpandedRestaurantDetails = ({ restaurant, expanded, onRestaurantClick }) 
         onRequestClose={closeModal}
         contentLabel="Login Modal"
       >
-        <div className='weOutside-modal-content'>
+        <div>
           <h2>Join the race to be NYC's #1 foodie!</h2>
           <p>If you want to leave a review, you need to <Link to="/login">Login</Link> or <Link to="/signup">Signup</Link>.</p>
         </div>

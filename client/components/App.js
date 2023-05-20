@@ -1,5 +1,5 @@
 import React, { useEffect,useState} from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import io from "socket.io-client";
 import NavBar from "./NavBar";
 import Login from "./User/Login";
@@ -19,22 +19,57 @@ import ReviewsForRestaurant from "./Reviews/ReviewsForRestaurant";
 import { getLoggedInUserData } from "../redux/actions/authActions";
 import RestaurantProfile from "./Restaurants/RestaurantProfile";
 import Modal from 'react-modal';
-import Instructions from './Yerrr/Instructions'
+import { useLocation } from "react-router";
+import YerrrModal from "./InfoModals/YerrrModal";
+import WeOutsideModal from "./InfoModals/WeOutsideModal";
+import UserProfileModal from "./InfoModals/UserProfileModal";
+import LeaderboardModal from "./InfoModals/LeaderboardModal";
+import LoggedOutModal from "./InfoModals/LoggedOutModal";
+import '../../public/styles/weOutside.css'
+
+Modal.setAppElement('#root');
 
 const App = () => {
   const dispatch = useDispatch();
   const socketRef = React.useRef(null);
-
-  Modal.setAppElement('#root');
+  const location = useLocation();
+  const loggedInUser = useSelector(state => state.auth.user);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalComponent, setModalComponent] = useState(null);
 
-  const openModal = () => {
+  const handleModalClick = () => {
+    // If the user is not logged in, always show the logged out modal.
+    if (!loggedInUser) {
+      setModalComponent(<LoggedOutModal />);
+    } else if (location.pathname.includes("/yerrr")) {
+      setModalComponent(<YerrrModal />);
+    } else if (
+      location.pathname.includes("/users")
+    ) {
+      setModalComponent(<UserProfileModal />);
+    } else if (
+      location.pathname.includes("/restaurants") ||
+      location.pathname.includes("/reviews")
+    ) {
+      setModalComponent(<WeOutsideModal />);
+    } else if (
+      location.pathname === "/leaderboard" ||
+      location.pathname === "/feed" ||
+      location.pathname === "/home/leaderboard" ||
+      location.pathname === "/home/feed"
+    ) {
+      setModalComponent(<LeaderboardModal />);
+    } else {
+      setModalComponent(<LoggedOutModal />);
+    }
+  
     setIsModalOpen(true);
-  };
+  };  
 
   const closeModal = () => {
-    setIsModalOpen(false);
-  };
+    console.log('Trying to close modal');
+    setIsModalOpen(false)
+  }
 
   useEffect(() => {
     dispatch(getLoggedInUserData());
@@ -78,17 +113,18 @@ const App = () => {
 
   return (
     <>
-      <button id='modal' onClick={openModal}>
+      <button id='modal' onClick={() => handleModalClick()}>
         i
       </button>
       <Modal
         className='weOutside-modal'
-        overlayClassName='weOutside-modal-overlay'
+        overlayClassName="weOutside-modal-overlay"
         isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        contentLabel='Yerrr Tab Instructions'>
-        <Instructions closeModal={closeModal} />
+        shouldCloseOnOverlayClick={true}
+        onRequestClose={closeModal}>
+        {modalComponent}
       </Modal>
+
     <div className="app-container">
       <NavBar />
       <Routes>
