@@ -67,22 +67,25 @@ const Login = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-
-        <input
-          type={showPassword ? 'text' : 'password'}
-          name="password"
-          className="form-input"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+  
+        <div style={{position: 'relative'}}>
+        <div className="input-group">
+          <input
+            type={showPassword ? 'text' : 'password'}
+            name="password"
+            className="form-input"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={{paddingRight: '30px'}} 
+          />
           <button
             type="button"
             onClick={handlePasswordVisibility}
             style={{
               position: 'absolute',
-              top: '50%',
-              right: '2px',
+              top: '35%',
+              right: '5px',
               transform: 'translateY(-50%)',
               background: 'none',
               border: 'none',
@@ -96,13 +99,14 @@ const Login = () => {
               <i className="fas fa-eye"></i>
             )}
           </button>
-       <button type="submit" className="form-button">Sign in</button>
+        </div>
+  </div>
+        <button type="submit" className="form-button">Sign in</button>
       </form>
       <div className="signup-link">
         <Link to="/signup" style={{ textDecoration: 'none' }}>Sign Up</Link>
       </div>
     </div>
   );
-  
-  }
+ }
 export default Login;
