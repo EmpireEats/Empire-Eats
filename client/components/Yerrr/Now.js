@@ -12,7 +12,9 @@ import Modal from 'react-modal';
 import NeedToLogIn from './NeedToLogIn';
 import Post from './Post';
 import Filter from './Filter';
-import Pagination from './Pagination';
+import Pagination1 from './Pagination';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 const Now = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
   const reduxPosts = useSelector((state) => state.post.allPosts);
@@ -185,11 +187,14 @@ const Now = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
               />
             ))}
           </div>
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            handlePageChange={handlePageChange}
-          />
+          <Stack spacing={2}>
+            <Pagination
+              count={totalPages}
+              page={currentPage}
+              onChange={(event, value) => handlePageChange(value)}
+              color='primary'
+            />
+          </Stack>
           <Modal
             className='weOutside-modal'
             overlayClassName='weOutside-modal-overlay'
