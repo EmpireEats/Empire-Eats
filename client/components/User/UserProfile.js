@@ -12,19 +12,9 @@ const UserProfile = () => {
   const leaderboard = useSelector((state) => state.leaderboard.leaderboard);
   
   useEffect(() => {
-<<<<<<< Updated upstream
     dispatch(fetchSingleUser({username}));
     dispatch(fetchLeaderboard());
   }, [dispatch]);
-=======
-    if (id) {
-      dispatch(fetchSingleUser(username ? username : id));
-    }
-    dispatch(fetchLeaderboard());
-  }, [dispatch, id, username]);
-
-  const { username, firstName, lastName, reviews } = user || {};
->>>>>>> Stashed changes
 
   const rank = leaderboard.findIndex((user) => user.name === username) + 1;
   const restaurantVisits = leaderboard.find((user) => user.name === username)?.restaurantVisitCount;

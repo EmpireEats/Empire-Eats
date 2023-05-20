@@ -158,18 +158,10 @@ export const fetchAllUsers = createAsyncThunk('users/fetchAll', async () => {
     }
 });
 
-<<<<<<< Updated upstream
 export const fetchSingleUser = createAsyncThunk('users/fetchSingle', async ({ username }) => {
   try {
         const token = window.localStorage.getItem('token');
         const route = `/api/users/profile/${username}`;
-=======
-export const fetchSingleUser = createAsyncThunk('users/fetchSingle', async (_, { getState }) => {
-  try {
-        const token = window.localStorage.getItem('token');
-        const { id, username } = getState().auth.user;
-        const route = username? `/api/users/${id}` : `/api/users/profile/${username}`;
->>>>>>> Stashed changes
         const { data } = await axios.get(route, 
             {
                 headers: {
