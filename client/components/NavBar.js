@@ -100,7 +100,7 @@ const NavBar = () => {
           </div>
           {showDropdown && (
             <div className='dropdown-menu'>
-              {auth.user && <Link to={`/users/${auth.user.id}`}>My Profile</Link>}
+              {auth.user && <Link to={`/users/profile/${auth.user.username}`}>My Profile</Link>}
               <Link to='/' onClick={handleLogout}>Logout</Link>
             </div>
           )}

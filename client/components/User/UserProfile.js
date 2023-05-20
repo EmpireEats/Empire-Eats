@@ -1,24 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { fetchSingleUser } from '../../redux/actions/authActions';
 import { fetchLeaderboard } from '../../redux/actions/leaderboardActions';
 
 const UserProfile = () => {
   const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth);
-  const user = auth.user;
-  const id = user?.id;
+  const { username } = useParams();
+  const user = useSelector((state) => state.auth.user);
+
   const leaderboard = useSelector((state) => state.leaderboard.leaderboard);
-
+  
   useEffect(() => {
-    if (id) {
-      dispatch(fetchSingleUser(id));
-    }
+    dispatch(fetchSingleUser({username}));
     dispatch(fetchLeaderboard());
-  }, [dispatch, id]);
-
-  const { username, firstName, lastName, reviews } = user || {};
+  }, [dispatch]);
 
   const rank = leaderboard.findIndex((user) => user.name === username) + 1;
   const restaurantVisits = leaderboard.find((user) => user.name === username)?.restaurantVisitCount;
@@ -61,7 +57,7 @@ const UserProfile = () => {
           />
           <div style={{ marginLeft: '10px', display: 'flex', flexDirection: 'column' }}>
             <h4 style={{ margin: '0', alignSelf: 'flex-start' }}>@{username}</h4>
-            <h5 style={{ margin: '0', alignSelf: 'flex-start' }}>{firstName} {lastName}</h5>
+            {/* <h5 style={{ margin: '0', alignSelf: 'flex-start' }}>{firstName} {lastName}</h5> */}
             <h6 style={{ margin: '0', alignSelf: 'flex-start' }}>📍Brooklyn, New York</h6>
           </div>
         </div>
@@ -77,7 +73,7 @@ const UserProfile = () => {
             </button>
           </div>
           <div style={{ display: isGridLayout ? 'grid' : 'block', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', overflowY: 'auto', maxHeight: '40vh', padding: '8px' }}>
-            {reviews && reviews.map((review) => (
+            {user && user.reviews && user.reviews.map((review) => (
               <div key={review.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <div
                   style={{
