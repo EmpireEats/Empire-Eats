@@ -42,7 +42,7 @@ const UserProfile = () => {
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Link to={`/users/${id}/edit`}>
+        <Link to={`/users/${user.id}/edit`}>
           <button>Edit</button>
         </Link>
       </div>
