@@ -59,14 +59,15 @@ export default function Album() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <AppBar position='relative'>
-        <Toolbar>
-          <CameraIcon sx={{ mr: 2 }} />
-          <Typography variant='h6' color='inherit' noWrap>
-            Empire Eats!
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <AppBar position="relative" className="landing-navbar">
+  <Toolbar>
+    <CameraIcon sx={{ mr: 2 }} />
+    <Typography variant="h6" color="inherit" noWrap>
+      Empire Eats!
+    </Typography>
+  </Toolbar>
+</AppBar>
+
       <main>
         {/* Hero unit */}
         <Box

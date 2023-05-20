@@ -109,99 +109,89 @@ const SignUp = () => {
           </div>
         </Modal>
 
-      <div style={{ marginBottom: '10px', textAlign: 'left' }}>
-        <h4 style={{ margin: 0 }}>Sign Up</h4>
-      </div>
+        <div className="login-container">
+  <div className="login-heading">
+    <h4>Sign Up</h4>
+  </div>
 
-      <form onSubmit={handleSignUp}>
-        <div>
-          <input
-            type='text'
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            placeholder='First Name'
-            required
-          />
-        </div>
-        <div>
-          <input
-            type='text'
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            placeholder='Last Name'
-            required
-          />
-        </div>
-        <div>
-          <input
-            type='email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder='Email'
-            required
-          />
-        </div>
-        <div>
-          <input
-            type='text'
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder='Username'
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor='password'>Minimum 8 characters & 1 special symbol.</label>
-          <input
-            type={showPassword ? 'text' : 'password'}
-            value={password}
-            minLength='8'
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            required
-          />
-        </div>
-        <div style={{ position: 'relative', display: 'inline-block' }}>
-          <input
-            type={showPassword ? 'text' : 'password'}
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Confirm Password"
-            required
-          />
-          <button
-            type="button"
-            onClick={handlePasswordVisibility}
-            style={{
-              position: 'absolute',
-              top: '50%',
-              right: '5px',
-              transform: 'translateY(-50%)',
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              outline: 'none',
-            }}
-          >
-            {showPassword ? <i className="fas fa-eye-slash"></i> : <i className="fas fa-eye"></i>}
-          </button>
-        </div>
-        <div>
-          <label htmlFor="image">Upload Your Profile Picture:</label>
-          <input 
-          type="file" 
-          accept="image/*"
-          onChange={handleImageChange}
-          required 
-        />
-        </div>
-          <button type="submit">Sign Up</button>
-      </form>
-      <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '3px' }}>
-     <button onClick={handleModalToggle}>i</button>
-     </div>
+  <form className="login-form" onSubmit={handleSignUp}>
+    <div className="form-group">
+      <input
+        type='text'
+        value={firstName}
+        onChange={(e) => setFirstName(e.target.value)}
+        placeholder='First Name'
+        className="form-input"
+        required
+      />
     </div>
-  );
+    <div className="form-group">
+      <input
+        type='text'
+        value={lastName}
+        onChange={(e) => setLastName(e.target.value)}
+        placeholder='Last Name'
+        className="form-input"
+        required
+      />
+    </div>
+    <div className="form-group">
+      <input
+        type='email'
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder='Email'
+        className="form-input"
+        required
+      />
+    </div>
+    <div className="form-group">
+      <input
+        type='text'
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        placeholder='Username'
+        className="form-input"
+        required
+      />
+    </div>
+    <div className="form-group">
+      <label htmlFor='password'>Minimum 8 characters & 1 special symbol.</label>
+      <div className="inside-group">
+        <input
+          type={showPassword ? 'text' : 'password'}
+          value={password}
+          minLength='8'
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          className="form-input"
+          required
+        />
+        <button
+          type="button"
+          onClick={handlePasswordVisibility}
+          className="visibility-icon"
+        >
+          {showPassword ? <i className="fas fa-eye-slash"></i> : <i className="fas fa-eye"></i>}
+        </button>
+      </div>
+    </div>
+    <div className="form-image">
+      <input 
+        type="file" 
+        accept="image/*"
+        onChange={handleImageChange}
+        required 
+      />
+    </div>
+    <button type="submit" className="form-button">Sign Up</button>
+  </form>
+  <div className="signup-link">
+    <button onClick={handleModalToggle}>i</button>
+  </div>
+</div>
+</div>
+  )
 };
 
 
