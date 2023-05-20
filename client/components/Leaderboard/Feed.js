@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchFeed } from "../../redux/actions/feedActions";
 import { Link } from "react-router-dom";
-import "../../../public/styles/feed.css";
 import "../../../public/styles/index.css";
 
 const Feed = () => {
