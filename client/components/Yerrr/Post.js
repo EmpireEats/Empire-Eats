@@ -34,7 +34,7 @@ const Post = ({
           {post.user && post.user.firstName ? (
             <div>
               <p>
-                <span>(img) </span>
+                {/* <span>(img) </span> */}
                 {post.user.firstName}
               </p>
             </div>
