@@ -27,32 +27,45 @@ const Leaderboard = () => {
     <div>
       <div className="leader">
         <Link to="/home/leaderboard">
-        <button className="leader-button">LEADERBOARD</button>
+          <button className="leader-button">LEADERBOARD</button>
         </Link>
         <Link to="/home/feed">
-        <button className="leader-button">FEED</button>
+          <button className="leader-button">FEED</button>
         </Link>
       </div>
       <div className="leaderboard">
         <table>
           <thead>
             <tr>
-              <th>Rank</th>
-              <th>User</th>
-              <th>Restaurant Visits</th>
+              <th>RANK</th>
+              <th>USER</th>
+              <th>RESTAURANT VISITS</th>
             </tr>
           </thead>
           <tbody>
             {limitedLeaderboard.map((user, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
-                <td>{user.name}</td>
-                {/* <td>
-                  <Link to={`/users/${user.username}`}>{user.name}</Link>
-                </td> */}
+                {/* <td>{user.name}</td> */}
+                <td>
+                  <Link to={`/users/${user.id}`}>{user.name}</Link>
+                </td>
                 <td>{user.restaurantVisitCount}</td>
               </tr>
             ))}
+            {Array(10 - limitedLeaderboard.length)
+              .fill()
+              .map((_, index) => (
+                <tr key={limitedLeaderboard.length + index}>
+                  <td>{limitedLeaderboard.length + index + 1}</td>
+                  <td>
+                    <Link to="/restaurants">
+                      Join the race to be NYC's #1 foodie!
+                    </Link>
+                  </td>
+                  <td>-</td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
