@@ -158,10 +158,11 @@ export const fetchAllUsers = createAsyncThunk('users/fetchAll', async () => {
     }
 });
 
-export const fetchSingleUser = createAsyncThunk('users/fetchSingle', async (id) => {
+export const fetchSingleUser = createAsyncThunk('users/fetchSingle', async ({ id, username }) => {
   try {
         const token = window.localStorage.getItem('token');
-        const { data } = await axios.get(`/api/users/${id}`, 
+        const route = username? `/api/users/profile/${username}` : `/api/users/${id}` ;
+        const { data } = await axios.get(route, 
             {
                 headers: {
                     authorization: `Bearer ${token}`,
