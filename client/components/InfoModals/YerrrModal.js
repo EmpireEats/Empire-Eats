@@ -4,10 +4,11 @@ import '../../../public/styles/weOutside.css';
 const YerrrModal = () => {
   return (
     <>
-      <div>
+      <div className="ModalView">
         <div className='info-icon'>&#9432;</div>
         <h1>YERRR</h1>
         <p className='italic'>[ exclamation ]</p>
+        <div>
         <p className='bold'>
           1. Used in NYC as a greeting or a way to get someone's attention.
         </p>
@@ -20,6 +21,7 @@ const YerrrModal = () => {
           Yerrr's that are nearby. 'Yerrr' is your ticket to building
           connections over good food.
         </p>
+      </div>
       </div>
     </>
   );

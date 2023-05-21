@@ -12,6 +12,8 @@
   padding-bottom: 8px;
   font-size: 18px;
   top:40px;
+  font-family: 'Source Sans Pro', sans-serif;
+
   
 }
 
@@ -40,6 +42,8 @@
 
 .user-post {
   border: 1px solid;
+  font-family: 'Source Sans Pro', sans-serif;
+
 }
 
 .chat-container {
@@ -50,7 +54,8 @@
   height: 80vh;
   width: 100%;
   margin: 0 auto;
-  font-family: Arial, sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
+
 }
 
 .chat-window {
@@ -176,6 +181,8 @@
   padding: 30px;
   max-width: 600px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  font-family: 'Source Sans Pro', sans-serif;
+
 }
 
 .yerrrForm form {
@@ -259,6 +266,8 @@
   text-align: center;
   max-width: 500px;
   height: 200px;
+  font-family: 'Source Sans Pro', sans-serif;
+
 }
 
 .user-post-list {
