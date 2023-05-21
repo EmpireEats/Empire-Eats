@@ -1,10 +1,5 @@
 const db = require('./server/db/db');
-const {
-  User,
-  Review,
-  Post,
-  HiddenPost,
-} = require('./server/db/index');
+const { User, Review, Post, HiddenPost } = require('./server/db/index');
 
 const users = [
   {
@@ -105,7 +100,8 @@ const reviews = [
     address: '123 Main St, New York, NY 10001',
     rating: 3,
     body: 'Amazing tacos! Loved the atmosphere and service was great.',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/001_Tacos_de_carnitas%2C_carne_asada_y_al_pastor.jpg/1200px-001_Tacos_de_carnitas%2C_carne_asada_y_al_pastor.jpg',
+    image:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/001_Tacos_de_carnitas%2C_carne_asada_y_al_pastor.jpg/1200px-001_Tacos_de_carnitas%2C_carne_asada_y_al_pastor.jpg',
   },
   {
     userId: 2,
@@ -114,7 +110,8 @@ const reviews = [
     address: '456 Main St, New York, NY 10001',
     rating: 2,
     body: 'Good food but the service was slow.',
-    image: 'https://www.chelseasmessyapron.com/wp-content/uploads/2018/10/ACAIBOWLF8-500x500.jpg',
+    image:
+      'https://www.chelseasmessyapron.com/wp-content/uploads/2018/10/ACAIBOWLF8-500x500.jpg',
   },
   {
     userId: 3,
@@ -123,7 +120,8 @@ const reviews = [
     address: '789 Main St, New York, NY 10001',
     rating: 3,
     body: "The best breakfast I've ever had! Highly recommend!",
-    image: 'https://simply-delicious-food.com/wp-content/uploads/2022/09/Breakfast-board28.jpg',
+    image:
+      'https://simply-delicious-food.com/wp-content/uploads/2022/09/Breakfast-board28.jpg',
   },
   {
     userId: 4,
@@ -132,7 +130,8 @@ const reviews = [
     address: '456 Elm Avenue, New York, NY 10002',
     rating: 1,
     body: "I'm not a fan of their vegan options.",
-    image: 'https://hips.hearstapps.com/hmg-prod/images/tofu-1650647553.jpg?crop=0.998xw:0.335xh;0.00160xw,0.359xh&resize=1200:*',
+    image:
+      'https://hips.hearstapps.com/hmg-prod/images/tofu-1650647553.jpg?crop=0.998xw:0.335xh;0.00160xw,0.359xh&resize=1200:*',
   },
   {
     userId: 5,
@@ -141,7 +140,8 @@ const reviews = [
     address: '789 Oak Lane, New York, NY 10003',
     rating: 3,
     body: 'The seafood was fresh and delicious! Will definitely come back.',
-    image: 'https://www.marthastewart.com/thmb/uMWKSx5ZqI_toVzyBeXYHGcxh4Y=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/seafood-in-fennel-broth-0519-a0cda0a6_0-2731d6940b89422aa76a26bf099bb1e5.jpg',
+    image:
+      'https://www.marthastewart.com/thmb/uMWKSx5ZqI_toVzyBeXYHGcxh4Y=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/seafood-in-fennel-broth-0519-a0cda0a6_0-2731d6940b89422aa76a26bf099bb1e5.jpg',
   },
   {
     userId: 1,
@@ -150,7 +150,8 @@ const reviews = [
     adress: '321 Maple Drive, New York, NY 10004',
     rating: 3,
     body: 'The pizza was absolutely fantastic! Loved it!',
-    image: 'https://secretnyc.co/wp-content/uploads/2020/01/best-pizza-in-nyc_fumo_harlem-1-1.jpg',
+    image:
+      'https://secretnyc.co/wp-content/uploads/2020/01/best-pizza-in-nyc_fumo_harlem-1-1.jpg',
   },
   {
     userId: 2,
@@ -159,7 +160,8 @@ const reviews = [
     address: '654 Pine Street, New York, NY 10005',
     rating: 2,
     body: "The sushi was just okay. I've had better.",
-    image: 'https://images.getbento.com/accounts/c21c527d2227d1c4b30f2cb3a397c71e/media/images/44163Super_Jones_Large_Catering_with_Hands.jpg?w=1200&fit=max&auto=compress,format',
+    image:
+      'https://images.getbento.com/accounts/c21c527d2227d1c4b30f2cb3a397c71e/media/images/44163Super_Jones_Large_Catering_with_Hands.jpg?w=1200&fit=max&auto=compress,format',
   },
   {
     userId: 3,
@@ -168,7 +170,8 @@ const reviews = [
     address: '987 Elm Street, New York, NY 10006',
     rating: 3,
     body: 'A cozy spot with great coffee and pastries.',
-    image: 'https://media2.metrotimes.com/metrotimes/imager/u/magnum/30660103/promenade.jpg?cb=1659016997',
+    image:
+      'https://media2.metrotimes.com/metrotimes/imager/u/magnum/30660103/promenade.jpg?cb=1659016997',
   },
   {
     userId: 4,
@@ -182,11 +185,12 @@ const reviews = [
   {
     userId: 5,
     placeId: 2,
-    name: 'Burgers & More', 
+    name: 'Burgers & More',
     address: '321 Pine Street, New York, NY 10008',
     rating: 3,
     body: 'Burgers were juicy and flavorful. A great spot for lunch!',
-    image: 'https://insanelygoodrecipes.com/wp-content/uploads/2020/02/Burger-and-Fries.jpg',
+    image:
+      'https://insanelygoodrecipes.com/wp-content/uploads/2020/02/Burger-and-Fries.jpg',
   },
 ];
 
@@ -196,30 +200,40 @@ const posts = [
     message: 'Heading out for pizza, looking for a friend!',
     preference: 'one on one',
     isActive: true,
+    latitude: 40.6977041, // within a mile
+    longitude: -73.9047561, // within a mile
   },
   {
     userId: 2,
     message: 'Organizing a sushi night, anyone in?',
     preference: 'group',
     isActive: true,
+    latitude: 40.6957041, // within a mile
+    longitude: -73.9067561, // within a mile
   },
   {
     userId: 3,
     message: "Haven't decided where to eat yet, any suggestions?",
     preference: 'no preference',
     isActive: true,
+    latitude: 40.7167041, // outside a mile
+    longitude: -73.8957561, // outside a mile
   },
   {
     userId: 4,
     message: 'Craving for some burgers. Anyone want to join?',
     preference: 'one on one',
     isActive: true,
+    latitude: 40.6867041, // outside a mile
+    longitude: -73.9157561, // outside a mile
   },
   {
     userId: 5,
     message: 'Planning a big BBQ party, looking for more people!',
     preference: 'group',
     isActive: true,
+    latitude: 40.7067041, // outside a mile
+    longitude: -73.8857561, // outside a mile
   },
 ];
 

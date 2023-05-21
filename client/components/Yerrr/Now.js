@@ -12,7 +12,9 @@ import Modal from 'react-modal';
 import NeedToLogIn from './NeedToLogIn';
 import Post from './Post';
 import Filter from './Filter';
-import Pagination from './Pagination';
+import Pagination1 from './Pagination';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 const Now = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
   const reduxPosts = useSelector((state) => state.post.allPosts);
@@ -21,6 +23,12 @@ const Now = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
   const loggedInUserId = useSelector(
     (state) => state.auth.user && state.auth.user.id
   );
+  const userLocation = useSelector((state) => state.auth.location);
+  console.log('userLocation', userLocation);
+  const userLat = userLocation?.latitude;
+  console.log('userLat', userLat);
+  const userLon = userLocation?.longitude;
+  console.log('userLon', userLon);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [posts, setPosts] = useState(reduxPosts);
@@ -71,11 +79,11 @@ const Now = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
       });
 
       socket.on('postError', (error) => {
-        alert(error);
+        alert(`Post error: ${error}`);
       });
       socket.on('userInteractionError', (error) => {
         onChatEnabledChange(false);
-        alert(error);
+        alert(`User interaction error: ${error}`);
       });
       socket.on('userInteractionDeleted', () => {
         onChatEnabledChange(false);
@@ -102,9 +110,50 @@ const Now = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
     }
   }, [reduxPosts, socket, hiddenPosts]);
 
-  const filteredPosts = posts.filter((post) =>
-    selectedOption === 'all' ? true : post.preference === selectedOption
-  );
+  function getDistanceFromLatLonInMiles(lat1, lon1, lat2, lon2) {
+    var R = 3958.8;
+    var dLat = deg2rad(lat2 - lat1);
+    var dLon = deg2rad(lon2 - lon1);
+    var a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(lat1)) *
+        Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c;
+    return d;
+  }
+
+  function deg2rad(deg) {
+    return deg * (Math.PI / 180);
+  }
+
+  const filteredPosts = posts.filter((post) => {
+    if (!loggedInUserId) {
+      if (selectedOption === 'all') {
+        return true;
+      }
+      return post.preference === selectedOption;
+    }
+    const postDistance = getDistanceFromLatLonInMiles(
+      userLat,
+      userLon,
+      post.latitude,
+      post.longitude
+    );
+
+    if (postDistance > 1) {
+      return false;
+    }
+
+    if (selectedOption === 'all') {
+      return true;
+    }
+
+    return post.preference === selectedOption;
+  });
+
   const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
@@ -160,7 +209,8 @@ const Now = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
     }
   };
 
-  if (loading) return <div className='spinner'></div>;
+  if (loading || (loggedInUserId && !userLocation))
+    return <div className='spinner'></div>;
 
   return (
     <div className='user-post-list'>
@@ -185,11 +235,14 @@ const Now = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
               />
             ))}
           </div>
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            handlePageChange={handlePageChange}
-          />
+          <Stack spacing={2}>
+            <Pagination
+              count={totalPages}
+              page={currentPage}
+              onChange={(event, value) => handlePageChange(value)}
+              color='primary'
+            />
+          </Stack>
           <Modal
             className='weOutside-modal'
             overlayClassName='weOutside-modal-overlay'
