@@ -44,10 +44,10 @@ const Post = ({
           <p>"{post.message}"</p>
           {post.preference === 'one on one' && <p>Looking For: 👤 </p>}
           {post.preference === 'group' && <p>Looking for: 👥 </p>}
-          <p key={post.id}>
-            location: {post.latitude}
-            {post.longitude}
-          </p>
+          {/* <p key={post.id}>
+            lat: {post.latitude}
+            long: {post.longitude}
+          </p> */}
           {post.userId === loggedInUserId ? (
             <>
               <span>
