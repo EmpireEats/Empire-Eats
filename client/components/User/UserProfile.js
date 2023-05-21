@@ -6,13 +6,14 @@ import { fetchLeaderboard } from '../../redux/actions/leaderboardActions';
 
 const UserProfile = () => {
   const dispatch = useDispatch();
-  const { username } = useParams();
+  const { id, username } = useParams();
   const user = useSelector((state) => state.auth.user);
+  const error = useSelector((state) => state.auth.error);
 
   const leaderboard = useSelector((state) => state.leaderboard.leaderboard);
   
   useEffect(() => {
-    dispatch(fetchSingleUser({username}));
+    dispatch(fetchSingleUser({id, username}));
     dispatch(fetchLeaderboard());
   }, [dispatch]);
 
@@ -22,11 +23,17 @@ const UserProfile = () => {
   const [selectedReview, setSelectedReview] = useState(null);
   const [isGridLayout, setIsGridLayout] = useState(false);
 
-  if (!user) {
+  if (error) {
     return (
       <div>
-        <p>Please Log In or Sign Up to access. </p>
-        <Link to='/login'>Log In</Link> or <Link to='/signup'>Sign Up</Link>
+        <p>There was a error.</p>
+        <Link to="/login">Log In</Link> or <Link to="/signup">Sign Up</Link>
+      </div>
+    );
+  } else if (!user) {
+    return (
+      <div>
+        <p>Loading...</p>
       </div>
     );
   }
@@ -56,9 +63,8 @@ const UserProfile = () => {
               objectFit: "cover",}}
           />
           <div style={{ marginLeft: '10px', display: 'flex', flexDirection: 'column' }}>
-            <h4 style={{ margin: '0', alignSelf: 'flex-start' }}>@{username}</h4>
-            {/* <h5 style={{ margin: '0', alignSelf: 'flex-start' }}>{firstName} {lastName}</h5> */}
-            <h6 style={{ margin: '0', alignSelf: 'flex-start' }}>📍Brooklyn, New York</h6>
+            <h4 style={{ margin: '0', alignSelf: 'flex-start' }}>@{user.username}</h4>
+            <h5 style={{ margin: '0', alignSelf: 'flex-start' }}>{user.firstName} {user.lastName}</h5>
           </div>
         </div>
         <div>
