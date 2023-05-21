@@ -11,6 +11,8 @@ import { logout } from '../redux/actions/authActions';
 
 const NavBar = () => {
   const auth = useSelector((state) => state.auth);
+  console.log('auth: ', auth);
+  console.log('auth token: ', auth.token);
   const dispatch = useDispatch();
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
@@ -49,8 +51,7 @@ const NavBar = () => {
   //     setModalMessage('Your location could not be found. Please try turning on location services.');
   //     setShowModal(true);
   //   }
-  // };  
-  
+  // };
 
   // using this function for demo day so people can turn off location & have access to the link
   // const handleWeOutsideClick = async (event) => {
@@ -67,7 +68,7 @@ const NavBar = () => {
   //   } catch (error) {
   //     navigate('/restaurants');
   //   }
-  // }; 
+  // };
 
   const closeModal = () => {
     setShowModal(false);
@@ -85,14 +86,20 @@ const NavBar = () => {
 
   return (
     <div className='nav-container'>
-      <Link to='/leaderboard'>Home </Link>
-      <Link to='/restaurants' 
+      {!auth.token ? (
+        <Link to='/home/landingpage'>Home</Link>
+      ) : (
+        <Link to='/home/leaderboard'>Home</Link>
+      )}
+
+      <Link
+        to='/restaurants'
         // onClick={handleWeOutsideClick}
       >
         We Outside
       </Link>
       <Link to='/yerrr/now'>YERRR </Link>
-      
+
       {auth.user ? (
         <div className='dropdown-container' onClick={handleDropdownClick}>
           <div className='dropdown-icon'>
@@ -100,8 +107,12 @@ const NavBar = () => {
           </div>
           {showDropdown && (
             <div className='dropdown-menu'>
-              {auth.user && <Link to={`/users/${auth.user.id}`}>My Profile</Link>}
-              <Link to='/' onClick={handleLogout}>Logout</Link>
+              {auth.user && (
+                <Link to={`/users/${auth.user.id}`}>My Profile</Link>
+              )}
+              <Link to='/' onClick={handleLogout}>
+                Logout
+              </Link>
             </div>
           )}
         </div>

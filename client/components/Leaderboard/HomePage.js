@@ -59,15 +59,6 @@ export default function Album() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <AppBar position="relative" className="landing-navbar">
-  <Toolbar>
-    <CameraIcon sx={{ mr: 2 }} />
-    <Typography variant="h6" color="inherit" noWrap>
-      Empire Eats!
-    </Typography>
-  </Toolbar>
-</AppBar>
-
       <main>
         {/* Hero unit */}
         <Box
@@ -75,6 +66,7 @@ export default function Album() {
             bgcolor: 'rgba(255, 255, 255, 0.5)',
             pt: 8,
             pb: 6,
+            mt: '100px',
           }}>
           <Container maxWidth='sm'>
             <Typography
