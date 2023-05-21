@@ -14,6 +14,14 @@ const Post = db.define('post', {
     type: Sequelize.BOOLEAN,
     defaultValue: true,
   },
+  latitude: {
+    type: Sequelize.DECIMAL,
+    allowNull: true,
+  },
+  longitude: {
+    type: Sequelize.DECIMAL,
+    allowNull: true,
+  },
 });
 
 module.exports = Post;

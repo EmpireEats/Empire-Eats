@@ -23,6 +23,7 @@ const Now = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
   const loggedInUserId = useSelector(
     (state) => state.auth.user && state.auth.user.id
   );
+  const userLocation = useSelector((state) => state.auth.location);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [posts, setPosts] = useState(reduxPosts);
