@@ -53,17 +53,17 @@ const Main = () => {
         <nav className='yerrr-tab-nav'>
           {nowEnabled && (
             <Link className='yerrr-tab-link' to='/yerrr/now'>
-              Feed
+              FEED
             </Link>
           )}
           {yerrrEnabled && user && (
             <Link className='yerrr-tab-link' to='/yerrr/postYerrr'>
-              Post
+              POST
             </Link>
           )}
           {chatEnabled && user && (
             <Link className='yerrr-tab-link' to='/yerrr/chat'>
-              Chat
+              CHAT
             </Link>
           )}
         </nav>
