@@ -380,6 +380,10 @@ label {
   margin-left:20px ;
 }
 
+.password-label {
+  font-size: 14px;
+  font-weight: normal;
+}
 
 /* login */
 

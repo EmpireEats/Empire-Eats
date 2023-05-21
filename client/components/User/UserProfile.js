@@ -62,7 +62,6 @@ const UserProfile = () => {
           <div style={{ marginLeft: '10px', display: 'flex', flexDirection: 'column' }}>
             <h4 style={{ margin: '0', alignSelf: 'flex-start' }}>@{username}</h4>
             <h5 style={{ margin: '0', alignSelf: 'flex-start' }}>{firstName} {lastName}</h5>
-            <h6 style={{ margin: '0', alignSelf: 'flex-start' }}>📍Brooklyn, New York</h6>
           </div>
         </div>
         <div>

@@ -54,7 +54,6 @@ router.post('/signup', upload.single('image'), async (req, res, next) => {
     if (req.file) {
       try {
         const result = await cloudinary.uploader.upload(req.file.path);
-        console.log(result);
         imageUrl = result.secure_url;
       } catch (error) {
         return res.status(500).json({ error: 'Failed to upload image' });
