@@ -53,7 +53,12 @@ const cards = [
   },
 ];
 
-const defaultTheme = createTheme();
+
+const defaultTheme = createTheme({
+  typography: {
+    fontFamily: "'Source Sans Pro', sans-serif",
+  },
+});
 
 export default function Album() {
   return (
