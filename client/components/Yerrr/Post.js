@@ -21,8 +21,16 @@ const Post = ({
     navigate('/yerrr/chat', { state: { postId: postId } });
   };
 
+  const postStyle = {
+    backgroundColor: '#2b343438',
+    padding: '20px',
+    borderRadius: '10px',
+    margin: '10px 0',
+    color: '#2B3434',
+  };
+
   return (
-    <div key={`${post.id}`} className='user-post'>
+    <div key={`${post.id}`} className='user-post' style={postStyle}>
       {isEditMode && editablePost?.id === post.id ? (
         <EditYerrr
           post={editablePost}

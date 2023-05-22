@@ -3,7 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchSingleUser } from '../../redux/actions/authActions';
 import { fetchLeaderboard } from '../../redux/actions/leaderboardActions';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import GridIcon from '@mui/icons-material/GridOn';
+import SoloIcon from '@mui/icons-material/FilterNone';
+import { styled } from '@mui/system';
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+`;
 const UserProfile = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
@@ -21,7 +33,9 @@ const UserProfile = () => {
   const { username, firstName, lastName, reviews } = user || {};
 
   const rank = leaderboard.findIndex((user) => user.name === username) + 1;
-  const restaurantVisits = leaderboard.find((user) => user.name === username)?.restaurantVisitCount;
+  const restaurantVisits = leaderboard.find(
+    (user) => user.name === username
+  )?.restaurantVisitCount;
 
   const [selectedReview, setSelectedReview] = useState(null);
   const [isGridLayout, setIsGridLayout] = useState(false);
@@ -44,57 +58,90 @@ const UserProfile = () => {
   };
 
   return (
-    <>
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Link to={`/users/${id}/edit`}>
-          <button>Edit</button>
-        </Link>
-      </div>
-      <div>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <img
-            src={user.image}
-            width={100}
-            style={{
-              borderRadius: "50%",
-              objectFit: "cover",}}
-          />
-          <div style={{ marginLeft: '10px', display: 'flex', flexDirection: 'column' }}>
-            <h4 style={{ margin: '0', alignSelf: 'flex-start' }}>@{username}</h4>
-            <h5 style={{ margin: '0', alignSelf: 'flex-start' }}>{firstName} {lastName}</h5>
-          </div>
-        </div>
-        <div>
-          <p>Leaderboard Rank: {rank}</p>
-          <p>Number of Restaurants Visited: {restaurantVisits}</p>
-        </div>
-        <div>
-          <div>
-            <p>Reviews:</p>
-            <button onClick={toggleLayout}>
-              {isGridLayout ? 'Grid' : 'Solo'}
-            </button>
-          </div>
-          <div style={{ display: isGridLayout ? 'grid' : 'block', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', overflowY: 'auto', maxHeight: '40vh', padding: '8px' }}>
-            {reviews && reviews.map((review) => (
-              <div key={review.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <div
-                  style={{
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        p: 3,
+        borderRadius: '8%',
+      }}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          width: '100%',
+        }}>
+        <Button variant='contained' sx={{ backgroundColor: '#9C94B1' }}>
+          <StyledLink to={`/users/${id}/edit`}>Edit</StyledLink>
+        </Button>
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          mt: 2,
+        }}>
+        <Avatar src={user.image} sx={{ width: 100, height: 100 }} />
+        <Box sx={{ ml: 2, display: 'flex', flexDirection: 'column' }}>
+          <Typography variant='h6'>@{username}</Typography>
+          <Typography variant='subtitle1'>
+            {firstName} {lastName}
+          </Typography>
+        </Box>
+      </Box>
+      <Box sx={{ mt: 2 }}>
+        <Typography>Leaderboard Rank: {rank}</Typography>
+        <Typography>
+          Number of Restaurants Visited: {restaurantVisits}
+        </Typography>
+      </Box>
+      <Box sx={{ mt: 2, width: '100%' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Typography>Reviews:</Typography>
+          <IconButton onClick={toggleLayout}>
+            {isGridLayout ? <GridIcon /> : <SoloIcon />}
+          </IconButton>
+        </Box>
+        <Box
+          sx={{
+            display: isGridLayout ? 'grid' : 'block',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '16px',
+            overflowY: 'auto',
+            maxHeight: '40vh',
+            p: 1,
+          }}>
+          {reviews &&
+            reviews.map((review) => (
+              <Box
+                key={review.id}
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}>
+                <Box
+                  sx={{
                     width: '100%',
                     height: '200px',
                     position: 'relative',
                     cursor: 'pointer',
                     overflow: 'hidden',
                   }}
-                  onClick={() => handleReviewClick(review)}
-                >
+                  onClick={() => handleReviewClick(review)}>
                   <img
                     src={review.image}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                    }}
                   />
                   {selectedReview === review && (
-                    <div
-                      style={{
+                    <Box
+                      sx={{
                         position: 'absolute',
                         top: 0,
                         left: 0,
@@ -105,23 +152,33 @@ const UserProfile = () => {
                         alignItems: 'center',
                         justifyContent: 'center',
                         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                      }}
-                    >
-                      <p style={{ color: 'white', fontSize: '24px', fontWeight: 'bold' }}>
-                        <Link to ={`/restaurants/${review.placeId}`}>{review.name}</Link>
-                      </p>
-                      <p style={{ color: 'white', fontSize: '18px', textAlign: 'center' }}>
+                      }}>
+                      <Typography
+                        sx={{
+                          color: 'white',
+                          fontSize: '24px',
+                          fontWeight: 'bold',
+                        }}>
+                        <StyledLink to={`/restaurants/${review.placeId}`}>
+                          {review.name}
+                        </StyledLink>
+                      </Typography>
+                      <Typography
+                        sx={{
+                          color: 'white',
+                          fontSize: '18px',
+                          textAlign: 'center',
+                        }}>
                         {review.body}
-                      </p>
-                    </div>
+                      </Typography>
+                    </Box>
                   )}
-                </div>
-              </div>
+                </Box>
+              </Box>
             ))}
-          </div>
-        </div>
-      </div>
-    </>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
