@@ -13,6 +13,7 @@ const getFeed = async () => {
       [Sequelize.col("review.createdAt"), "createdAt"], 
       "name",
       "address",
+      [Sequelize.col("user.username"), "username"], // had to change this to "user.username" to get it to work
     ],
     where: {
       userId: { [Sequelize.Op.not]: null },
@@ -23,6 +24,7 @@ const getFeed = async () => {
       {
         model: User,
         attributes: ["username"],
+        as: "user",
       },
     ],
     order: [[Sequelize.col("review.createdAt"), "DESC"]], 

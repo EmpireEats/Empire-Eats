@@ -74,8 +74,8 @@ const Feed = () => {
 
             <h4>
               <div>
-                Reviewed by:{" "}
-                <Link to={`/users/${review.username}`}>{review.username}</Link>
+                Reviewed by: {review.username}
+                {/* <Link to={`/users/${review.userId}`}>{review.username}</Link> */}
               </div>
               <div>Posted on: {review.createdAt}</div>
             </h4>
