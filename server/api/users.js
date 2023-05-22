@@ -37,10 +37,6 @@ router.get('/:id', requireAuth, requireUserMatch, async (req, res, next) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    if (req.user.id !== user.id) {
-      return res.status(403).json({ error: 'Access denied. Not your data.' });
-    }
-
     res.json(user);
   } catch (error) {
     console.error('Error getting user data', error);
@@ -48,14 +44,29 @@ router.get('/:id', requireAuth, requireUserMatch, async (req, res, next) => {
   }
 });
 
-router.get('/username/:username', requireAuth, async (req, res, next) => {
+router.get('/profile/:username', requireAuth, async (req, res, next) => {
   try {
     const { username } = req.params;
+    const loggedInUser = await User.findOne({
+      where: { id: req.user.id },
+      attributes: {
+        include: ['username']
+      }
+    });
+
+    let exclude; 
+    if (loggedInUser.username === username) {
+      exclude = []
+    }
+    else {
+      exclude = ['id', 'firstName', 'lastName', 'email', 'password', 'isAdmin', 'createdAt', 'updatedAt']
+    }
+
     const user = await User.findOne({
       where: { username },
       include: [Review],
       attributes: {
-        exclude: ['id', 'firstName', 'lastName', 'email', 'password', 'isAdmin', 'createdAt', 'updatedAt']
+        exclude
       }
     });
 
