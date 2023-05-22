@@ -38,10 +38,8 @@ router.get('/', async (req, res) => {
 
     let response;
     if (cachedData) {
-      console.log('Cache hit:', cacheKey); // Log when the data is retrieved from the cache
       response = cachedData;
     } else {
-      console.log('Cache miss:', cacheKey); // Log when the data is fetched and added to the cache
       response = await fetchRestaurants(latitude, longitude, pageToken);
       myCache.set(cacheKey, response, 86400); // cache the response for 1 day (86400 seconds)
     }    

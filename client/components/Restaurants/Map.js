@@ -58,7 +58,7 @@ const Map = ({ selectedRestaurantLocation }) => {
     await new Promise((resolve) => {
       window.initMap = resolve;
       const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyB8WHeAkLekUORmNa6_J30MwviZqj6qMM8&libraries=places&callback=initMap`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyATGRgJ8jvgnhjoDTvJyXy8TnepsBrsSJk&libraries=places&callback=initMap`;
       script.async = true;
       script.defer = true;
       document.body.appendChild(script);
