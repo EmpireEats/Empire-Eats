@@ -2,7 +2,7 @@
 
 body {
   font-family: 'Source Sans Pro', sans-serif;
-  min-height: 100vh; 
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -23,19 +23,22 @@ body {
   padding: 10px;
   margin: 0;
   box-sizing: border-box;
-  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
+    1px 1px 0 black;
   z-index: 9999;
 }
 
-#logo{
+#logo {
   height: 90%;
-  width: 30%;
+  width: auto;
+  max-width: 30%;
   margin-left: 20px;
 }
 
-#top{
+#top {
   height: 130%;
-  width: 30%;
+  width: auto;
+  max-width: 30%;
 }
 
 .flipper {
@@ -47,7 +50,8 @@ body {
   animation: flip 5s infinite;
 }
 
-.front, .back {
+.front,
+.back {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -69,10 +73,12 @@ body {
 } */
 
 @keyframes flip {
-  0%, 40% {
+  0%,
+  40% {
     transform: rotateY(0deg);
   }
-  50%, 90% {
+  50%,
+  90% {
     transform: rotateY(180deg);
   }
   100% {
@@ -90,14 +96,14 @@ body {
   padding-top: 15px;
   padding-bottom: 15px;
   background-color: #424646;
-  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
+    1px 1px 0 black;
   z-index: 10;
   font-size: 20px;
 }
 
-
 .nav-container a {
-  color: white; 
+  color: white;
   text-decoration: none;
 }
 
@@ -119,18 +125,18 @@ body {
   border-left-color: #0000;
   border-right-color: #0000;
   border-style: solid;
-  border-width: var(--borderWidth-thicker, 4px) var(--borderWidth-thicker, 4px) 0;
-  content: "";
+  border-width: var(--borderWidth-thicker, 4px) var(--borderWidth-thicker, 4px)
+    0;
+  content: '';
   display: inline-block;
   height: 0;
   vertical-align: middle;
   width: 0;
 }
 
-
 .dropdown-menu {
   position: absolute;
-  bottom: 100%; 
+  bottom: 100%;
   right: 0;
   background-color: #fff;
   padding: 8px;
@@ -159,7 +165,7 @@ body {
   display: flex;
   justify-content: space-around;
   position: fixed;
-  top: 60px; 
+  top: 60px;
   left: 0;
   right: 0;
   padding: 10px;
@@ -175,9 +181,9 @@ body {
   text-decoration: none;
   padding: 10px;
   cursor: pointer;
-  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
+    1px 1px 0 black;
 }
-
 
 .leader button:hover {
   color: #00f;
@@ -186,36 +192,35 @@ body {
 .leader button.active {
   color: #00f;
 }
-.leaderboard{
+.leaderboard {
   border-radius: 7px;
   overflow: hidden;
-    width: 100%;
-    height: calc(100vh - 100px); 
-    overflow-y: auto;
-    padding-bottom: 100px; 
+  width: 100%;
+  height: calc(100vh - 100px);
+  overflow-y: auto;
+  padding-bottom: 100px;
 }
 
 .leaderboard table {
   width: 100%;
   border-collapse: collapse;
-  background-color: #9C94B1;
+  background-color: #9c94b1;
   margin-top: 100px;
   overflow-y: auto;
 }
 
 .leaderboard th,
 .leaderboard td {
-
   padding: 10px;
   text-align: center;
   border-bottom: 1px solid black;
 }
 
-
 .leaderboard th {
-  background-color: #9C94B1;
+  background-color: #9c94b1;
   color: white;
-  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
+    1px 1px 0 black;
 }
 
 .leaderboard tbody tr:nth-child(even) {
@@ -224,11 +229,9 @@ body {
 }
 
 .leaderboard tbody tr:nth-child(odd) {
-  background-color: #9C94B1;
+  background-color: #9c94b1;
   color: white;
 }
-
-
 
 /* feed */
 .feed-container {
@@ -243,7 +246,6 @@ body {
   overflow-y: auto;
 }
 
-
 .feed-list {
   list-style: none;
   padding: 0;
@@ -252,7 +254,7 @@ body {
 
 .feed-list li {
   margin-bottom: 10px;
-  background-color: #B3CBC7;
+  background-color: #b3cbc7;
   padding: 10px;
   border-radius: 10px;
 }
@@ -264,15 +266,14 @@ body {
 }
 
 .feed-list h2 {
-  margin: 10px 0 5px; 
+  margin: 10px 0 5px;
   text-align: left;
 }
 
 .feed-list h4 {
-  margin: 0; 
+  margin: 0;
   text-align: left;
 }
-
 
 .feed-list h3 {
   margin-bottom: 20px;
@@ -300,7 +301,8 @@ body {
   padding: 10px;
   margin: 0 40px;
   cursor: pointer;
-  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
+    1px 1px 0 black;
 }
 
 .feed-btn:hover {
@@ -310,7 +312,6 @@ body {
 .feed-btn.active {
   color: #00f;
 }
-
 
 /* signup */
 .form-group {
@@ -326,7 +327,7 @@ label {
 }
 
 .form-input {
-  width: 80%; 
+  width: 80%;
   padding: 8px;
   background-color: #717882;
   color: white;
@@ -336,11 +337,10 @@ label {
   margin-bottom: 10%;
 }
 
-
 .form-button {
   width: fit-content;
   padding: 8px 16px;
-  background-color: rgba(53, 110, 234, 0.877); ;
+  background-color: rgba(53, 110, 234, 0.877);
   color: white;
   border: none;
   border-radius: 4px;
@@ -353,8 +353,7 @@ label {
   text-indent: 10px;
 }
 
-
-.form-group-admin{
+.form-group-admin {
   margin-left: 30%;
   margin-bottom: 7%;
 }
@@ -373,7 +372,7 @@ label {
 
 .visibility-icon {
   position: absolute;
-  right: 5px;  
+  right: 5px;
   top: 35%;
   transform: translateY(-50%);
   background: none;
@@ -382,12 +381,12 @@ label {
   z-index: 10;
 }
 
-.form-input[type="password"] {
-  width: 90%; 
+.form-input[type='password'] {
+  width: 90%;
 }
 
-.form-image{
-  margin-left:20px ;
+.form-image {
+  margin-left: 20px;
 }
 
 .password-label {
@@ -417,31 +416,29 @@ label {
 
 #modal {
   position: fixed;
-  top: 20px; 
-  right: 10px; 
+  top: 20px;
+  right: 10px;
   background: transparent;
   border: 2px solid black;
   border-radius: 50%;
-  z-index: 10001; 
+  z-index: 10001;
   margin-right: 5px;
 }
-
 
 #modal:hover {
   background-color: #7b748f;
 }
 
-.ModalView{
+.ModalView {
   width: 100%;
-  height:10%;
+  height: 10%;
   overflow-y: auto;
 }
 
-.ModalView p{
+.ModalView p {
   font-size: 14px;
 }
 
-.ModalView h1{
-  font-size:25px;
+.ModalView h1 {
+  font-size: 25px;
 }
-

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Modal from 'react-modal';
 import { useDispatch } from 'react-redux';
 import { signup } from '../../redux/actions/authActions';
 import { useNavigate } from 'react-router';
@@ -12,10 +11,8 @@ const SignUp = () => {
   const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [image, setImage] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false); 
 
-  Modal.setAppElement('#root');
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -71,10 +68,6 @@ const SignUp = () => {
     }
   };
 
-  const handleModalToggle = () => {
-    setIsModalOpen(!isModalOpen);
-  };
-
   const handlePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -84,31 +77,7 @@ const SignUp = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <Modal 
-        className='weOutside-modal'
-        overlayClassName='weOutside-modal-overlay'
-        isOpen={isModalOpen}
-        onRequestClose={handleModalToggle}
-        contentLabel='Sign Up Instructions'
-        >
-          <div
-            style={{
-              padding: '20px',
-              borderRadius: '4px',
-              maxWidth: '600px',
-            }}
-          >
-            <h2>Welcome to Empire Eats🍴</h2>
-            <p>
-              Empire Eats is a unique culinary social platform that allows users to share and discover dishes from various eateries and meet fellow foodies. </p>
-              <p> By signing up, you can unlock all the app features.
-            </p>
-            <p>Don't miss out on the opportunity to connect with like-minded food enthusiasts and satisfy your taste buds!</p>
-            <button onClick={handleModalToggle}>Close</button>
-          </div>
-        </Modal>
-
+    <div>
         <div className='login-container'>
         <div className='login-heading'>
         <h4>Sign Up</h4>
@@ -201,7 +170,6 @@ const SignUp = () => {
           <button type='submit' className='form-button'>Sign Up</button>
       </form>
       <div className='signup-link'>
-     <button onClick={handleModalToggle}>i</button>
      </div>
     </div>
   </div>

@@ -58,6 +58,11 @@ const defaultTheme = createTheme({
   typography: {
     fontFamily: "'Source Sans Pro', sans-serif",
   },
+  palette: {
+    background: {
+      default: '#b5d2dd8f',
+    },
+  },
 });
 
 export default function HomePage() {

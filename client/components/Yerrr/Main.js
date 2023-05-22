@@ -6,7 +6,6 @@ import Now from './Now';
 import YerrrForm from './YerrrForm';
 import YerrrChat from './YerrrChat';
 
-
 const Main = () => {
   const auth = useSelector((state) => state.auth);
   const user = auth.user;
@@ -18,7 +17,6 @@ const Main = () => {
   const location = useLocation();
   const postId = location.state?.postId;
   console.log('postId inside main component: ', postId);
-
 
   useEffect(() => {
     const postIdFromLocation = location.state?.postId;
@@ -48,7 +46,7 @@ const Main = () => {
   }, [chatEnabled, dispatch]);
 
   return (
-    <div className='yerrr-tab-container'> 
+    <div className='yerrr-tab-container'>
       <div>
         <nav className='yerrr-tab-nav'>
           {nowEnabled && (
@@ -58,7 +56,7 @@ const Main = () => {
           )}
           {yerrrEnabled && user && (
             <Link className='yerrr-tab-link' to='/yerrr/postYerrr'>
-              POST
+              CREATE POST
             </Link>
           )}
           {chatEnabled && user && (
@@ -105,7 +103,6 @@ const Main = () => {
             />
           )}
         </Routes>
-      
       </div>
     </div>
   );
