@@ -79,23 +79,24 @@ const ReviewForm = ({ placeId, restaurantName, restaurantAddress }) => {
         <button type="submit">Submit</button>
       </form>
       <Modal
-        className='weOutside-modal'
-        overlayClassName="weOutside-modal-overlay"
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        contentLabel="Take me to crAPP"
+      className='weOutside-modal'
+      overlayClassName="weOutside-modal-overlay"
+      isOpen={modalIsOpen}
+      onRequestClose={closeModal}
+      contentLabel="Take me to crAPP"
       >
-        <p>Review posted!</p>
-        <p>In need of a post-meal porcelain sanctuary? Look no further! Click the link for a spotless haven to answer nature's call. Trust us, it's a potty paradise!</p>
-        <a href="https://crapp.onrender.com/" 
-          onClick={openLink} 
-          target="_blank" 
-          rel="noopener noreferrer">
-            Take me to CrAPP
-        </a>
-        <br />
-        <button onClick={closeModal}>I'm Good</button>
-      </Modal>
+      <div className="ModalView">
+      <p className="italic">Review posted!</p>
+      <p>
+         In need of a post-meal porcelain sanctuary? Look no further! Click the link for a spotless haven to answer nature's call. Trust us, it's a potty paradise!
+       </p>
+      <a href="https://crapp.onrender.com/" onClick={openLink} target="_blank" rel="noopener noreferrer">
+      Take me to CrAPP
+      </a>
+      <br />
+    <button onClick={closeModal}>I'm Good</button>
+  </div>
+</Modal>
     </div>
   );
 };

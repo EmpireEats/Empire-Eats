@@ -296,8 +296,8 @@
 
 .pagination {
   display: flex;
-  justify-content: space-between; /* Add this property */
-  align-items: center; /* Add this property */
+  justify-content: space-between; 
+  align-items: center;
   margin-bottom: 20px;
 }
 

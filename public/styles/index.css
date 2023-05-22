@@ -28,16 +28,19 @@ body {
   z-index: 9999;
 }
 
-#logo{
+#logo {
   height: 90%;
-  width: 30%;
+  width: auto;
+  max-width: 30%;
   margin-left: 20px;
 }
 
-#top{
+#top {
   height: 130%;
-  width: 30%;
+  width: auto;
+  max-width: 30%;
 }
+
 
 .flipper {
   width: 100%;

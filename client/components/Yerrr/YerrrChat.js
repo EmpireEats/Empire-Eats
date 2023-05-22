@@ -164,28 +164,14 @@ const YerrrChat = ({ postId, nowEnabled, yerrrEnabled, chatEnabled }) => {
             <button id='nvm' onClick={closePosting}>
               Close Post
             </button>
-            {/* <Modal
-              className='weOutside-modal'
-              overlayClassName='weOutside-modal-overlay'
-              isOpen={isModalOpen}
-              onRequestClose={closeModal}
-              contentLabel='Chat Instructions-Author'>
-              <ChatAuthorInstructions />
-            </Modal> */}
+        
           </>
         ) : (
           <>
             <button id='nvm' onClick={removeUserInteraction}>
               Nvm..
             </button>
-            {/* <Modal
-              className='weOutside-modal'
-              overlayClassName='weOutside-modal-overlay'
-              isOpen={isModalOpen}
-              onRequestClose={closeModal}
-              contentLabel='Chat Instructions-Interactor'>
-              <ChatInteractorInstructions />
-            </Modal> */}
+          
           </>
         )}
         <button id='nvm' onClick={handleAccept}>
