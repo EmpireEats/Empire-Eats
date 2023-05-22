@@ -3,18 +3,16 @@
 .yerrr-tab-nav {
   display: flex;
   justify-content: space-around;
-  position: fixed; 
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 10; 
+  z-index: 10;
   padding-top: 20px;
   padding-bottom: 8px;
   font-size: 18px;
-  top:40px;
+  top: 40px;
   font-family: 'Source Sans Pro', sans-serif;
-
-  
 }
 
 .yerrr-tab-link {
@@ -24,16 +22,16 @@
   padding: 10px;
   margin-right: 5%;
   margin-left: 10%;
-  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
-
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
+    1px 1px 0 black;
 }
 
 .yerrr-tab-link:hover {
-  color: rgb(73, 73, 226); 
+  color: rgb(73, 73, 226);
 }
 
 .yerrr-tab-link.active {
-  color: rgb(75, 75, 239); 
+  color: rgb(75, 75, 239);
 }
 
 .user-post-list {
@@ -43,7 +41,6 @@
 .user-post {
   border: 1px solid;
   font-family: 'Source Sans Pro', sans-serif;
-
 }
 
 .chat-container {
@@ -51,11 +48,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 80vh;
+  height: 50%;
   width: 100%;
   margin: 0 auto;
   font-family: 'Source Sans Pro', sans-serif;
-
 }
 
 .chat-window {
@@ -65,11 +61,12 @@
   border-radius: 10px;
   padding: 10px;
   margin-bottom: 20px;
+  max-height: 60%;
 }
 
 @media (max-width: 480px) {
   .chat-window {
-    height: 60vh;
+    height: 40vh;
   }
 }
 .message {
@@ -80,7 +77,6 @@
   line-height: 1.4;
   width: 80%;
   max-width: 500px;
-  
 }
 
 .message-info {
@@ -154,11 +150,14 @@
 }
 
 .chat-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 70%;
   max-width: 500px;
-  min-height: 250px;
-  margin: auto;
-  margin-top: 50px;
+  min-height: 150px;
+
   padding: 20px;
   color: #2b3434;
   border: 3px solid #2b3434;
@@ -182,7 +181,6 @@
   max-width: 600px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
   font-family: 'Source Sans Pro', sans-serif;
-
 }
 
 .yerrrForm form {
@@ -231,11 +229,10 @@
   opacity: 1;
 }
 
-#words{
-  margin-top:40px;
+#words {
+  margin-top: 40px;
   text-align: center;
 }
-
 
 /* Media Queries */
 
@@ -267,7 +264,6 @@
   max-width: 500px;
   height: 200px;
   font-family: 'Source Sans Pro', sans-serif;
-
 }
 
 .user-post-list {
@@ -336,7 +332,7 @@
 }
 
 .instructions-container button {
-  background-color: #9C94B1;
+  background-color: #9c94b1;
   color: white;
   border: none;
   padding: 10px 20px;

@@ -22,10 +22,11 @@ const Post = ({
   };
 
   const postStyle = {
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
-    padding: '10px',
-    borderRadius: '8px',
+    backgroundColor: '#2b343438',
+    padding: '20px',
+    borderRadius: '10px',
     margin: '10px 0',
+    color: '#2B3434',
   };
 
   return (
