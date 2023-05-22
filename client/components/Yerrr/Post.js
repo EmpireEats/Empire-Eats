@@ -33,10 +33,17 @@ const Post = ({
         <>
           {post.user && post.user.firstName ? (
             <div>
-              <p>
-                {/* <span>(img) </span> */}
-                {post.user.firstName}
-              </p>
+              {post.user.image && (
+                <img
+                  src={post.user.image}
+                  width={80}
+                  style={{
+                    borderRadius: '50%',
+                    objectFit: 'cover',
+                  }}
+                />
+              )}
+              <p> {post.user.firstName}</p>
             </div>
           ) : (
             <p>No name</p>
@@ -44,6 +51,10 @@ const Post = ({
           <p>"{post.message}"</p>
           {post.preference === 'one on one' && <p>Looking For: 👤 </p>}
           {post.preference === 'group' && <p>Looking for: 👥 </p>}
+          {/* <p key={post.id}>
+            lat: {post.latitude}
+            long: {post.longitude}
+          </p> */}
           {post.userId === loggedInUserId ? (
             <>
               <span>

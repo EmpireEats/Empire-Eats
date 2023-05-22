@@ -1,24 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { fetchSingleUser } from '../../redux/actions/authActions';
+import { Link, useParams } from 'react-router-dom';
+import { fetchUsername } from '../../redux/actions/userActions';
 import { fetchLeaderboard } from '../../redux/actions/leaderboardActions';
 
-const UserProfile = () => {
+const LimtedProfile = () => {
   const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth);
-  const user = auth.user;
-  const id = user?.id;
+  const { username } = useParams()
+  const authUser = useSelector((state) => state.auth.user)
+  const id = authUser?.id;
+  const loggedInUserId = useSelector((state) => state.auth.user && state.auth.user.id);
+  const viewUser = useSelector((state) => state.user.user)
+  
   const leaderboard = useSelector((state) => state.leaderboard.leaderboard);
 
   useEffect(() => {
-    if (id) {
-      dispatch(fetchSingleUser(id));
-    }
+    dispatch(fetchUsername(username))
+      .unwrap()
+      .catch((error) => {
+        console.log('Error fetching username:', error);
+      });
     dispatch(fetchLeaderboard());
-  }, [dispatch, id]);
-
-  const { username, firstName, lastName, reviews } = user || {};
+}, [dispatch, username]);
 
   const rank = leaderboard.findIndex((user) => user.name === username) + 1;
   const restaurantVisits = leaderboard.find((user) => user.name === username)?.restaurantVisitCount;
@@ -26,7 +29,7 @@ const UserProfile = () => {
   const [selectedReview, setSelectedReview] = useState(null);
   const [isGridLayout, setIsGridLayout] = useState(false);
 
-  if (!user) {
+  if (!authUser) {
     return (
       <div>
         <p>Please Log In or Sign Up to access. </p>
@@ -46,14 +49,14 @@ const UserProfile = () => {
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Link to={`/users/${id}/edit`}>
+        {authUser && authUser.id === viewUser?.id && <Link to={`/users/${id}/edit`}>
           <button>Edit</button>
-        </Link>
+        </Link>}
       </div>
       <div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <img
-            src={user.image}
+            src={viewUser.image}
             width={100}
             style={{
               borderRadius: "50%",
@@ -61,7 +64,7 @@ const UserProfile = () => {
           />
           <div style={{ marginLeft: '10px', display: 'flex', flexDirection: 'column' }}>
             <h4 style={{ margin: '0', alignSelf: 'flex-start' }}>@{username}</h4>
-            <h5 style={{ margin: '0', alignSelf: 'flex-start' }}>{firstName} {lastName}</h5>
+            {authUser && authUser.id === viewUser?.id && <h5 style={{ margin: '0', alignSelf: 'flex-start' }}>{authUser.firstName} {authUser.lastName}</h5>}
           </div>
         </div>
         <div>
@@ -76,7 +79,7 @@ const UserProfile = () => {
             </button>
           </div>
           <div style={{ display: isGridLayout ? 'grid' : 'block', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', overflowY: 'auto', maxHeight: '40vh', padding: '8px' }}>
-            {reviews && reviews.map((review) => (
+            {viewUser.reviews && viewUser.reviews.map((review) => (
               <div key={review.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <div
                   style={{
@@ -108,7 +111,7 @@ const UserProfile = () => {
                       }}
                     >
                       <p style={{ color: 'white', fontSize: '24px', fontWeight: 'bold' }}>
-                        <Link to ={`/restaurants/${review.placeId}`}>{review.name}</Link>
+                          <Link to ={`/restaurants/${review.placeId}`}>{review.name}</Link>
                       </p>
                       <p style={{ color: 'white', fontSize: '18px', textAlign: 'center' }}>
                         {review.body}
@@ -125,4 +128,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default LimtedProfile;

@@ -49,13 +49,18 @@ io.on('connection', (socket) => {
 
       if (existingPost) {
         console.log(`User ${post.userId} already has a post.`);
-        socket.emit('postError', 'User can only have one post at a time.');
+        io.to(socket.id).emit(
+          'postError',
+          'User can only have one post at a time.'
+        );
       } else {
         const newPost = await Post.create({
           message: post.message,
           preference: post.preferences,
           isActive: true,
           userId: post.userId,
+          latitude: post.latitude,
+          longitude: post.longitude,
         });
         const createdPostWithUser = await Post.findOne({
           where: { id: newPost.id },

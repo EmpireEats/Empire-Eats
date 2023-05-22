@@ -13,6 +13,7 @@ import Main from './Yerrr/Main';
 import Leaderboard from './Leaderboard/Leaderboard';
 import UserProfile from './User/UserProfile';
 import EditProfile from './User/EditProfile';
+import LimtedProfile from './User/LimitedProfile';
 import WeOutside from './Restaurants/WeOutside';
 import Feed from './Leaderboard/Feed';
 import ReviewsForRestaurant from './Reviews/ReviewsForRestaurant';
@@ -130,6 +131,7 @@ const App = () => {
           <Route path='/yerrr/*' element={<Main />} />
           <Route path='/users/:id' element={<UserProfile />} />
           <Route path='/users/:id/edit' element={<EditProfile />} />
+          <Route path='/users/profile/:username' element={<LimtedProfile />} />
           <Route path='/restaurants' element={<WeOutside />} />
           <Route path='/leaderboard' element={<Leaderboard />} />
           <Route path='/feed' element={<Feed />} />

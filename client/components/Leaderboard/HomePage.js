@@ -15,6 +15,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { Link } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import empire from './assets/5.png';
 
 const cards = [
   {
@@ -53,36 +54,51 @@ const cards = [
   },
 ];
 
-
 const defaultTheme = createTheme({
   typography: {
     fontFamily: "'Source Sans Pro', sans-serif",
   },
 });
 
-export default function Album() {
+export default function HomePage() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <AppBar position="relative" className="landing-navbar">
-  <Toolbar>
-    <CameraIcon sx={{ mr: 2 }} />
-    <Typography variant="h6" color="inherit" noWrap>
-      Empire Eats!
-    </Typography>
-  </Toolbar>
-</AppBar>
-
       <main>
         {/* Hero unit */}
         <Box
           sx={{
-            bgcolor: 'rgba(255, 255, 255, 0.5)',
             pt: 8,
             pb: 6,
+            mt: '100px',
+            position: 'relative',
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundImage: `url(${empire})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center', // Added this
+              backgroundRepeat: 'no-repeat',
+              zIndex: -1,
+            },
+            '&::after': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(255, 255, 255, 0.5)',
+              zIndex: -1,
+            },
           }}>
           <Container maxWidth='sm'>
             <Typography
+              sx={{ fontWeight: 'bold' }}
               component='h1'
               variant='h3'
               align='center'
@@ -90,11 +106,7 @@ export default function Album() {
               gutterBottom>
               {''} Welcome to Empire Eats! {''}
             </Typography>
-            <Typography
-              variant='h6'
-              align='center'
-              color='text.secondary'
-              paragraph>
+            <Typography variant='h6' align='center' color='black' paragraph>
               the only app that will revolutionize your dining experience. Our
               interactive platform brings food enthusiasts together, enabling
               you to share your experiences, coordinate meet ups with new
@@ -111,14 +123,14 @@ export default function Album() {
               <Link to='/login'>
                 <Button
                   variant='contained'
-                  style={{ backgroundColor: '#9C94B1', color: '#fff' }}>
+                  style={{ backgroundColor: '#2B3434', color: '#fff' }}>
                   Login
                 </Button>
               </Link>
               <Link to='/signup'>
                 <Button
-                  variant='outlined'
-                  style={{ color: '#9C94B1', borderColor: '#9C94B1' }}>
+                  variant='contained'
+                  style={{ backgroundColor: '#2B3434', color: '#fff' }}>
                   Sign Up
                 </Button>
               </Link>
@@ -158,7 +170,9 @@ export default function Album() {
                   </CardContent>
                   <CardActions>
                     <Link to={card.link}>
-                      <Button size='medium'>{card.buttonText}</Button>
+                      <Button size='medium' sx={{ color: 'black' }}>
+                        {card.buttonText}
+                      </Button>
                     </Link>
                   </CardActions>
                 </Card>
