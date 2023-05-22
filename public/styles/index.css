@@ -8,8 +8,8 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: linear-gradient(to top right, #d6f4e9 ,#92a8a4 , #9C94B1);
-  background-color: #E5F0EC;
+  /* background-image: linear-gradient(to top right, #d6f4e9 ,#92a8a4 , #9C94B1); */
+  background-color: #b5d2dd8f;
   position: relative;
 }
 
