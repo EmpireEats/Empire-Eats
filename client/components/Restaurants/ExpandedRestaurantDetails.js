@@ -47,7 +47,7 @@ const ExpandedRestaurantDetails = ({ restaurant, expanded, onRestaurantClick }) 
   return (
     <div onClick={handleClick} className="restaurant-item">
       <h3>{restaurant.name}</h3>
-      <p style={{ fontWeight: 'bold' }}>{restaurant.address}</p>
+      <p>{restaurant.address}</p>
       {expanded && singleRestaurant && (
         <div>
           {singleRestaurant.formattedPhoneNumber && (
