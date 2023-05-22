@@ -108,7 +108,7 @@ const UserProfile = () => {
                       }}
                     >
                       <p style={{ color: 'white', fontSize: '24px', fontWeight: 'bold' }}>
-                        {review.name}
+                        <Link to ={`/restaurants/${review.placeId}`}>{review.name}</Link>
                       </p>
                       <p style={{ color: 'white', fontSize: '18px', textAlign: 'center' }}>
                         {review.body}
