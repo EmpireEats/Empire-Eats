@@ -48,7 +48,7 @@ const Leaderboard = () => {
                 <td>{index + 1}</td>
                 {/* <td>{user.name}</td> */}
                 <td>
-                  <Link to={`/users/${user.id}`}>{user.name}</Link>
+                  <Link to={`/users/profile/${user.name}`}>{user.name}</Link>
                 </td>
                 <td>{user.restaurantVisitCount}</td>
               </tr>

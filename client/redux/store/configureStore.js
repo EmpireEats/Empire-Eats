@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from '../reducers/authReducer';
+import userReducer from '../reducers/userReducer';
 import yerrrChatReducer from '../reducers/yerrrChatReducers';
 import postReducer from '../reducers/postReducer';
 import leaderboardReducer from '../reducers/leaderboardReducer';
@@ -10,6 +11,7 @@ import reviewReducer from '../reducers/reviewReducer';
 const store = configureStore({
   reducer: {
     auth: authReducer,
+    user: userReducer,
     yerrrChat: yerrrChatReducer,
     post: postReducer,
     leaderboard: leaderboardReducer, 
