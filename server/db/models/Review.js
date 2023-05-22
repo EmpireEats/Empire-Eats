@@ -23,7 +23,7 @@ const Review = db.define('review', {
   },
   image: {
     type: Sequelize.STRING,
-    allowNull: true, //must be changed to false when we're ready to roll out
+    allowNull: false, //must be changed to false when we're ready to roll out
   },
   title: {
     type: DataTypes.VIRTUAL,
