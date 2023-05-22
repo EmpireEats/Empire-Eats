@@ -16,7 +16,6 @@ const WeOutside = () => {
 
   return (
     <div className='weOutside-component-container'>
-      {/* <h1>wussup baby, take me out to dinner...</h1> */}
       <Map selectedRestaurantLocation={selectedRestaurantLocation} />
       <AllRestaurants
         restaurants={allRestaurants}
