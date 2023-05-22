@@ -1,6 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import id from 'volleyball/lib/id';
 
 export const addReviewAsync = createAsyncThunk('reviews/addReview', async (reviewData, { rejectWithValue }) => {
   const token = window.localStorage.getItem("token");
