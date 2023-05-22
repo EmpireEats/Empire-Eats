@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import id from 'volleyball/lib/id';
 
 export const addReviewAsync = createAsyncThunk('reviews/addReview', async (reviewData, { rejectWithValue }) => {
   const token = window.localStorage.getItem("token");
@@ -37,6 +38,25 @@ export const fetchReviewsByPlaceAsync = createAsyncThunk(
       return { reviews, count };
     } catch (err) {
       return rejectWithValue(err.message);
+    }
+  }
+);
+
+export const deleteReviewByUserAsync = createAsyncThunk(
+  'reviews/deleteReview',
+  async (id, { rejectWithValue }) => {
+    const token = window.localStorage.getItem("token");
+    try {
+      if (token) {
+        const { data } = await axios.delete(`/api/reviews/${id}`, {
+          headers: {
+            authorization: token,
+          },
+        });
+        return data;
+      }
+    } catch (error) {
+      return rejectWithValue('Failed to delete the review');
     }
   }
 );
