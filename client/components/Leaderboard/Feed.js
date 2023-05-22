@@ -9,10 +9,9 @@ const Feed = () => {
   const feed = useSelector((state) => state.feed.feed);
   const loading = useSelector((state) => state.feed.loading);
   const error = useSelector((state) => state.feed.error);
-  const [visibleReviews, setVisibleReviews] = useState(20); 
+  const [visibleReviews, setVisibleReviews] = useState(20);
   const [reviewsToLoad, setReviewsToLoad] = useState(20);
   const [activeButton, setActiveButton] = useState(null); // State to track the active button
-  
 
   useEffect(() => {
     dispatch(fetchFeed());
@@ -39,7 +38,9 @@ const Feed = () => {
       <div className="button-group">
         <Link to="/home/leaderboard">
           <button
-            className={`feed-btn ${activeButton === "Leaderboard" ? "active" : ""}`}
+            className={`feed-btn ${
+              activeButton === "Leaderboard" ? "active" : ""
+            }`}
             onMouseDown={() => handleButtonMouseDown("Leaderboard")}
             onMouseUp={() => handleButtonMouseUp()}
           >
@@ -67,7 +68,7 @@ const Feed = () => {
             />
 
             <h2>
-              <div>{review.name}</div>
+              <Link to={`/restaurants/${review.placeId}`}>{review.name}</Link>
               <div>{review.address}</div>
             </h2>
 
@@ -86,7 +87,7 @@ const Feed = () => {
         ))}
       </ul>
 
-            {/* stretch goal - do not delete*/}
+      {/* stretch goal - do not delete*/}
 
       {/* <div style={{ display: "flex", justifyContent: "flex-start" }}>
         <button
