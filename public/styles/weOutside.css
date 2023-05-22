@@ -1,12 +1,14 @@
+/* blue
+#B5D2DD
+purple
+#9C94B1 */
+
 .weOutside-component-container {
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* margin: 0.5rem; */
-  margin-top: 0;
-  /* color: #242c2c; */
 }
 
 .list-container {
@@ -377,7 +379,6 @@
   text-align: center;
   padding: 20px;
   font-size: 20px;
-  /* font-weight: bold; */
   color: #2B3434;
   border: 3px solid #2B3434;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -397,11 +398,6 @@
   font-size: 10px;
 
 }
-
-/* blue
-#B5D2DD
-purple
-#9C94B1 */
 
 .info-icon {
   font-size: 30px;
