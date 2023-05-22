@@ -53,7 +53,7 @@ const Leaderboard = () => {
                 <td>{user.restaurantVisitCount}</td>
               </tr>
             ))}
-            {Array(10 - limitedLeaderboard.length)
+            {/* {Array(10 - limitedLeaderboard.length)
               .fill()
               .map((_, index) => (
                 <tr key={limitedLeaderboard.length + index}>
@@ -65,7 +65,7 @@ const Leaderboard = () => {
                   </td>
                   <td>-</td>
                 </tr>
-              ))}
+              ))} */}
           </tbody>
         </table>
       </div>
