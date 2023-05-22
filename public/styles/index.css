@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Clicker+Script&family=Source+Sans+Pro:ital,wght@0,200;0,400;0,700;1,200&display=swap');
 
-/* height commented out -kim */
 body {
   font-family: 'Source Sans Pro', sans-serif;
   min-height: 100vh;
@@ -94,8 +93,8 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  padding-top: 20px;
-  padding-bottom: 8px;
+  padding-top: 15px;
+  padding-bottom: 15px;
   background-color: #424646;
   text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
     1px 1px 0 black;
@@ -423,6 +422,7 @@ label {
   border: 2px solid black;
   border-radius: 50%;
   z-index: 10001;
+  margin-right: 5px;
 }
 
 #modal:hover {
