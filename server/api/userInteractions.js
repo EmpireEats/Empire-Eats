@@ -27,7 +27,6 @@ router.get('/:id/active', requireAuth, async (req, res, next) => {
     const interaction = await UserInteraction.findOne({
       where: { interactingUserId: user.id },
     });
-    console.log('interaction in server', interaction);
     if (!interaction) res.status(404).send('interaction not found');
     res.send(interaction);
   } catch (error) {

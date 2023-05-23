@@ -60,7 +60,6 @@ export const fetchPostForChat = createAsyncThunk(
       const response = await axios.get(`/api/posts/${postId}/chat`, {
         headers: { authorization: `Bearer ${token}` },
       });
-      console.log('3. response data in thunk: ', response.data);
       return response.data;
     } catch (error) {
       console.error('error fetching post for chat', error);

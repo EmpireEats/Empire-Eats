@@ -7,11 +7,9 @@ const EditYerrr = ({ post, onSave, onCancel }) => {
 
   const handleUpdatePreference = (event) => {
     setUpdatedPost({ ...updatedPost, preference: event.target.value });
-    console.log('updated post in component:', updatedPost);
   };
 
   const handleSave = () => {
-    console.log('updated post before dispatch', updatedPost);
     if (socket) {
       socket.emit('updatePost', updatedPost);
     }
@@ -22,7 +20,7 @@ const EditYerrr = ({ post, onSave, onCancel }) => {
     <div>
       <div>
         <p>
-          <span>(img) </span>
+          <span>{updatedPost.user.image}</span>
           {updatedPost.user.firstName}
         </p>
       </div>

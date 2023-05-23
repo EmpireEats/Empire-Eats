@@ -13,13 +13,13 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     const newSocket = io('http://localhost:3000');
     setSocket(newSocket);
-    console.log('Socket connection created:', newSocket);
 
     return () => {
       newSocket.disconnect();
-      console.log('Socket connection closed');
     };
   }, []);
 
-  return <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>;
+  return (
+    <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
+  );
 };

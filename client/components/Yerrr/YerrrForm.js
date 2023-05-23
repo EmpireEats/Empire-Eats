@@ -8,7 +8,6 @@ const YerrrForm = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
   const socket = useSocket();
   const user = useSelector((state) => state.auth.user);
   const userLocation = useSelector((state) => state.auth.location);
-  console.log('userlocation:', userLocation);
 
   const [formState, setFormState] = useState({
     message: '',
@@ -25,9 +24,6 @@ const YerrrForm = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
     const { message, sortingOptions } = formState;
 
     if (message.trim()) {
-      console.log('Message:', message);
-      console.log('Sorting Options:', sortingOptions);
-
       if (socket) {
         socket.emit('newPost', {
           message: message,
@@ -42,7 +38,6 @@ const YerrrForm = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
           if (post) {
             onChatEnabledChange(true);
             yerrrEnabled(false);
-            console.log('1. post id inside of socket:', post.id);
             navigate('/yerrr/chat', { state: { postId: post.id } });
           }
         });

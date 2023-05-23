@@ -24,11 +24,8 @@ const Now = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
     (state) => state.auth.user && state.auth.user.id
   );
   const userLocation = useSelector((state) => state.auth.location);
-  console.log('userLocation', userLocation);
   const userLat = userLocation?.latitude;
-  console.log('userLat', userLat);
   const userLon = userLocation?.longitude;
-  console.log('userLon', userLon);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [posts, setPosts] = useState(reduxPosts);
@@ -235,14 +232,16 @@ const Now = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
               />
             ))}
           </div>
-          <Stack spacing={2}>
-            <Pagination
-              count={totalPages}
-              page={currentPage}
-              onChange={(event, value) => handlePageChange(value)}
-              color='primary'
-            />
-          </Stack>
+          <div className='pagination'>
+            <Stack spacing={2}>
+              <Pagination
+                count={totalPages}
+                page={currentPage}
+                onChange={(event, value) => handlePageChange(value)}
+                color='primary'
+              />
+            </Stack>
+          </div>
           <Modal
             className='weOutside-modal'
             overlayClassName='weOutside-modal-overlay'

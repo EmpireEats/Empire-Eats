@@ -25,7 +25,6 @@ router.get('/:id/chat', requireAuth, async (req, res, next) => {
       { include: [User] }
     );
     if (!post) res.status(404).send('post not found');
-    console.log('finding post in server, post: ', post);
     res.send(post);
   } catch (error) {
     console.error('error finding single post', error);
@@ -42,7 +41,6 @@ router.get(
       const getHiddenPosts = await HiddenPost.findAll({
         where: { userId: req.params.id },
       });
-      console.log('hidden posts: ', getHiddenPosts);
       res.send(getHiddenPosts);
     } catch (error) {
       console.error('error fetching users hidden posts', error);

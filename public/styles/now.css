@@ -258,25 +258,58 @@
   border: none;
   background-color: #717882;
   color: white;
-  padding: 10px;
+  padding: 5px;
   margin-bottom: 30px;
   text-align: center;
-  max-width: 500px;
-  height: 200px;
+  max-width: 300px;
+  min-height: 25vh;
+  width: 70vw;
+  display: flex;
+  flex-direction: column;
   font-family: 'Source Sans Pro', sans-serif;
+  position: relative;
+}
+
+.pagination {
+  align-self: center;
+  justify-self: center;
+}
+
+.name-image-post {
+  display: flex;
+}
+
+.yerr-buttons {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.preference-container {
+  position: absolute;
+  top: 0;
+  right: 10px;
 }
 
 .user-post-list {
   border: none;
   height: 75vh;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .user-post-list > div {
   margin-bottom: 10px;
-  max-width: 500px;
+  /* max-width: 500px; */
 }
 
+.preference {
+  font-size: 20pt;
+}
+#name-post {
+  font-size: 16pt;
+  font-weight: bold;
+}
 .filter {
   margin-top: 5vh;
   text-align: center;
