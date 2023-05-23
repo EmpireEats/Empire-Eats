@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const requireAuth = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
-  console.log('token in middleware:', token);
 
   if (!token) {
     return res.status(401).json({ error: 'Access denied. No token provided.' });
@@ -12,7 +11,6 @@ const requireAuth = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
-    console.log(req.user);
     next();
   } catch (error) {
     res.status(400).json({ error: 'Invalid token.' });
@@ -20,10 +18,9 @@ const requireAuth = (req, res, next) => {
 };
 
 const requireUserMatch = (req, res, next) => {
-  if(req.user.isAdmin) {
+  if (req.user.isAdmin) {
     next();
-  }
-  else if (req.user.id === parseInt(req.params.id)) {
+  } else if (req.user.id === parseInt(req.params.id)) {
     next();
   } else {
     res.status(403).send('Unauthorized to view this page');

@@ -16,11 +16,9 @@ const Main = () => {
   const [currentPostId, setCurrentPostId] = useState(null);
   const location = useLocation();
   const postId = location.state?.postId;
-  console.log('postId inside main component: ', postId);
 
   useEffect(() => {
     const postIdFromLocation = location.state?.postId;
-    console.log('post id from location:', postIdFromLocation);
     if (postIdFromLocation) {
       setCurrentPostId(postIdFromLocation);
     }
@@ -33,7 +31,6 @@ const Main = () => {
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (!document.hidden && chatEnabled) {
-        console.log('Requesting latest messages');
         dispatch({ type: 'REQUEST_LATEST_MESSAGES' });
       }
     };

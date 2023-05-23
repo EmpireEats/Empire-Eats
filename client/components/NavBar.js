@@ -6,8 +6,6 @@ import { logout } from '../redux/actions/authActions';
 
 const NavBar = () => {
   const auth = useSelector((state) => state.auth);
-  console.log('auth: ', auth);
-  console.log('auth token: ', auth.token);
   const dispatch = useDispatch();
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
@@ -30,11 +28,7 @@ const NavBar = () => {
         <Link to='/home/leaderboard'>Home</Link>
       )}
 
-      <Link
-        to='/restaurants'
-      >
-        We Outside
-      </Link>
+      <Link to='/restaurants'>We Outside</Link>
       <Link to='/yerrr/now'>YERRR </Link>
 
       {auth.user ? (

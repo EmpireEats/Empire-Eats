@@ -29,7 +29,6 @@ export const postSlice = createSlice({
       })
       .addCase(hidePostAsync.fulfilled, (state, action) => {
         state.loading = false;
-        console.log('reducer hide post:', action.payload.id);
         const postId = action.payload.id;
         state.hiddenPosts.push(postId);
       })
@@ -41,7 +40,7 @@ export const postSlice = createSlice({
         if (action.payload) {
           state.hiddenPosts = action.payload.map((post) => post.postId);
         } else {
-          console.log('No Hidden Posts Found');
+          console.error('No Hidden Posts Found');
         }
       })
 
@@ -50,7 +49,6 @@ export const postSlice = createSlice({
         console.error('Error fetching hidden posts', action.error);
       })
       .addCase(fetchPostForChat.fulfilled, (state, action) => {
-        console.log('inside reducer: ', action.payload);
         state.loading = false;
         state.activePostForChat = action.payload;
       })

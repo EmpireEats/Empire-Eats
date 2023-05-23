@@ -68,7 +68,6 @@ const App = () => {
   };
 
   const closeModal = () => {
-    console.log('Trying to close modal');
     setIsModalOpen(false);
   };
 
@@ -79,15 +78,12 @@ const App = () => {
   React.useEffect(() => {
     const newSocket = io('http://localhost:3000');
     socketRef.current = newSocket;
-    console.log('Socket connection created:', newSocket);
 
     const handleMessage = (message) => {
-      console.log('Received message:', message);
       dispatch(receiveMessage(message));
     };
 
     const handleLatestMessages = (messages) => {
-      console.log('Received latest messages:', messages);
       dispatch(updateChatMessages(messages));
     };
 
@@ -104,7 +100,6 @@ const App = () => {
         socketRef.current.off('message', handleMessage);
         socketRef.current.off('latestMessages', handleLatestMessages);
         socketRef.current.disconnect();
-        console.log('Socket connection closed');
       }
     };
   }, [dispatch]);

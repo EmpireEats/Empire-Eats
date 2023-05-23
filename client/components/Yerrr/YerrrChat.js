@@ -7,7 +7,6 @@ import { Box, Typography, TextField, Button } from '@mui/material';
 import Modal from 'react-modal';
 
 const YerrrChat = ({ postId, nowEnabled, yerrrEnabled, chatEnabled }) => {
-  console.log('2. inside chat -> post id: ', postId);
   const messages = useSelector((state) =>
     state.yerrrChat.messages.filter((message) => message.postId === postId)
   );
@@ -21,7 +20,6 @@ const YerrrChat = ({ postId, nowEnabled, yerrrEnabled, chatEnabled }) => {
   const [isChatOpen, setIsChatOpen] = useState(true);
   const loading = useSelector((state) => state.post.loading);
   const post = useSelector((state) => state.post.activePostForChat);
-  console.log('post inside of chat: ', post);
   const [isChatModalOpen, setIsChatModalOpen] = useState(true);
 
   useEffect(() => {
@@ -76,7 +74,6 @@ const YerrrChat = ({ postId, nowEnabled, yerrrEnabled, chatEnabled }) => {
     e.preventDefault();
     if (isChatOpen && currentMessage.trim()) {
       if (socket) {
-        console.log('sending message...', currentMessage);
         socket.emit('message', {
           sender: username,
           text: currentMessage,
@@ -88,12 +85,10 @@ const YerrrChat = ({ postId, nowEnabled, yerrrEnabled, chatEnabled }) => {
         console.error('Socket reference is undefined.');
       }
     } else {
-      console.log('Chat is closed.');
     }
   };
 
   const removeUserInteraction = () => {
-    console.log('remove interaction - postId: ', postId);
     if (socket) {
       socket.emit('removeUserInteraction', { postId, userId });
     }
@@ -101,7 +96,6 @@ const YerrrChat = ({ postId, nowEnabled, yerrrEnabled, chatEnabled }) => {
   };
 
   const handleAccept = () => {
-    console.log('accepting foodie buddie...');
     if (post.userId === userId) {
       closePosting();
     } else {

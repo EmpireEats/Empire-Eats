@@ -24,11 +24,8 @@ const Now = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
     (state) => state.auth.user && state.auth.user.id
   );
   const userLocation = useSelector((state) => state.auth.location);
-  console.log('userLocation', userLocation);
   const userLat = userLocation?.latitude;
-  console.log('userLat', userLat);
   const userLon = userLocation?.longitude;
-  console.log('userLon', userLon);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [posts, setPosts] = useState(reduxPosts);

@@ -31,24 +31,17 @@ const io = new Server(server, {
 
 // Socket.io connection handler
 io.on('connection', (socket) => {
-  console.log('a user connected:', socket.id);
-
   socket.on('message', ({ sender, text, postId }) => {
-    console.log('Received message:', { sender, text, postId });
     io.emit('message', { sender, text, postId });
-    console.log('Server emitted message:', { sender, text, postId });
   });
 
   socket.on('newPost', async (post) => {
-    console.log('Received new post from client:', post);
-
     try {
       const existingPost = await Post.findOne({
         where: { userId: post.userId },
       });
 
       if (existingPost) {
-        console.log(`User ${post.userId} already has a post.`);
         io.to(socket.id).emit(
           'postError',
           'User can only have one post at a time.'
@@ -66,7 +59,6 @@ io.on('connection', (socket) => {
           where: { id: newPost.id },
           include: [User],
         });
-        console.log('Created new post in database:', createdPostWithUser);
         io.emit('newPost', createdPostWithUser);
       }
     } catch (error) {
@@ -75,7 +67,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on('updatePost', async (post) => {
-    console.log('received updated post from client', post);
     try {
       const updatedPost = await Post.findOne({
         where: { id: post.id },
@@ -83,7 +74,6 @@ io.on('connection', (socket) => {
       });
 
       if (!updatedPost) {
-        console.log(`Post with id ${post.id} not found.`);
         return;
       }
 
@@ -94,19 +84,15 @@ io.on('connection', (socket) => {
       await updatedPost.save();
       io.emit('updatePost', updatedPost);
     } catch (error) {
-      console.log('error updating post:', error);
       socket.emit('postError', 'Error updating post.');
     }
   });
 
   socket.on('deletePost', async (postId) => {
-    console.log('Received deletePost event for postId:', postId);
-
     try {
       const deletedPost = await Post.destroy({ where: { id: postId } });
 
       if (deletedPost) {
-        console.log('Deleted post in database:', postId);
         io.emit('deletePost', postId);
       } else {
         console.error('Post not found:', postId);
