@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveMessage } from '../../redux/actions/yerrrChatActions';
 import { useSocket } from '../../contexts/SocketContext';
 import { useNavigate } from 'react-router';
 import { fetchPostForChat } from '../../redux/actions/postActions';
+import { Box, Typography, TextField, Button } from '@mui/material';
 import Modal from 'react-modal';
-import ChatAuthorInstructions from './ChatAuthorInstructions';
-import ChatInteractorInstructions from './ChatInteractorInstructions';
 
 const YerrrChat = ({ postId, nowEnabled, yerrrEnabled, chatEnabled }) => {
   console.log('2. inside chat -> post id: ', postId);
@@ -129,69 +127,94 @@ const YerrrChat = ({ postId, nowEnabled, yerrrEnabled, chatEnabled }) => {
       className='chat-modal'
       overlayClassName='chat-modal-overlay'
       contentLabel='Chat Modal'>
-      <div className='chat-container'>
-        <div className='chat-window'>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          p: 2,
+          height: '60vh',
+          overflowY: 'auto',
+        }}>
+        <Box
+          sx={{
+            flex: '1 1 auto',
+            display: 'flex',
+            flexDirection: 'column',
+            overflowY: 'auto',
+            marginBottom: '16px',
+          }}>
           {messages.map((message, index) => (
-            <div
+            <Box
               key={`${message.sender}-${index}`}
-              className={`message ${
-                message.sender === username ? 'isSender' : 'isReceiver'
-              }`}>
-              <div className='message-info'>
-                <span className='sender-name'>{message.sender}</span>
-                <span className='message-time'>
-                  {formatDate(message.timestamp)}
-                </span>
-              </div>
-              <span>{message.text}</span>
-            </div>
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems:
+                  message.sender === username ? 'flex-end' : 'flex-start',
+              }}>
+              <Typography variant='subtitle2'>{message.sender}</Typography>
+              <Typography
+                variant='body2'
+                sx={{
+                  backgroundColor:
+                    message.sender === username ? '#9C94B1' : '#717882',
+                  color: 'white',
+                  borderRadius: '12px',
+                  padding: '8px',
+                  maxWidth: '80%',
+                  wordWrap: 'break-word',
+                }}>
+                {message.text}
+              </Typography>
+              <Typography variant='caption'>
+                {formatDate(message.timestamp)}
+              </Typography>
+            </Box>
           ))}
-        </div>
-        <form onSubmit={handleSendMessage} className='message-form'>
-          <input
-            type='text'
+        </Box>
+        <form onSubmit={handleSendMessage}>
+          <TextField
             value={currentMessage}
             onChange={(e) => setCurrentMessage(e.target.value)}
             placeholder='Type your message...'
+            variant='outlined'
+            fullWidth
+            sx={{ marginBottom: '8px' }}
           />
-          <button type='submit' disabled={!isChatOpen}>
+          <Button
+            type='submit'
+            variant='contained'
+            disabled={!isChatOpen}
+            sx={{ backgroundColor: '#2B3434' }}>
             Send
-          </button>
+          </Button>
         </form>
-        {!isChatOpen && <div>Chat is closed.</div>}
+        {!isChatOpen && <Typography>Chat is closed.</Typography>}
         {post.userId === userId ? (
-          <>
-            <button id='nvm' onClick={closePosting}>
-              Close Post
-            </button>
-            {/* <Modal
-              className='weOutside-modal'
-              overlayClassName='weOutside-modal-overlay'
-              isOpen={isModalOpen}
-              onRequestClose={closeModal}
-              contentLabel='Chat Instructions-Author'>
-              <ChatAuthorInstructions />
-            </Modal> */}
-          </>
+          <Button
+            onClick={closePosting}
+            variant='contained'
+            color='secondary'
+            sx={{ marginTop: '8px', backgroundColor: '#9C94B1' }}>
+            Close Post
+          </Button>
         ) : (
-          <>
-            <button id='nvm' onClick={removeUserInteraction}>
-              Nvm..
-            </button>
-            {/* <Modal
-              className='weOutside-modal'
-              overlayClassName='weOutside-modal-overlay'
-              isOpen={isModalOpen}
-              onRequestClose={closeModal}
-              contentLabel='Chat Instructions-Interactor'>
-              <ChatInteractorInstructions />
-            </Modal> */}
-          </>
+          <Button
+            onClick={removeUserInteraction}
+            variant='contained'
+            color='secondary'
+            sx={{ marginTop: '8px', backgroundColor: '#9C94B1' }}>
+            Nvm..
+          </Button>
         )}
-        <button id='nvm' onClick={handleAccept}>
+        <Button
+          onClick={handleAccept}
+          variant='contained'
+          color='primary'
+          sx={{ marginTop: '8px', backgroundColor: '#2B3434' }}>
           Lets Eat!
-        </button>
-      </div>
+        </Button>
+      </Box>
     </Modal>
   );
 };
