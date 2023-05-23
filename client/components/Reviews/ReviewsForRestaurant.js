@@ -34,12 +34,13 @@ const ReviewsForRestaurant = ({ placeId }) => {
   return (
     <Box>
       <Typography variant="h5" paragraph>Reviews:</Typography>
-      <Grid container spacing={2} sx={{ 
+      <Grid container sx={{ 
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', // Set the minimum width to be larger
         gridGap: '16px',
         '@media (min-width: 900px)': {
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', // Set the minimum width to be larger
+          gridGap: '8px',
         },
       }}>
         {status === 'loading' ? (
@@ -47,7 +48,13 @@ const ReviewsForRestaurant = ({ placeId }) => {
         ) : loggedInUser ? (
           reviews.length > 0 ? 
             reviews.map((review, index) => (
-              <Grid item xs={12} md={6} lg={4} sx={{ marginBottom: 2 }} key={index}>
+              <Grid item sx={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                marginBottom: 2 
+              }} key={index}>
                 {review.image && (
                   <Box 
                     component="img"
@@ -56,9 +63,12 @@ const ReviewsForRestaurant = ({ placeId }) => {
                     sx={{ 
                       width: '100%', 
                       height: 'auto',
-                      maxHeight: '250px',
+                      maxHeight: '200px',
                       objectFit: 'cover',
-                      marginBottom: '8px' 
+                      marginBottom: '8px',
+                      '@media (min-width: 900px)': {
+                        maxHeight: '350px',
+                      }
                     }}
                   />
                 )}
