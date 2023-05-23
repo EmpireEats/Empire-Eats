@@ -20,7 +20,8 @@ export const leaderboardSlice = createSlice({
         state.loading = false;
         state.leaderboard = action.payload.map((user) => ({
           name: user.username,
-          restaurantVisitCount: user.reviewsCount
+          restaurantVisitCount: user.reviewsCount,
+          image: user.image,
         }));
       })
       .addCase(fetchLeaderboard.rejected, (state, action) => {

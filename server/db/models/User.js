@@ -23,7 +23,10 @@ const User = db.define('user', {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false,
-  },
+    validate: {
+      len: [3, 10]
+    },
+  },   
   password: {
     type: Sequelize.STRING,
     allowNull: false,
