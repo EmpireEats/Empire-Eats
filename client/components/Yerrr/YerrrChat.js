@@ -190,30 +190,37 @@ const YerrrChat = ({ postId, nowEnabled, yerrrEnabled, chatEnabled }) => {
           </Button>
         </form>
         {!isChatOpen && <Typography>Chat is closed.</Typography>}
-        {post.userId === userId ? (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginTop: '8px',
+          }}>
+          {post.userId === userId ? (
+            <Button
+              onClick={closePosting}
+              variant='contained'
+              color='secondary'
+              sx={{ backgroundColor: '#9C94B1' }}>
+              Close Post
+            </Button>
+          ) : (
+            <Button
+              onClick={removeUserInteraction}
+              variant='contained'
+              color='secondary'
+              sx={{ backgroundColor: '#9C94B1' }}>
+              Nvm..
+            </Button>
+          )}
           <Button
-            onClick={closePosting}
+            onClick={handleAccept}
             variant='contained'
-            color='secondary'
-            sx={{ marginTop: '8px', backgroundColor: '#9C94B1' }}>
-            Close Post
+            color='primary'
+            sx={{ backgroundColor: '#2B3434' }}>
+            Lets Eat!
           </Button>
-        ) : (
-          <Button
-            onClick={removeUserInteraction}
-            variant='contained'
-            color='secondary'
-            sx={{ marginTop: '8px', backgroundColor: '#9C94B1' }}>
-            Nvm..
-          </Button>
-        )}
-        <Button
-          onClick={handleAccept}
-          variant='contained'
-          color='primary'
-          sx={{ marginTop: '8px', backgroundColor: '#2B3434' }}>
-          Lets Eat!
-        </Button>
+        </Box>
       </Box>
     </Modal>
   );

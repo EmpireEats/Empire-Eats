@@ -56,7 +56,7 @@ const Main = () => {
           )}
           {yerrrEnabled && user && (
             <Link className='yerrr-tab-link' to='/yerrr/postYerrr'>
-              CREATE POST
+              POST
             </Link>
           )}
           {chatEnabled && user && (
