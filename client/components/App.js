@@ -118,7 +118,7 @@ const App = () => {
         {modalComponent}
       </Modal>
       <div className='app-container'>
-        <NavBar />
+      { isModalOpen ? null : <NavBar /> }
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/login' element={<Login />} />
