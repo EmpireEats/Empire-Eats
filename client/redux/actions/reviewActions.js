@@ -49,7 +49,7 @@ export const deleteReviewByUserAsync = createAsyncThunk(
       if (token) {
         const { data } = await axios.delete(`/api/reviews/${id}`, {
           headers: {
-            authorization: token,
+            authorization: `Bearer ${token}`,
           },
         });
         return data;
