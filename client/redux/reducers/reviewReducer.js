@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addReviewAsync, fetchReviewsByPlaceAsync } from '../actions/reviewActions';
+import { addReviewAsync, fetchReviewsByPlaceAsync, deleteReviewByUserAsync } from '../actions/reviewActions';
 
 const initialState = {
   allReviews: [],
@@ -47,8 +47,16 @@ const reviewSlice = createSlice({
       .addCase(fetchReviewsByPlaceAsync.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
-      });
-  }  
+      })
+      .addCase(deleteReviewByUserAsync.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.allReviews = state.allReviews.filter((review) => review.id !== action.payload);
+      })
+      .addCase(deleteReviewByUserAsync.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+  }
 });
 
 export const { clearReviews } = reviewSlice.actions;

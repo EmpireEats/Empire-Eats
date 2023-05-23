@@ -44,7 +44,9 @@ const AllRestaurants = ({ restaurants, setSelectedRestaurantLocation }) => {
   if (error) {
     return (
       <div className="error-message">
-        Sorry, you need to be in NYC to join the foodie race!
+        Sorry, you need to be in NYC
+        <br/>
+        to join the foodie race!
       </div>
     );
   }

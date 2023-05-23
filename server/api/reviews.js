@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Review = require('../db/models/Review');
-const { requireAuth } = require('./authentication/authMiddleware');
+const { requireAuth, requireUserMatch } = require('./authentication/authMiddleware');
 const multer = require('multer');
 const cloudinary = require('cloudinary').v2;
 
@@ -60,6 +60,25 @@ router.post('/', requireAuth, upload.single('image'), async (req, res, next) => 
     res.status(201).json({ message: 'Review created successfully', review: newReview });
   } catch (error) {
     res.status(400).json({ error: 'Failed to create review' });
+  }
+});
+
+router.delete('/:id', requireAuth, async (req, res, next) => {
+  try {
+    const review = await Review.findByPk(req.params.id);
+
+    if (!review) {
+      return res.status(404).json({ error: 'Review not found' });
+    }
+
+    if (review.userId !== req.user.id) {
+      return res.status(403).json({ error: 'Unauthorized to delete this review' });
+    }
+
+    await review.destroy();
+    res.json(review);
+  } catch (err) {
+    next(err);
   }
 });
 

@@ -40,3 +40,22 @@ export const fetchReviewsByPlaceAsync = createAsyncThunk(
     }
   }
 );
+
+export const deleteReviewByUserAsync = createAsyncThunk(
+  'reviews/deleteReview',
+  async (id, { rejectWithValue }) => {
+    const token = window.localStorage.getItem("token");
+    try {
+      if (token) {
+        const { data } = await axios.delete(`/api/reviews/${id}`, {
+          headers: {
+            authorization: token,
+          },
+        });
+        return data;
+      }
+    } catch (error) {
+      return rejectWithValue('Failed to delete the review');
+    }
+  }
+);
