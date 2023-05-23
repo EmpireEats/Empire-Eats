@@ -22,7 +22,7 @@ const EditYerrr = ({ post, onSave, onCancel }) => {
     <div>
       <div>
         <p>
-          <span>(img) </span>
+          <span>{updatedPost.user.image}</span>
           {updatedPost.user.firstName}
         </p>
       </div>

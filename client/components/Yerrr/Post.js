@@ -40,7 +40,7 @@ const Post = ({
       ) : (
         <>
           {post.user && post.user.firstName ? (
-            <div>
+            <div className='name-image-post'>
               {post.user.image && (
                 <img
                   src={post.user.image}
@@ -48,23 +48,27 @@ const Post = ({
                   style={{
                     borderRadius: '50%',
                     objectFit: 'cover',
+                    marginRight: '15px',
                   }}
                 />
               )}
-              <p> {post.user.firstName}</p>
+              <p id='name-post'> {post.user.firstName}</p>
             </div>
           ) : (
             <p>No name</p>
           )}
           <p>"{post.message}"</p>
-          {post.preference === 'one on one' && <p>Looking For: 👤 </p>}
-          {post.preference === 'group' && <p>Looking for: 👥 </p>}
-          {/* <p key={post.id}>
-            lat: {post.latitude}
-            long: {post.longitude}
-          </p> */}
+          <div className='preference-container'>
+            {post.preference === 'one on one' && (
+              <p className='preference'>👤 </p>
+            )}
+            {post.preference === 'group' && <p className='preference'>👥 </p>}
+            {post.preference === 'no preference' && (
+              <p className='preference'>👤 / 👥</p>
+            )}
+          </div>
           {post.userId === loggedInUserId ? (
-            <>
+            <div className='yerr-buttons'>
               <span>
                 <button onClick={() => handleDeletePost(post.id)}>❌</button>
               </span>
@@ -74,21 +78,22 @@ const Post = ({
                 </button>
               </span>
               <button onClick={() => backToChat(post.id)}>💬</button>
-            </>
+            </div>
           ) : (
             <>
-              <button
-                onClick={() =>
-                  handleUserInteraction({
-                    postId: post?.id,
-                    postAuthorId: post?.user?.id,
-                  })
-                }>
-                👍🏽
-              </button>
-              <span>
+              <div className='yerr-buttons'>
+                <button
+                  onClick={() =>
+                    handleUserInteraction({
+                      postId: post?.id,
+                      postAuthorId: post?.user?.id,
+                    })
+                  }>
+                  👍🏽
+                </button>
+
                 <button onClick={() => handleHidePost(post.id)}>👎🏽</button>
-              </span>
+              </div>
             </>
           )}
         </>

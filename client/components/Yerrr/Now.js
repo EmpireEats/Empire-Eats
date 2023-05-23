@@ -235,14 +235,16 @@ const Now = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
               />
             ))}
           </div>
-          <Stack spacing={2}>
-            <Pagination
-              count={totalPages}
-              page={currentPage}
-              onChange={(event, value) => handlePageChange(value)}
-              color='primary'
-            />
-          </Stack>
+          <div className='pagination'>
+            <Stack spacing={2}>
+              <Pagination
+                count={totalPages}
+                page={currentPage}
+                onChange={(event, value) => handlePageChange(value)}
+                color='primary'
+              />
+            </Stack>
+          </div>
           <Modal
             className='weOutside-modal'
             overlayClassName='weOutside-modal-overlay'
