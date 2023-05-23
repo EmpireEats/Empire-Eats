@@ -42,7 +42,7 @@ const ReviewForm = ({ placeId, restaurantName, restaurantAddress }) => {
 
   const closeModal = () => {
     setModalIsOpen(false);
-    navigate('/leaderboard');
+    navigate('/home/feed');
   };
 
   const openLink = () => {

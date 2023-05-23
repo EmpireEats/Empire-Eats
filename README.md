@@ -45,6 +45,7 @@ Please note that you will need to have Node.js and npm installed on your machine
 - Material-UI
 - Google Maps API for map and restaurant data
 - Socket I.O for live communication and feed
+- Cloudinary for image hosting
 
 ## Contributing
 
