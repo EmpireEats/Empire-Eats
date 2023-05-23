@@ -11,13 +11,14 @@ const getLeaderboard = async () => {
         Sequelize.fn("COUNT", Sequelize.col("placeId")),
         "reviewsCount",
       ],
-      [Sequelize.literal('"user"."username"'), "username"]
+      [Sequelize.literal('"user"."username"'), "username"],
+      [Sequelize.literal('"user"."image"'), "image"], // Fetching user's profile picture
     ],
     where: {
       userId: { [Sequelize.Op.not]: null },
       placeId: { [Sequelize.Op.not]: null },
     },
-    group: ["userId", '"user.username"'],
+    group: ["userId", '"user.username"', '"user.image"'], // Including 'user.image' in group clause
     include: [
       {
         model: User,
@@ -48,6 +49,7 @@ const getLeaderboard = async () => {
 
   return leaderboard;
 };
+
   
 module.exports = {
   getLeaderboard,
