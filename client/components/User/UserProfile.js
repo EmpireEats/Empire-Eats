@@ -77,8 +77,9 @@ const UserProfile = () => {
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
         p: 3,
         borderRadius: '8%',
-      }}
-    >
+        height: '70vh',
+        overflow: 'hidden',
+      }}>
       <Box
         sx={{
           display: 'flex',
@@ -111,7 +112,7 @@ const UserProfile = () => {
           Number of Restaurants Visited: {restaurantVisits}
         </Typography>
       </Box>
-      <Box sx={{ mt: 2, width: '100%' }}>
+      <Box sx={{ mt: 2, width: '100%', flex: '1 1 auto', overflow: 'auto' }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Typography>Reviews:</Typography>
           <IconButton onClick={toggleLayout}>
