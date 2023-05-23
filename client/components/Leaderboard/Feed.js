@@ -71,7 +71,8 @@ const Feed = () => {
               <Link to={`/restaurants/${review.placeId}`}>{review.name}</Link>
               <div>{review.address}</div>
             </h2>
-
+            
+            <em>
             <h4>
               <div>
                 Reviewed by: {review.username}
@@ -79,6 +80,7 @@ const Feed = () => {
               </div>
               <div>Posted on: {review.createdAt}</div>
             </h4>
+            </em>
 
             <h3>
               <div>"{review.previewText}"</div>
