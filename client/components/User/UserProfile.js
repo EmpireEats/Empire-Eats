@@ -11,11 +11,14 @@ import IconButton from '@mui/material/IconButton';
 import GridIcon from '@mui/icons-material/GridOn';
 import SoloIcon from '@mui/icons-material/FilterNone';
 import { styled } from '@mui/system';
+import { deleteReviewByUserAsync } from '../../redux/actions/reviewActions';
+import { ai } from '@cloudinary/url-gen/qualifiers/format';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
 `;
+
 const UserProfile = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
@@ -57,6 +60,14 @@ const UserProfile = () => {
     setSelectedReview(selectedReview === review ? null : review);
   };
 
+  const handleDeleteReview = (reviewId) => {
+    dispatch(deleteReviewByUserAsync(reviewId))
+    .then(() => {
+      dispatch(fetchSingleUser(id));
+      dispatch(fetchLeaderboard());
+    });
+  };
+
   return (
     <Box
       sx={{
@@ -74,7 +85,8 @@ const UserProfile = () => {
           display: 'flex',
           justifyContent: 'flex-end',
           width: '100%',
-        }}>
+        }}
+      >
         <Button variant='contained' sx={{ backgroundColor: '#9C94B1' }}>
           <StyledLink to={`/users/${id}/edit`}>Edit</StyledLink>
         </Button>
@@ -84,7 +96,8 @@ const UserProfile = () => {
           display: 'flex',
           alignItems: 'center',
           mt: 2,
-        }}>
+        }}
+      >
         <Avatar src={user.image} sx={{ width: 100, height: 100 }} />
         <Box sx={{ ml: 2, display: 'flex', flexDirection: 'column' }}>
           <Typography variant='h6'>@{username}</Typography>
@@ -114,16 +127,20 @@ const UserProfile = () => {
             overflowY: 'auto',
             maxHeight: '40vh',
             p: 1,
-          }}>
+          }}
+        >
           {reviews &&
-            reviews.map((review) => (
+            [...reviews]
+              .sort((a,b) => b.id - a.id)
+              .map((review) => (
               <Box
                 key={review.id}
                 sx={{
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                }}>
+                }}
+              >
                 <Box
                   sx={{
                     width: '100%',
@@ -132,7 +149,8 @@ const UserProfile = () => {
                     cursor: 'pointer',
                     overflow: 'hidden',
                   }}
-                  onClick={() => handleReviewClick(review)}>
+                  onClick={() => handleReviewClick(review)}
+                >
                   <img
                     src={review.image}
                     style={{
@@ -154,13 +172,15 @@ const UserProfile = () => {
                         alignItems: 'center',
                         justifyContent: 'center',
                         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                      }}>
+                      }}
+                    >
                       <Typography
                         sx={{
                           color: 'white',
                           fontSize: '24px',
                           fontWeight: 'bold',
-                        }}>
+                        }}
+                      >
                         <StyledLink to={`/restaurants/${review.placeId}`}>
                           {review.name}
                         </StyledLink>
@@ -170,9 +190,15 @@ const UserProfile = () => {
                           color: 'white',
                           fontSize: '18px',
                           textAlign: 'center',
-                        }}>
-                        {review.body}
+                        }}
+                      >
+                        {review.title}
                       </Typography>
+                      <Button
+                        onClick={() => handleDeleteReview(review.id)}
+                      >
+                        ❌
+                      </Button>
                     </Box>
                   )}
                 </Box>
