@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchReviewsByPlaceAsync } from '../../redux/actions/reviewActions';
 import { clearReviews } from '../../redux/reducers/reviewReducer';
-import '../../../public/styles/weOutside.css'
+import { Box, Typography, Grid, Button } from '@mui/material';
 
 const ReviewsForRestaurant = ({ placeId }) => {
   const dispatch = useDispatch();
@@ -32,37 +32,51 @@ const ReviewsForRestaurant = ({ placeId }) => {
   };
 
   return (
-    <div className="reviews-container">
-      <h2 id='review'>Reviews:</h2>
-      <div className="reviews-row">
-      {status === 'loading' ? (
-        <div className="loading-message">Loading reviews...
-          <div className="spinner"></div>
-        </div>
-      ) : loggedInUser ? (
-        reviews.map((review, index) => (
-          <div className="review" key={index}>
-            {review.image && (
-              <div className="review-image">
-                <img src={review.image} alt="Review" />
-                <div className="review-content">
-                  <p className="review-body">"{review.body}"</p>
-                  <p className="review-date">{formatDate(review.createdAt)}</p>
-                </div>
-              </div>
-            )}
-          </div>
-        ))
-      ) : (
-        <div className='error-message'>You need to be logged in to see reviews.</div>
-      )}
-          </div>
+    <Box>
+      <Typography variant="h5" paragraph>Reviews:</Typography>
+      <Grid container spacing={2} sx={{ 
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+        gridGap: '16px',
+        '@media (min-width: 900px)': {
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+        },
+      }}>
+        {status === 'loading' ? (
+          <Typography>Loading reviews...</Typography>
+        ) : loggedInUser ? (
+          reviews.length > 0 ? 
+            reviews.map((review, index) => (
+              <Grid item xs={12} md={6} lg={4} sx={{ marginBottom: 2 }} key={index}>
+                {review.image && (
+                  <Box 
+                    component="img"
+                    src={review.image}
+                    alt="Review" 
+                    sx={{ 
+                      width: '100%', 
+                      height: 'auto',
+                      maxHeight: '250px',
+                      objectFit: 'cover',
+                      marginBottom: '8px' 
+                    }}
+                  />
+                )}
+                <Typography variant="body1">"{review.body}"</Typography>
+                <Typography variant="caption">{formatDate(review.createdAt)}</Typography>
+              </Grid>
+            ))
+            : <Typography sx={{ fontStyle: 'italic' }}>There are no reviews for this restaurant.</Typography>
+        ) : (
+          <Typography>You need to be logged in to see reviews.</Typography>
+        )}
+      </Grid>
       {loggedInUser && reviews.length < totalReviewsCount && status !== 'loading' && (
-        <button className="load-more-button" onClick={handleLoadMore}>
+        <Button onClick={handleLoadMore}>
           Load More
-        </button>
+        </Button>
       )}
-    </div>
+    </Box>
   );
 };
 
