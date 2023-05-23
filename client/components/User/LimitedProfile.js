@@ -123,7 +123,9 @@ const LimitedProfile = () => {
             p: 1,
           }}>
           {viewUser?.reviews &&
-            viewUser.reviews.map((review) => (
+            [...viewUser.reviews]
+              .sort((a,b) => b.id - a.id)
+              .map((review) => (
               <Box
                 key={review.id}
                 sx={{
@@ -178,7 +180,7 @@ const LimitedProfile = () => {
                           fontSize: '18px',
                           textAlign: 'center',
                         }}>
-                        {review.body}
+                        {review.title}
                       </Typography>
                     </Box>
                   )}
