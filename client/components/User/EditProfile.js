@@ -124,7 +124,7 @@ const EditProfile = () => {
         autoComplete='off'
         sx={{ mt: 2, alignItems: 'center' }}>
         <TextField
-          id='firstName'
+          name='firstName'
           label='First Name'
           value={formData.firstName}
           onChange={handleChange}
@@ -132,7 +132,7 @@ const EditProfile = () => {
           sx={{ mb: 2 }}
         />
         <TextField
-          id='lastName'
+          name='lastName'
           label='Last Name'
           value={formData.lastName}
           onChange={handleChange}
@@ -140,7 +140,7 @@ const EditProfile = () => {
           sx={{ mb: 2 }}
         />
         <TextField
-          id='username'
+          name='username'
           label='User Name'
           value={formData.username}
           onChange={handleChange}
