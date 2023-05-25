@@ -12,7 +12,6 @@ import Modal from 'react-modal';
 import NeedToLogIn from './NeedToLogIn';
 import Post from './Post';
 import Filter from './Filter';
-import Pagination1 from './Pagination';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
@@ -23,10 +22,6 @@ const Now = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
   const loggedInUserId = useSelector(
     (state) => state.auth.user && state.auth.user.id
   );
-  const userLocation = useSelector((state) => state.auth.location);
-  const userLat = userLocation?.latitude;
-  const userLon = userLocation?.longitude;
-
   const [currentPage, setCurrentPage] = useState(1);
   const [posts, setPosts] = useState(reduxPosts);
   const [selectedOption, setSelectedOption] = useState('all');
@@ -107,41 +102,12 @@ const Now = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
     }
   }, [reduxPosts, socket, hiddenPosts]);
 
-  function getDistanceFromLatLonInMiles(lat1, lon1, lat2, lon2) {
-    var R = 3958.8;
-    var dLat = deg2rad(lat2 - lat1);
-    var dLon = deg2rad(lon2 - lon1);
-    var a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(deg2rad(lat1)) *
-        Math.cos(deg2rad(lat2)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    var d = R * c;
-    return d;
-  }
-
-  function deg2rad(deg) {
-    return deg * (Math.PI / 180);
-  }
-
   const filteredPosts = posts.filter((post) => {
     if (!loggedInUserId) {
       if (selectedOption === 'all') {
         return true;
       }
       return post.preference === selectedOption;
-    }
-    const postDistance = getDistanceFromLatLonInMiles(
-      userLat,
-      userLon,
-      post.latitude,
-      post.longitude
-    );
-
-    if (postDistance > 1) {
-      return false;
     }
 
     if (selectedOption === 'all') {
@@ -206,12 +172,10 @@ const Now = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
     }
   };
 
-  if (loading || (loggedInUserId && !userLocation))
-    return <div className='spinner'></div>;
+  if (loading) return <div className='spinner'></div>;
 
   return (
     <div className='user-post-list'>
-      {/* <div id='words'>Interact with a post or post your own Yerrr!</div> */}
       {filteredPosts && (
         <>
           <Filter selectedOption={selectedOption} handleSort={handleSort} />
