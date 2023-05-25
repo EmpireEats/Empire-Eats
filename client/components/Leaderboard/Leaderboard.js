@@ -43,7 +43,7 @@ const Leaderboard = () => {
     <Box>
       <Box
         className='leader'
-        sx={{ backgroundColor: '#b5d2dd', marginTop: '15px' }}>
+        sx={{ backgroundColor: '#b5d2dd', marginTop: '11px' }}>
         <Link to='/home/leaderboard'>
           <button className='leader-button'>LEADERBOARD</button>
         </Link>
