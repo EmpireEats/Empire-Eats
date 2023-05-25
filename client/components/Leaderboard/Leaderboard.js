@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchLeaderboard } from "../../redux/actions/leaderboardActions";
-import { Link } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchLeaderboard } from '../../redux/actions/leaderboardActions';
+import { Link } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -41,21 +41,27 @@ const Leaderboard = () => {
 
   return (
     <Box>
-      <Box className="leader">
-        <Link to="/home/leaderboard">
-          <button className="leader-button">LEADERBOARD</button>
+      <Box
+        className='leader'
+        sx={{ backgroundColor: '#b5d2dd', marginTop: '15px' }}>
+        <Link to='/home/leaderboard'>
+          <button className='leader-button'>LEADERBOARD</button>
         </Link>
-        <Link to="/home/feed">
-          <button className="leader-button">FEED</button>
+        <Link to='/home/feed'>
+          <button className='leader-button'>FEED</button>
         </Link>
       </Box>
-      <Box className="leaderboard">
+      <Box className='leaderboard' sx={{ marginTop: '35px' }}>
         <table>
           <thead>
             <tr>
               <th>RANK</th>
               <th>USER</th>
-              <th>RESTAURANT<br/>VISITS</th>
+              <th>
+                RESTAURANT
+                <br />
+                VISITS
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -64,8 +70,11 @@ const Leaderboard = () => {
                 <td>{index + 1}</td>
                 <td>
                   <StyledLink to={`/users/profile/${user.name}`}>
-                    <Avatar src={user.image} sx={{ width: 32, height: 32, marginRight: 1 }} />
-                    <Typography variant="body2">{user.name}</Typography>
+                    <Avatar
+                      src={user.image}
+                      sx={{ width: 32, height: 32, marginRight: 1 }}
+                    />
+                    <Typography variant='body2'>{user.name}</Typography>
                   </StyledLink>
                 </td>
                 <td>{user.restaurantVisitCount}</td>
