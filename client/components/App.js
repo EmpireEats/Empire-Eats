@@ -107,7 +107,7 @@ const App = () => {
   return (
     <>
       <button id='modal' onClick={() => handleModalClick()}>
-        i
+        {/* i */} &#9432;
       </button>
       <Modal
         className='weOutside-modal'
