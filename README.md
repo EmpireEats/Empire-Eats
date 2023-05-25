@@ -57,3 +57,29 @@ We welcome contributions from fellow developers. Here's how to contribute:
 4. Submit a pull request from your repository back to our original repository.
 
 Thank you for considering to contribute to Empire Eats.
+
+## Empire Eats' Developer Team
+
+- Stefani Chang
+  - [![GitHub](https://img.shields.io/badge/GitHub-StefaniChang-blue?logo=github)](https://github.com/StefaniChang)
+  - [![LinkedIn](https://img.shields.io/badge/LinkedIn-stefanichang-blue?logo=linkedin)](https://www.linkedin.com/in/stefanichang)
+
+- Erika Chau 
+  - [![GitHub](https://img.shields.io/badge/GitHub-erikachau-blue?logo=github)](https://github.com/erikachau)
+  - [![LinkedIn](https://img.shields.io/badge/LinkedIn-erika--chau-blue?logo=linkedin)](https://www.linkedin.com/in/erika-chau)
+
+- Mary Stephanie Martinez
+  - [![GitHub](https://img.shields.io/badge/GitHub-msamartinez-blue?logo=github)](https://github.com/msamartinez)
+  - [![LinkedIn](https://img.shields.io/badge/LinkedIn-marystephaniemartinez-blue?logo=linkedin)](https://www.linkedin.com/in/marystephaniemartinez)
+  
+- Marlisa Pee
+  - [![GitHub](https://img.shields.io/badge/GitHub-marlisajp-blue?logo=github)](https://github.com/marlisajp)
+  - [![LinkedIn](https://img.shields.io/badge/LinkedIn-marlisapee-blue?logo=linkedin)](https://www.linkedin.com/in/marlisapee)
+  
+- Kim Reynolds
+  - [![GitHub](https://img.shields.io/badge/GitHub-reginar--kim-blue?logo=github)](https://github.com/reginar-kim)
+  - [![LinkedIn](https://img.shields.io/badge/LinkedIn-kimreginar-blue?logo=linkedin)](https://www.linkedin.com/in/kimreginar)
+  
+
+## Check out our deployed site
+https://empireeats.onrender.com
