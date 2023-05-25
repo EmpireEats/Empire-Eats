@@ -179,10 +179,11 @@ const Now = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
       {filteredPosts && (
         <>
           <Filter selectedOption={selectedOption} handleSort={handleSort} />
-          <div>
-            {currentPosts.map((post) => (
+          <div style={{ overflowY: 'auto', maxHeight: 'calc(100vh - 150px)' }}>
+            {filteredPosts.map((post, index) => (
               <Post
                 key={post.id}
+                index={index}
                 post={post}
                 handleUserInteraction={handleUserInteraction}
                 handleHidePost={handleHidePost}
@@ -195,16 +196,6 @@ const Now = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
                 onChatEnabledChange={onChatEnabledChange}
               />
             ))}
-          </div>
-          <div className='pagination'>
-            <Stack spacing={2}>
-              <Pagination
-                count={totalPages}
-                page={currentPage}
-                onChange={(event, value) => handlePageChange(value)}
-                color='primary'
-              />
-            </Stack>
           </div>
           <Modal
             className='weOutside-modal'

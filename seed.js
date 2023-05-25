@@ -502,7 +502,7 @@ const posts = [
   {
     userId: 1,
     message: 'Heading out for pizza, looking for a friend!',
-    preference: 'one on one',
+    preference: 'group',
     isActive: true,
     latitude: 40.6977041, // within a mile
     longitude: -73.9047561, // within a mile
@@ -526,7 +526,7 @@ const posts = [
   {
     userId: 4,
     message: 'Craving for some burgers. Anyone want to join?',
-    preference: 'one on one',
+    preference: 'group',
     isActive: true,
     latitude: 40.6867041, // outside a mile
     longitude: -73.9157561, // outside a mile
