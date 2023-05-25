@@ -45,7 +45,7 @@ const Main = () => {
   return (
     <div className='yerrr-tab-container'>
       <div>
-        <nav className='yerrr-tab-nav'>
+        <nav className='yerrr-tab-nav' style={{ backgroundColor: '#b5d2dd' }}>
           {nowEnabled && (
             <Link className='yerrr-tab-link' to='/yerrr/now'>
               FEED
