@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSocket } from '../../contexts/SocketContext';
+import Button from '@mui/material/Button';
 
 const EditYerrr = ({ post, onSave, onCancel }) => {
   const [updatedPost, setUpdatedPost] = useState(post);
@@ -19,10 +20,7 @@ const EditYerrr = ({ post, onSave, onCancel }) => {
   return (
     <div>
       <div>
-        <p>
-          <span>{updatedPost.user.image}</span>
-          {updatedPost.user.firstName}
-        </p>
+        <p>{updatedPost.user.firstName}</p>
       </div>
       <div>
         <span>Message: </span>
@@ -44,8 +42,18 @@ const EditYerrr = ({ post, onSave, onCancel }) => {
           <option value='no preference'>No preference</option>
         </select>
       </div>
-      <button onClick={handleSave}>Save</button>
-      <button onClick={onCancel}>Cancel</button>
+      <Button
+        variant='contained'
+        sx={{ backgroundColor: '#9C94B1' }}
+        onClick={handleSave}>
+        Save
+      </Button>
+      <Button
+        variant='outlined'
+        sx={{ borderColor: '#9C94B1' }}
+        onClick={onCancel}>
+        Cancel
+      </Button>
     </div>
   );
 };
