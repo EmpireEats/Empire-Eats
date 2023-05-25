@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchFeed } from "../../redux/actions/feedActions";
-import { Link } from "react-router-dom";
-import "../../../public/styles/index.css";
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchFeed } from '../../redux/actions/feedActions';
+import { Link } from 'react-router-dom';
+import '../../../public/styles/index.css';
+import Box from '@mui/material/Box';
 
 const Feed = () => {
   const dispatch = useDispatch();
@@ -34,52 +35,39 @@ const Feed = () => {
   };
 
   return (
-    <div className="feed-container">
-      <div className="button-group">
-        <Link to="/home/leaderboard">
-          <button
-            className={`feed-btn ${
-              activeButton === "Leaderboard" ? "active" : ""
-            }`}
-            onMouseDown={() => handleButtonMouseDown("Leaderboard")}
-            onMouseUp={() => handleButtonMouseUp()}
-          >
-            LEADERBOARD
-          </button>
+    <div className='feed-container'>
+      <Box
+        className='leader'
+        sx={{ backgroundColor: '#b5d2dd', marginTop: '15px' }}>
+        <Link to='/home/leaderboard'>
+          <button className='leader-button'>LEADERBOARD</button>
         </Link>
-        <Link to="/home/feed">
-          <button
-            className={`feed-btn ${activeButton === "Feed" ? "active" : ""}`}
-            onMouseDown={() => handleButtonMouseDown("Feed")}
-            onMouseUp={() => handleButtonMouseUp()}
-          >
-            FEED
-          </button>
+        <Link to='/home/feed'>
+          <button className='leader-button'>FEED</button>
         </Link>
-      </div>
-
-      <ul className="feed-list">
+      </Box>
+      <ul className='feed-list'>
         {feed.slice(0, visibleReviews).map((review, index) => (
           <li key={index}>
             <img
               src={review.image}
               alt={review.username}
-              style={{ width: "600px", height: "400px" }}
+              style={{ width: '600px', height: '400px' }}
             />
 
             <h2>
               <Link to={`/restaurants/${review.placeId}`}>{review.name}</Link>
               <div>{review.address}</div>
             </h2>
-            
+
             <em>
-            <h4>
-              <div>
-                Reviewed by: {review.username}
-                {/* <Link to={`/users/${review.userId}`}>{review.username}</Link> */}
-              </div>
-              <div>Posted on: {review.createdAt}</div>
-            </h4>
+              <h4>
+                <div>
+                  Reviewed by: {review.username}
+                  {/* <Link to={`/users/${review.userId}`}>{review.username}</Link> */}
+                </div>
+                <div>Posted on: {review.createdAt}</div>
+              </h4>
             </em>
 
             <h3>
