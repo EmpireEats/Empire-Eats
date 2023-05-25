@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router';
 
 const Post = ({
   post,
+  index,
   handleUserInteraction,
   handleHidePost,
   handleDeletePost,
@@ -22,11 +23,12 @@ const Post = ({
   };
 
   const postStyle = {
-    backgroundColor: '#2b343438',
+    backgroundColor: index % 2 === 0 ? '#9c94b1c2' : 'white',
     padding: '20px',
     borderRadius: '10px',
     margin: '10px 0',
     color: '#2B3434',
+    boxShadow: '2px 2px 2px grey',
   };
 
   return (

@@ -11,7 +11,7 @@
   padding-top: 20px;
   padding-bottom: 8px;
   font-size: 18px;
-  margin-top: 25px;
+  margin-top: 20px;
   top: 40px;
   font-family: 'Source Sans Pro', sans-serif;
 }
@@ -257,7 +257,7 @@
 /* now */
 .user-post {
   border: none;
-  background-color: #b3cbc7a8;
+  background-color: #9c94b1f3;
   color: white;
   padding: 5px;
   margin-bottom: 30px;
@@ -293,11 +293,10 @@
 
 .user-post-list {
   border: none;
-  height: 75vh;
+  height: 80vh;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
 }
 
 .user-post-list > div {
