@@ -24,6 +24,7 @@ export const fetchHiddenPosts = createAsyncThunk(
       const response = await axios.get(`/api/posts/hidden/${userId}`, {
         headers: { authorization: `Bearer ${token}` },
       });
+      if (response.data.length === 0) return null;
       return response.data;
     } catch (error) {
       console.error('error fetching hidden posts', error);

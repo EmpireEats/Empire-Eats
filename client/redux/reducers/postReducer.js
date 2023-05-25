@@ -39,8 +39,6 @@ export const postSlice = createSlice({
         state.loading = false;
         if (action.payload) {
           state.hiddenPosts = action.payload.map((post) => post.postId);
-        } else {
-          console.error('No Hidden Posts Found');
         }
       })
 

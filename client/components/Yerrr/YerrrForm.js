@@ -7,7 +7,7 @@ const YerrrForm = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
   const navigate = useNavigate();
   const socket = useSocket();
   const user = useSelector((state) => state.auth.user);
-  const userLocation = useSelector((state) => state.auth.location);
+  // const userLocation = useSelector((state) => state.auth.location);
 
   const [formState, setFormState] = useState({
     message: '',
@@ -30,15 +30,15 @@ const YerrrForm = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
           preferences: sortingOptions,
           isActive: true,
           userId: user.id,
-          latitude: userLocation.latitude,
-          longitude: userLocation.longitude,
+          // latitude: userLocation.latitude,
+          // longitude: userLocation.longitude,
         });
 
         socket.once('newPost', (post) => {
           if (post) {
             onChatEnabledChange(true);
             yerrrEnabled(false);
-            navigate('/yerrr/chat', { state: { postId: post.id } });
+            navigate('/yerrr/now', { state: { postId: post.id } });
           }
         });
       }
