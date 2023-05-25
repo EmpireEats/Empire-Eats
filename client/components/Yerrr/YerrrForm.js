@@ -52,18 +52,25 @@ const YerrrForm = ({ nowEnabled, yerrrEnabled, onChatEnabledChange }) => {
     }
   };
 
+  const handleMessageChange = (event) => {
+    const { value } = event.target;
+    if (value.length <= 200) {
+      setFormState({ ...formState, message: value });
+    }
+  };
+
   return (
     <div className='yerrrForm'>
       <form onSubmit={postData} method='POST'>
         <div>
           <label htmlFor='message'>
-            <small>Message</small>
+            <small>Message (200 characters max)</small>
           </label>
           <input
             name='message'
             type='text'
             value={formState.message}
-            onChange={handleInputChange}
+            onChange={handleMessageChange}
             required
           />
         </div>

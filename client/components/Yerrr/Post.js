@@ -49,6 +49,9 @@ const Post = ({
                     borderRadius: '50%',
                     objectFit: 'cover',
                     marginRight: '15px',
+                    aspectRatio: '1/1',
+                    width: '80px',
+                    height: '80px',
                   }}
                 />
               )}
