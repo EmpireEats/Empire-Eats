@@ -419,14 +419,17 @@ label {
   top: 20px;
   right: 10px;
   background: transparent;
-  border: 2px solid black;
-  border-radius: 50%;
+  /* border: 2px solid black; */
+  /* border-radius: 50%; */
   z-index: 10001;
   margin-right: 5px;
+  border: none;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 #modal:hover {
-  background-color: #7b748f;
+  color: #7b748f;
 }
 
 .ModalView {
