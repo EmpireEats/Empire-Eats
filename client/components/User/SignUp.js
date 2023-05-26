@@ -131,7 +131,7 @@ const SignUp = () => {
             />
           </div>
           <label className='password-label' htmlFor='password'>
-            Maximum 10 characters
+            4 - 10 characters
           </label>
           <div className='form-group'>
             <input
