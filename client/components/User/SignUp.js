@@ -47,6 +47,11 @@ const SignUp = () => {
         return;
       }
 
+      // if (username.length < 4) {
+      //   alert('Username should not exceed 10 characters.');
+      //   return;
+      // }
+
       dispatch(
         signup({
           email,
@@ -125,6 +130,9 @@ const SignUp = () => {
               required
             />
           </div>
+          <label className='password-label' htmlFor='password'>
+            4 - 10 characters
+          </label>
           <div className='form-group'>
             <input
               type='text'
@@ -132,12 +140,14 @@ const SignUp = () => {
               onChange={(e) => setUsername(e.target.value)}
               placeholder='Username'
               className='form-input'
+              maxLength={10}
+              minLength={4}
               required
             />
           </div>
           <div className='form-group'>
             <label className='password-label' htmlFor='password'>
-              Minimum 8 characters with 1 symbol (!@#$%^&*)
+            Minimum 8 characters<br/>with 1 symbol (!@#$%^&*)
             </label>
             <div className='inside-group'>
               <input
