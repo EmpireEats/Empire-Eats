@@ -26,10 +26,10 @@ const ReviewsForRestaurant = ({ placeId }) => {
     setPage(prevPage => prevPage + 1);
   };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString();
-  };
+  // const formatDate = (dateString) => {
+  //   const date = new Date(dateString);
+  //   return date.toLocaleDateString();
+  // };
 
   return (
     <Box>
@@ -73,7 +73,9 @@ const ReviewsForRestaurant = ({ placeId }) => {
                   />
                 )}
                 <Typography variant="body1">"{review.body}"</Typography>
-                <Typography variant="caption">{formatDate(review.createdAt)}</Typography>
+                <Typography variant="caption">
+                  {new Date(review.createdAt).toLocaleDateString()}
+                </Typography>
               </Grid>
             ))
             : <Typography sx={{ fontStyle: 'italic' }}>There are no reviews for this restaurant.</Typography>
