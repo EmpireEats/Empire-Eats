@@ -25,6 +25,15 @@ router.get('/:placeId', async (req, res, next) => {
       offset
     });
     res.status(200).json({ reviews: reviews.rows, count: reviews.count });
+
+    reviews.rows = reviews.rows.map(review => {
+      const date = new Date(review.createdAt);
+      return {
+        ...review,
+        createdAt: date.toLocaleDateString()
+      }
+    });
+    
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch reviews' });
   }
