@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchLeaderboard } from '../../redux/actions/leaderboardActions';
 import { Link } from 'react-router-dom';
@@ -24,10 +24,18 @@ const Leaderboard = () => {
   const leaderboard = useSelector((state) => state.leaderboard.leaderboard);
   const loading = useSelector((state) => state.leaderboard.loading);
   const error = useSelector((state) => state.leaderboard.error);
+  const [navBarHeight, setNavBarHeight] = useState(0);
 
   useEffect(() => {
     dispatch(fetchLeaderboard());
   }, [dispatch]);
+
+  useEffect(() => {
+    const navbar = document.getElementById('top-navbar');
+    if (navbar) {
+      setNavBarHeight(navbar.offsetHeight);
+    }
+  }, []);
 
   if (loading) {
     return <div>Loading leaderboard...</div>;
@@ -43,7 +51,14 @@ const Leaderboard = () => {
     <Box>
       <Box
         className='leader'
-        sx={{ backgroundColor: '#b5d2dd', marginTop: '5px' }}>
+        sx={{ 
+          backgroundColor: '#b5d2dd',
+          position: 'fixed',
+          top: `${navBarHeight}px`,
+          width: '100%',
+          zIndex: 9998
+        }}
+      >
         <Link to='/home/leaderboard'>
           <button className='leader-button'>LEADERBOARD</button>
         </Link>

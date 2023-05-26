@@ -13,10 +13,23 @@ const Feed = () => {
   const [visibleReviews, setVisibleReviews] = useState(20);
   const [reviewsToLoad, setReviewsToLoad] = useState(20);
   const [activeButton, setActiveButton] = useState(null); // State to track the active button
+  const [navBarHeight, setNavBarHeight] = useState(0);
+  const [subNavBarHeight, setSubNavBarHeight] = useState(0);
 
   useEffect(() => {
     dispatch(fetchFeed());
   }, [dispatch]);
+
+  useEffect(() => {
+    const navbar = document.getElementById('top-navbar');
+    const subNavbar = document.getElementById('sub-navbar');
+    if (navbar) {
+      setNavBarHeight(navbar.offsetHeight);
+    }
+    if (subNavbar) {
+      setSubNavBarHeight(subNavbar.offsetHeight);
+    }
+  }, []);
 
   if (loading) {
     return <div>Loading feed...</div>;
@@ -35,10 +48,18 @@ const Feed = () => {
   };
 
   return (
-    <div className='feed-container'>
+    <div className='feed-container' style={{ height: `calc(100vh - ${navBarHeight}px - ${subNavBarHeight}px)` }}>
       <Box
+        id="sub-navbar"
         className='leader'
-        sx={{ backgroundColor: '#b5d2dd', marginTop: '5px' }}>
+        sx={{ 
+          backgroundColor: '#b5d2dd',
+          position: 'fixed',
+          top: `${navBarHeight}px`,
+          width: '100%',
+          zIndex: 9998
+        }}
+      >
         <Link to='/home/leaderboard'>
           <button className='leader-button'>LEADERBOARD</button>
         </Link>
@@ -46,7 +67,7 @@ const Feed = () => {
           <button className='leader-button'>FEED</button>
         </Link>
       </Box>
-      <ul className='feed-list'>
+      <ul className='feed-list' style={{marginTop: `${navBarHeight}px`}}>
         {feed.slice(0, visibleReviews).map((review, index) => (
           <li key={index}>
             <img
