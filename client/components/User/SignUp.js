@@ -47,7 +47,7 @@ const SignUp = () => {
         return;
       }
 
-      // if (username.length > 10) {
+      // if (username.length < 4) {
       //   alert('Username should not exceed 10 characters.');
       //   return;
       // }
@@ -141,6 +141,7 @@ const SignUp = () => {
               placeholder='Username'
               className='form-input'
               maxLength={10}
+              minLength={4}
               required
             />
           </div>
