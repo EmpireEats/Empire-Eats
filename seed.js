@@ -3,10 +3,10 @@ const { User, Review, Post, HiddenPost } = require('./server/db/index');
 
 const users = [
   {
-    firstName: 'Jennifer',
-    lastName: 'Lopez',
+    firstName: 'Barack',
+    lastName: 'Obama',
     email: 'admin@email.com',
-    username: 'JLo',
+    username: 'Obama',
     password: 'admin',
     image:
       'https://twt-thumbs.washtimes.com/media/image/2022/12/01/Election_2022_Senate_Georgia_98764--fd8dc_c0-131-3936-2425_s885x516.jpg?87d0ab315d8ff99bdf3d378dafb22c445189fabf',
@@ -76,7 +76,7 @@ const users = [
     firstName: 'Daniel',
     lastName: 'Anderson',
     email: 'daniel.anderson@example.com',
-    username: 'daniela',
+    username: 'adaniel',
     password: 'password7',
     image:
       'https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -159,9 +159,6 @@ const reviews = [
     address: '280 Broadway, New York, NY 10007, USA',
     body: "What a disappointment! The food was tasteless, and the service was incredibly slow. I wouldn't recommend this place to anyone looking for a good dining experience.",
     image: 'https://c0.thejournal.ie/media/2015/08/dimly2-2-752x501.jpg',
-    body: "What a disappointment! The food was tasteless, and the service was incredibly slow. I wouldn't recommend this place to anyone looking for a good dining experience.",
-    image:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/001_Tacos_de_carnitas%2C_carne_asada_y_al_pastor.jpg/1200px-001_Tacos_de_carnitas%2C_carne_asada_y_al_pastor.jpg',
   },
   {
     userId: 6,
